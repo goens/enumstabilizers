@@ -54,12 +54,12 @@
 \date{\today}
 \begin{document}
 
-Notation
+Notational conventions
 
 \begin{itemize}
 \item $\mathcal{H}$ a complex hilbertspace
 \item $\Tr$ The trace of an endomorphism (or square matrix)
-\item $V \otimes W$ the tensor-product of $V$ and $W$.
+\item $V \otimes W$ the tensor-product of $V$ and $W$. This will be treated as the Kronecker-Product on all finite dimensional vector spaces.
 \item $X, Y, Z$ Pauli matrices (see def. \ref{paulimat})
 \item $\mathcal{E}_n:= \{ \sigma_1 \otimes \ldots \otimes \sigma_n \text{, where }\sigma_i \in \{ I,X,Y,Z \} \fa i \in \n \}$.
 \item $D_n = \langle a, b \mid a^2 b^n (ab)^2 \rangle$ the dihedral group on a regular polygon with n sides.
@@ -68,6 +68,8 @@ Notation
 \item $\Hom_{G}(A,B)$ the set of G-Homomorphisms from A to B (i.e., G-equivariant homomorphisms)
 \item $ G \wr H$ the wreath product of G and H
 \item $ \omega \in \F_4$ a root of $x^2 + x + 1 \in \F_2[x]$
+\item Im the image a mapping, Ker the kernel of a homomorphisms
+\item $\sigma_{\big| S}$ denotes $\sigma_{s_1} \otimes \ldots \otimes \sigma_{s_k}$, where $S = \{ s_1, \ldots, s_k \} \subseteq \n$ .
 \end{itemize}
 
 \clearpage \newpage
@@ -96,12 +98,12 @@ Let $V, W$ be finite-dimensional Hilbert spaces, and $A \in \text{End}(V), B \in
 \end{defn}
 \begin{rem}
 With the notation from def. \ref{traces}, the partial trace of $A \in \End(V \otimes W)$ Hermitian, is the unique Hermitian operator $\Tr_W(A) \in \End(V)$ which satisfies:
- \begin{equation} \Tr(A(B \otimes \Id_W)) = \Tr(\Tr_W(A)B) \forall B \in \End(V) \text{ Hermitian} \end{equation}
-Further for a Hilbert space with a particular decomposition $V_1 \otimes \ldots V_n, \text{e.g.} (\C^2)^{\otimes n} \text{with } V_i \cong \C^2 \, \forall \, i \, \in \n$, and $S \dot{\cup} S^c = \underline{n}, S = \{ s_1 < \ldots < s_j \}, S^c = \{ s^c_1 < \ldots < s^c_k \}$ we define $V_S := V_{s_1} \otimes \ldots \otimes V_{s_j}, V_{S^c} := V_{s^c_1} \otimes \ldots \otimes V_{s^c_k}$
-And use $\Tr_S$  as a short notation for $\Tr_{V_S} : \End(V_1 \otimes \ldots \otimes V_n) \rightarrow \End(V_{S^c})$.
+ \begin{equation} \Tr(A(B \otimes \Id_W)) = \Tr(\Tr_W(A)B) \fa B \in \End(V) \text{ Hermitian} \end{equation}
+Further for a Hilbert space with a particular decomposition $V_1 \otimes \ldots \otimes V_n, \text{e.g.} (\C^2)^{\otimes n} \text{with } V_i \cong \C^2 \, \fa \, i \, \in \n$, and $S \dot{\cup} S^c = \underline{n}, S = \{ s_1 < \ldots < s_j \}, S^c = \{ s^c_1 < \ldots < s^c_k \}$ we define $V_S := V_{s_1} \otimes \ldots \otimes V_{s_j}, V_{S^c} := V_{s^c_1} \otimes \ldots \otimes V_{s^c_k}$.
+And use $\Tr_S$  as a short notation for $\Tr_{V_S} : \End(V_1 \otimes \ldots \otimes V_n) \rightarrow \End(V_{S^c})$. Note that for $s_j \geq s_1^c$ this is not entirely correct, since we cannot write $V$ as $V_S \otimes V_{S^c}$, but we get a canonical isomorphism from reordering the tensor product components, and by abuse of notation we will always identify $V$ with its image under it, such that we can always write $V = V_S \otimes V_{S^c}$.
 With this notation, and the definition of the partial trace it is easy to see that $\Tr_{S \dot \cup S'}(A) = \Tr_S(\Tr_{S'}(A)) \fa S,S' \subseteq \n$ disjoint.
 \begin{proof}
-$ \Tr_W(A)$ is hermitian since $A$ already is. Let $ A = \sum_{i=1}^k V_i \otimes W_i$ with $V_i \in \End(V), W_i \in \End(W)$ Hermitian $\fa i \in \underline{k}$. Then $\Tr_W(A) = \sum_{i=1}^k \Tr(W_i) V_i$ satisfies  $\forall B \in \End(W) \text{Herm.}$:
+$ \Tr_W(A)$ is hermitian since $A$ already is. Let $ A = \sum_{i=1}^k V_i \otimes W_i$ with $V_i \in \End(V), W_i \in \End(W)$ Hermitian $\fa i \in \underline{k}$. Then $\Tr_W(A) = \sum_{i=1}^k \Tr(W_i) V_i$ satisfies  $\fa B \in \End(W) \text{Herm.}$:
 \[ \Tr(A(B \otimes \Id_W)) = \Tr( \sum_{i=1}^k V_i B \otimes W_i ) = \sum_{i=1}^k \Tr(V_i B) \Tr(W_i) = \Tr( \sum_{i=1}^k V_i B \Tr(W_i)) = \Tr( \Tr_W(A) B)\]
 Further is $\Tr_W(A)$ unique with this property, since the restriction of trace bilinear form to hermitian operators is non-degenerate. Assuming there is a $T \in \End(V)$ hermitian with $\Tr(TB) = Tr(A(B \otimes Id_W)) = \Tr(\Tr_W(A)B) \fa B \in \End(W) \text{Herm.}$, 
 then it follows that $\Tr( (T-\Tr_W(A)), B) = 0 \fa \text{ such } B$ which implies that $ T - \Tr_W(A) = 0$.
@@ -112,22 +114,22 @@ then it follows that $\Tr( (T-\Tr_W(A)), B) = 0 \fa \text{ such } B$ which impli
 
 \begin{defn}\label{paulimat}
 The Pauli matrices, or Pauli operators on $\C^2$ are defined by:
-\begin{equation} \Id , X =  \left[ \begin{array}{cc}
+\begin{equation} \Id , X :=  \left[ \begin{array}{cc}
  0 & 1 \\
- 1 & 0 \end{array} \right] , Z = \left[ \begin{array}{cc}
+ 1 & 0 \end{array} \right] , Z := \left[ \begin{array}{cc}
  1 & 0 \\
- 0 & -1 \end{array} \right],  Y = i XZ = \left[ \begin{array}{cc}
+ 0 & -1 \end{array} \right],  Y := i XZ = \left[ \begin{array}{cc}
  0 & i \\
  -i & 0 \end{array} \right]  \end{equation}
 
 
 
 We denote with \begin{equation} \mathcal{E}_n:= \{ \sigma_1 \otimes \ldots \otimes \sigma_n \text{, where }\sigma_i \in \{ I,X,Y,Z \} \fa i \in \n \} \subseteq \End((\C^2)^{\otimes n}):= \End( \underbrace{\C^2 \otimes \C^2}_\text{ n times}) \end{equation}
-the set of all so-called Pauli operators, and by $\mathcal{P}_n:= \langle \mathcal{E} \rangle \leq \GL_n(\C)$, called the so-called Pauli group. 
+the set of all so-called Pauli operators, and by $\mathcal{P}_n:= \langle \mathcal{E} \rangle \leq \GL_n(\C)$, we denote the generated subgroup, which we will call the Pauli group on n qubits. 
 \end{defn}
 
 \begin{rem}
-The set $\{ \Id, X, Y, Z \}$ is linearly independent and thus forms a basis of $\C^{2 \times 2}$. A simple calculation shows that this basis is orthogonal with respect to the trace bilinear form on $\C^{2 \times 2}$. Analogously, since $\Tr(A \otimes B) = \Tr(A) \Tr(B) \forall A \in \C^{m \times m}, B \in \C^{m' \times m'}$, $\mathcal{E}$ is an orthogonal basis of $\C^{2^n \times 2^n}$.
+The set $\{ \Id, X, Y, Z \}$ is linearly independent and thus forms a basis of $\C^{2 \times 2}$. A simple calculation shows that this basis is orthogonal with respect to the trace bilinear form on $\C^{2 \times 2}$. Analogously, since $\Tr(A \otimes B) = \Tr(A) \Tr(B) \fa A \in \C^{m \times m}, B \in \C^{m' \times m'}$, $\mathcal{E}$ is an orthogonal basis of $\C^{2^n \times 2^n}$.
 \end{rem}
 
 %% \begin{def}
@@ -135,7 +137,7 @@ The set $\{ \Id, X, Y, Z \}$ is linearly independent and thus forms a basis of $
 %% \end{def}
 
 %% \begin{theorem}[Burnside Basis Theorem]
-%% Let G be a finite p-group, i.e. $p | ord(g) \, \forall \, g \in G$. Then the following is true: 
+%% Let G be a finite p-group, i.e. $p | ord(g) \, \fa \, g \in G$. Then the following is true: 
 %% \begin{enumerate}
 %% \item $\Phi(G)$ = G'G^p. In particular $G/\Phi(G) \cong C_p^n$ for an $n \in \N$.
 %% \end{enumerate}
@@ -143,10 +145,10 @@ The set $\{ \Id, X, Y, Z \}$ is linearly independent and thus forms a basis of $
 
 \begin{prop} Let $G = \P_n$ be the Pauli group on n qubits. Then the following is true:
 \begin{enumerate}
-\item $Z(G) = \{ \pm \Id, \pm i \Id \}$, where $Z(G)$ is the centre of G.
-\item $G' = \pm \{ \Id \} \leq Z(G)$, where $G'$ is the commutator subgroup of G.
+\item $Z(G) = \{ \pm \Id, \pm i \Id \}$, where $Z(G)$ denotes the centre of G.
+\item $G' = \pm \{ \Id \} \leq Z(G)$, where $G'$ denotes the commutator subgroup of G.
 \item $G/Z(G)$ is a $2n$-dimensional $\F_2$ vectorspace
-\item The commutator $[\cdot,\cdot] : G \times G \rightarrow G$ induces a non-degenerate symmplectic product on $G/Z(G)$
+\item The commutator $[\cdot,\cdot] : G \times G \rightarrow G$ induces a non-degenerate symmplectic form on $G/Z(G)$: $[gZ(G),hZ(G)] \mapsto [g,h]$. 
 \end{enumerate}
 
 \begin{proof}\label{pauliprops}
@@ -154,7 +156,7 @@ The set $\{ \Id, X, Y, Z \}$ is linearly independent and thus forms a basis of $
 \item Let $A \in Z(G)$. Since $\langle G \rangle_\C = \C^{2^n \times 2^n}$ it means that $A \in \underbrace{Z(\C^{2^n \times 2^n})}_{ \C \Id} \cap G = \{ \pm \Id, \pm i \Id \}$.
 \item It follows directly from the calculation for $X,Y,Z$ and by induction on $n$.
 \item Since $G' \leq Z(G)$ is $G/Z(G)$ abelian. By induction on $n$ it can be easily shown that $G^2 \subseteq Z(G)$, hence $G/Z(G)$ is elementary abelian. Since $|G| = 4^n \cdot 4^n = 2^{2n+2}$ it follows that $\dim_{\F_2}(G/Z(G)) = 2n$.
-\item Since $G' \leq Z(G)$ the induced mapping is well-defined. Since $[g,g] = 1 \fa g \in G$ it follows that $[,]$ is alternating on $G/Z(G)$. $\F_2$ bilinearity follows directly from the definition.
+\item Since $G' \leq Z(G)$ the induced mapping is well-defined. Since $[g,g] = 1 \fa g \in G$ it follows that $[\cdot,\cdot]$ is alternating on $G/Z(G)$. $\F_2$ bilinearity follows directly from the definition.
 \end{enumerate}
 \end{proof}
 \end{prop}
@@ -176,7 +178,7 @@ Then we can identify $\F_2^{2n} \cong_{\F_2} \F_4^n$ in a canonical way with res
 Let $U$ denote the the group of unitary $n \times n$ matrices over the complex field $\C$. 
 Then there exists a unique measure $\mu$ on $U$, called the Haar measure, which satisfies the following:
 \begin{itemize}
-\item $\mu$ is a countably additive, non-trivial meassure on the Borel subsets of U (i.e. on the $\sigma-$Algebra generated by the open subsets of U). 
+\item $\mu$ is a countably additive, non-trivial measure on the Borel subsets of U (i.e. on the $\sigma-$Algebra generated by the open subsets of U). 
 \item $\mu(U) = 1$
 \item $\mu(gEh) = \mu(E)$ for all Borel sets $E \subseteq U$, and for all $g,h \in U$. 
 \end{itemize}
@@ -219,7 +221,7 @@ Where $E$ is the expected value and $I_n$ denotes the unit matrix $\in \C^{n \ti
 \begin{proof}
 
 For the first one (eqn. \ref{fact2}) we note that $\text{for }W \in \U_n(\C):$
- \begin{equation}  W E(UAU^{\dagger}) W^\dagger = W \int_{\U} ( U A  U^\dagger) d \mu (U) W^\dagger = \int{\U} (WU) A (WU)^\dagger d \mu (WU) = E(UAU^\dagger) \end{equation}, where in the second equality we used the fact that $\mu$ is translation invariant.
+ \begin{equation}  W E(UAU^{\dagger}) W^\dagger = W \int_{\U} ( U A  U^\dagger) d \mu (U) W^\dagger = \int_{\U} (WU) A (WU)^\dagger d \mu (WU) = E(UAU^\dagger) \end{equation}, where in the second equality we used the fact that $\mu$ is translation invariant.
 In particular, $[E(UAU^\dagger), \U_n] = \{ I_n \}$, and since $\U_n$ is an irreducible representation of itself, it contains a $\C$ basis for $\C^{n \times n}$ (for example, the set $\E$ of pauli operators), which means that $E(UAU^\dagger) \in \{ \lambda I_n \mid \lambda \in \C \}$, since it has to commute with every matrix in $\C^{n \times n}$.
 
 Further we note that the mapping \[ \varphi: \C^{n \times n} \rightarrow \C I_n, A \mapsto E(UAU^\dagger) \] is a $\C$-linear, $\U_n$-equivariant mapping, i.e. $\varphi \in \Hom_{\U_n}(\C^n \otimes (\C^n)^*, \C) \cong Hom_{\U_n}(V,V)$ by lemma \ref{homiso}. Since $\U_n$ is transitive on $V \backslash \{ 0 \}$, $\dim_\C (Hom_{\U_n}(V,V)) = 1$, and thus $\Hom_{\U_n}(\C^n \otimes (\C^n)^*, \C)$ is also 1-dimensional.
@@ -227,9 +229,9 @@ Since $\Tr$ is a $\U_n$-equivariant, non-trivial homomorphism, it follows that $
 
 For equation \ref{fact1} we consider the mapping \[ \psi: \C^{n \times n} \times  \C^{n \times n} \rightarrow \C, (A,B) \mapsto  E(\Tr(AU)\Tr(B U^\dagger)) \]
 Since both the trace and the Lebesgue integral are linear mappings, it follows that $\psi$ is a bilinear mapping. There are two crucial observations to complete the proof. First, $\psi( \cdot, I_n) \in \Hom_{\U_n}(\C^n \otimes (\C^n)^*, \C)$ and, by the same argument as above, there exisits a $\lambda \in \C$ such, that $\psi(A,I_n) = \lambda \Tr(A) \fa A \in \C^{n \times n}$.
-On the other hand, for $A \in C^{n \times n}, B \in \E$ 
+On the other hand, for $A \in \C^{n \times n}, B \in \E$ 
 \begin{equation} \psi(A,B) = \int_{\U_n} \Tr(AU) \Tr(BU^\dagger) d \mu(U) = \int_{\U_n} \underbrace{\Tr(AU)}_{= \Tr (ABBU)} \underbrace{\Tr(B U^\dagger)}_{= \Tr( (BU)^\dagger)} d \mu(BU) = \int_{\U_n} \Tr(AB U) \Tr(I_n U^\dagger) d \mu(U) = \psi(AB,I_n) \end{equation}
-Since $B = B^\dagger = B^{-1} \fa B \in \E \subseteq \U_n$. But $ \langle \E \rangle_\C = \C^{n \times n}$, so it holds for all $B \in \C^{n \times n}$ from the bilinearity of $\psi$. That $\lambda = \frac 1 n$ follows again from $\psi(I_n,I_n) = \int_{\U_n} \underbrace{\Tr(U) \Tr(U^{\dagger})}_{= |\Tr(U)|^2 = 1} d \mu (U) = 1$.
+Since $B = B^\dagger = B^{-1} \fa B \in \E \subseteq \U_n$. But $ \langle \E \rangle_\C = \C^{n \times n}$, so it holds for all $B \in \C^{n \times n}$ from the bilinearity of $\psi$. That $\lambda = \frac 1 n$ follows again from $\psi(I_n,I_n) = \int_{\U_n} \Tr(U) \Tr(U^{\dagger}) d \mu (U) = 1$, by a generalization of the Schur orthogonality relations for characters, see for example \cite{fixme}
 \end{proof}
 \end{theorem}
 
@@ -239,14 +241,13 @@ The motivation for studying quantum codes comes obviously from physics. To bette
 Quantum mechanics is a mathematical framework for describing physical phenomena, and can be given an axiomatic basis: this basis is usually referred to as 'the postulates of quantum mechanics'. The following formulation is mainly based on \cite{NC}, section 2.2. 
 \\ \textbf{The postulates of Quantum Mechanics} \\
 \begin{enumerate}
-\item Every isolated physical system $S$ is described by a tuple $(\H, \varphi)$, where $\H$ is a complex Hilbert space, called the state space of $S$, and $\varphi: \R \rightarrow \U(\H), t \mapsto U_t$ a group homomorphism of $(\R, +)$ in the unitary group of $\H$ is the mapping that gives the time evolution of the system. The concrete state of the space is described by a family of unit vectors $\{ | \psi_t \rangle \mid t \in \R \}$, reletad by $| \psi_t \rangle = U_t U_{t'}^{-1} | \psi_{t'} \rangle \fa t,t' \in \R$. Alternatively the system can be seen as described by the proyective space of $\H$ (parametrized with t as well). In this thesis $\H$ will always be finite-dimensional, but the formalism does not require it to be.
-\item A measurement made on the system is described by a collection $\{ M_m | m \in I \} \subseteq End(\H)$ of operators, where $I$ is some countable index set which represents the possible outcomes of the measurement. For a system in a state $| \psi \rangle$, the probability of meassuring $m \in I$, $p(m)$ is given by $p(m) = \langle \psi | M_m^\dagger M_m | \psi \rangle$, and after a measurement with outcome $m \in I$ the system is in the state $\frac{1}{|| M_m | \psi \rangle ||} M_m | \psi \rangle$. Further, the set of measurement operators has to satisify: $\sum_{m \in I} M_m^\dagger M_m = \Id_\H$, which basically means that $\sum_{m \in I} p(m) = 1$.
+\item Every isolated physical system $S$ is described by a tuple $(\H, \varphi)$, where $\H$ is a complex Hilbert space, called the state space of $S$, and $\varphi: \R \rightarrow \U(\H), t \mapsto U_t$ a group homomorphism of $(\R, +)$ in the unitary group of $\H$ is the mapping that gives the time evolution of the system. The concrete state of the space is described by a family of unit vectors $\{ | \psi_t \rangle \mid t \in \R \}$, related by $| \psi_t \rangle = U_t U_{t'}^{-1} | \psi_{t'} \rangle \fa t,t' \in \R$. Alternatively the system can be seen as described by the proyective space of $\H$. In this thesis $\H$ will always be finite-dimensional, but the formalism does not require it to be.
+\item A measurement made on the system is described by a collection $\{ M_m | m \in I \} \subseteq End(\H)$ of operators, where $I$ is some countable index set which represents the possible outcomes of the measurement. For a system in a state $| \psi \rangle$, the probability of measuring $m \in I$, $p(m)$ is given by $p(m) = \langle \psi | M_m^\dagger M_m | \psi \rangle$, and after a measurement with outcome $m \in I$ the system is in the state $\frac{1}{|| M_m | \psi \rangle ||} M_m | \psi \rangle$. Further, the set of measurement operators has to satisify: $\sum_{m \in I} M_m^\dagger M_m = \Id_\H$, which basically means that $\sum_{m \in I} p(m) = 1$.
 \item A system that is composed of various quantum systems with state spaces $\H_1, \ldots, \H_n$ has the state space $\H = \H_1 \otimes \ldots \otimes H_n$
 \end{enumerate}
-\end{defn}
 
 \begin{rem}
-One does not have to think long to percieve an (appearent?) inconsistency in the postulates. The universe itself should be a closed quantum system, which means that the time evolution of the whole universe should be uniquely determined by it's starting state by the 1. postulate. But the 2. postulate states that a meassurement has an inherent probabilistic behaviour, which is inconsistent with this. This problem is called the meassurement problem, and is in the end rather a philosophical problem, which is why we will not further pursue it in this thesis.
+One does not have to think long to percieve an (appearent?) inconsistency in the postulates. The universe itself should be a closed quantum system, which means that the time evolution of the whole universe should be uniquely determined by it's starting state by the 1. postulate. But the 2. postulate states that a measurement has an inherent probabilistic behaviour, which is inconsistent with this. This problem is called the measurement problem, and is in the end rather a philosophical problem, which is why we will not further pursue it in this thesis.
 \end{rem}
 \newpage
 \section{Qubits and Quantum Codes}
@@ -270,7 +271,7 @@ A quantum code $\mathcal{C}$ is a (linear) subspace of an n-qubit space $\C^{2^n
 So, how does quantum error correction work? We will describe the basic theory of quantum error correction in analogy to the classical theory of linear codes. In particular, we will develop it in this section based on the very simple example of the [3,1,3] binary linear code $ 0 \mapsto 000, 1 \mapsto 111$ (repetition code).
 
 By the postulates of quantum mechanics, errors (possible time-evolutions of the physical space) are given by elements of the Unitary group on $\mathcal{H}$, which for this case is the group $\mathcal{U}_{2^n}(\C)$.
-Because of its many properties, as discussed in section \ref{paulisection}, we will first consider the pauli operators ($\E$) as errors. These are, in particular, a unitary, hermitian basis of $\End(\H)$. There is also a very good physical motivation for choosing the pauli operators, since these are closely related to the spin of the system.
+Because of its many useful properties, we will first consider the pauli operators ($\E$) as errors. These are, in particular, a unitary, hermitian basis of $\End(\H)$. There is also a very good physical motivation for choosing the pauli operators, since these are closely related to the spin of the system.
 
 \begin{ex} \label{repetitionqubits}
 
@@ -294,7 +295,7 @@ Because of its many properties, as discussed in section \ref{paulisection}, we w
   
 
 We can modify the code to detect phase flip ($Z_i$) errors: We have seen that the operator $Z$ takes $ | + \rangle$ to $| - \rangle$ and vice-versa. That is, it flips both states. If we were to rename our states $ | 0 \rangle$ and $|1\rangle$, $Z$ would act as an $X$.
-With this in mind, it is not difficult to see why coding $ |0\rangle \mapsto | +++ \rangle$,  $|1 \rangle \mapsto | --- \rangle$ would be a good idea. If we make the same measurement as in example  \ref{repetitionqubits}, but in the $ | + \rangle, | - \rangle$ basis instead, 
+With this in mind, it is not difficult to see why coding $ |0\rangle \mapsto | +++ \rangle$,  $|1 \rangle \mapsto | --- \rangle$ would be a good idea. If we make the same measurement as above, but in the $ | + \rangle, | - \rangle$ basis instead, 
 a phase flip would be the same as a bit flip in that basis, and would be detected. It can be immediately checked that the operator \[ H = \frac{1}{\sqrt{2}} \left[ \begin{array}{cc}
  1 & 1 \\
  1 & -1 \end{array} \right] \] also called a Haddamard gate, takes $ (|0\rangle, |1\rangle) \mapsto (|+\rangle , | - \rangle )$. So the measurement operators would be $ H P_i H^\dagger = H P_i H, i = 0,1,2,3$.
@@ -305,7 +306,7 @@ But this code, again, would not be able to detect a bit flip. We can try combini
 This 9 qubit code, also known as Shor code \cite{NC} can correct an  $X$ or $Z$ error on \textbf{a single qubit}. This is achieved by combining the two codes previously mentioned.
 First the phase flip code, $ |0\rangle \mapsto | +++ \rangle$,  $|1 \rangle \mapsto | --- \rangle$, then the bit flip code to each of the three qubits of the first encoding:
 $ |+++\rangle = |+\rangle |+\rangle |+ \rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) \mapsto \frac{1}{2 \sqrt{2}} (|000\rangle + |111 \rangle) (|000\rangle + |111 \rangle) (|000\rangle + |111 \rangle)$ and 
-in an analogous fashion $ |--- \rangle \mapsto  \frac{1}{2 \sqrt{2}} = (|000\rangle - |111 \rangle) (|000\rangle - |111 \rangle) (|000\rangle - |111 \rangle)$
+in an analogous fashion $ |--- \rangle \mapsto  \frac{1}{2 \sqrt{2}} (|000\rangle - |111 \rangle) (|000\rangle - |111 \rangle) (|000\rangle - |111 \rangle)$
 \end{ex}
 
 
@@ -315,8 +316,8 @@ In fact, the following theorem ( \ref{linearcombinationerrors}) is one of the re
 
 \begin{theorem}\label{linearcombinationerrors}
 
-Let $\{ E_i \mid i \in I \}$ for some index set $I$ be a set of unitary operators, and $C$ be a quantum code that can correct errors on all these $E_i, i \in I$. Further let $\{ F_j \mid j \in J \}$ for another index set $J$ be another set of unitary operators, which is a linear combination of the $E_i$, i.e. $ F_j = \sum_{i \in I} c_{i,j} E_i$ for all $j \in J$ and for some $c_{i,j} \in \C$, almost all $c_{i,j} = 0$.
-Then, $C$ can also correct all errors $F_j, j \in J$. This theorem actually holds for a wider class of errors, where $E_i, F_j$ are quantum operations; but this goes beyond the scope of this thesis. The more general statement, along with a proof, can be found in \cite{NC}.
+Let $\{ E_i \mid i \in I \}$ for some index set $I$ be a set of unitary operators, and $C$ be a quantum code that can correct errors on all these $E_i, i \in I$. Further let $\{ F_j \mid j \in J \}$ for another index set $J$ be another set of unitary operators, each of which is a linear combination of the $E_i$, i.e. $ F_j = \sum_{i \in I} c_{i,j} E_i$ for all $j \in J$ where $c_{i,j} \in \C$ for all $i \in I, j \in J$, and almost all $c_{i,j} = 0$.
+Then, $C$ can also correct all errors $F_j, j \in J$. This theorem actually holds for a wider class of errors, where $E_i, F_j$ are so-called quantum operations; but this goes beyond the scope of this thesis. The more general statement, along with a proof, can be found in \cite{NC}.
 \end{theorem}
 
 \subsection{Stabilizer codes}
@@ -334,11 +335,11 @@ Let $V$, $(\cdot,\cdot)$ be as above and let $C \leq_{\F_2} V$ be an $\F_2$ subs
 \begin{prop}\label{dimensioncode}
 Let $C \leq_{\F_2} V = \F_4^n$ be an additive code, and the symplectic form$ (x,y) = \Tr(x \bar y) \fa x,y \in V$ as in rem. \ref{symplecticnotation}. Then $C$ defines a quantum code on $n$ qubits via a lifting $\psi$ of the inverse mapping to the induced by the symplectic notation defined in rem. \ref{symplecticnotation}:
 \[ \psi: V \rightarrow G, (\omega a_1 + \bar \omega b_1, \ldots, \omega a_n + \bar \omega b_n) \mapsto X_1^{a_1}Y_1^{b_1} \ldots X_n^{a_n}Y_n^{b_n} \]
-$S:= \psi(C)$ is an abelian subgroup of $\P_n$, called the stabilizer group of $C$, which defines a quantum code $\tilde C$ on $\C^{2^n}$ through $\tilde C := \{ v \in \C^{2^n} \mid sv = v \fa s \in S \}$. The dimension of this code is $2^{n-dim_{F_2}(C)}$.
+$S:= \psi(C)$ is an abelian subgroup of $\P_n$, called the stabilizer group of $C$, which defines a quantum code $\tilde C$ on $\C^{2^n}$ through $\tilde C := \{ v \in \C^{2^n} \mid sv = v \fa s \in S \}$. The dimension of this code is $2^{n-dim_{\F_2}(C)}$.
 \begin{proof}
 From rem. \ref{symplecticnotation} we know that symplectic notation is an isometry to $\P_n / \P_n'$. Further since $C$ is self-orthogonal it follows that $S$ is abelian (since two elements of $\P_n$ commute iff their images are orthogonal over $\F_4$) and since $C \leq_{\F_2} V$ it follows that $S$ is an $\F_2$ vector space.
 Define $R_S:= \frac{1}{|S|} \sum_{g \in S} g \in \End(\C^{2n})$. $R_S = R_S^2$ is a projection onto $\tilde C$, then for $s \in S, v \in V, c \in \tilde C$ it holds that:   \[ s R_s(v) = \frac{1}{|S|}  \sum_{g \in S} (sg) v = R_S(v),  R_S(c) = \frac{1}{|S|} \sum_{g \in S} gc = \frac{1}{|S|} \sum_{g \in S} c = c \]
-and in particular $c \in R_S^{-1}(c)$. It follows that \[ \dim_\C(\tilde C) = \Tr(R_S) = \frac{1}{|S|} \sum_{g \in S} \Tr(g) = \frac{1}{|S|} \Tr(\Id) = 2^n/|S| = 2^{n-\dim_{\F_2}(S)} \] since for $\Id \neq g \in G: \Tr(g) = 0 $ which follows directly from $\Tr(X) = \Tr(Y) = \Tr(Z) = 0$ and $\Tr(A \otimes B)= \Tr(A) \Tr(B) \fa A \in \C^{k_1 \times k_1}, B \in C^{k_2 \times k_2}, k_1, k_2 \in \N$.
+and in particular $c \in R_S^{-1}(c)$. It follows that \[ \dim_\C(\tilde C) = \Tr(R_S) = \frac{1}{|S|} \sum_{g \in S} \Tr(g) = \frac{1}{|S|} \Tr(\Id) = 2^n/|S| = 2^{n-\dim_{\F_2}(S)} \] since for $\Id \neq g \in G: \Tr(g) = 0 $ which follows directly from $\Tr(X) = \Tr(Y) = \Tr(Z) = 0$ and $\Tr(A \otimes B)= \Tr(A) \Tr(B) \fa A \in \C^{k_1 \times k_1}, B \in \C^{k_2 \times k_2}, k_1, k_2 \in \N$.
 \end{proof}
 \end{prop}
 
@@ -365,7 +366,7 @@ A subgroup $S \leq \mathcal{P}_n$  is called a stabilizer group iff $-I \notin S
 %% Further than eliminating many trivial codes, the definition of a stabilizer group as above gives us a way of knowing the dimension of the generated code space, that is, how many qubits it encodes. We first need a few definitions to understand how this works:
 
 %% \begin{defn}
-%% Let $S \leq \mathcal{P}_n $ be a stabilizer group. Any $A \in S$ as in remark  \ref{Pauliprops} can be written as $ A = i^j X_1^{a_1} Z_1^{b_1} X_2^{a_2} Z_2^{b_2} \ldots X_n^{a_n} Z_n^{b_n}$, where $j \in \{ 0, 1 , 2 , 3 \}$, $a_i, b_i \in \{ 0 , 1 \} \, \forall \, i \in \underline{n}$. 
+%% Let $S \leq \mathcal{P}_n $ be a stabilizer group. Any $A \in S$ as in remark  \ref{Pauliprops} can be written as $ A = i^j X_1^{a_1} Z_1^{b_1} X_2^{a_2} Z_2^{b_2} \ldots X_n^{a_n} Z_n^{b_n}$, where $j \in \{ 0, 1 , 2 , 3 \}$, $a_i, b_i \in \{ 0 , 1 \} \, \fa \, i \in \underline{n}$. 
 %% Then the mapping
 %% \begin{equation}  A = i^j X_1^{a_1} Z_1^{b_1} X_2^{a_2} Z_2^{b_2} \ldots X_n^{a_n} Z_n^{b_n} \mapsto (a_1, a_2, \ldots, a_n, b_1, b_2, \ldots, b_n) \in \GF2^{2n} \end{equation}
 %%  is an homomorphism of vector spaces (a linear mapping). We call the resulting vector in $\GF2^{2n}$ the symplectic notation for $A$. 
@@ -416,25 +417,23 @@ $g_8$ & $IIIXXXXXX$ \\ \hline
 There is another class of operators which is very important for stabilizer codes: the so-called logical operators. 
 
 \begin{defn}
-Let $S \leq \P_n$ be a stabilizer group. The centralizer of S in $\P_n$, $C_{\P_n}(S)$ is defined as:
+Let $S \leq \P_n$ be a stabilizer group. Let $C_{\P_n}(S)$ be the centralizer of S in $\P_n$,  i.e.:
 \[ C_{\P_n}(S) = \{ A \in \P_n \mid [A,B] = 0 \text{ for all } B \in S \} \]
 Note that since $S$ is abelian, $S \leq C_{\P_n}(S)$. An element $L \in C_{\P_n}(S) \backslash S$ is called a logical operator.
 \end{defn}
 
-Logical operators have the following physical interpretation:
+Logical operators have the following interpretation:
 An [[n,k]] qubit code encodes $k$ qubits in $n > k$. Once encoded, we are confronted with $n$ physical qubits, but know that logically, only $k$ are represented. If we were to do an operator $A$ on the unencoded $k$ qubits, 
 we would obtain a different state for these $k$ qubits. But, how would this new state look like when encoded in the $n$ qubits? There has to be an operator $A^{(n)}$ on $n$ qubits that applies $A$ on the encoded qubits: $A^{(n)}$ is a logical
 operator, as it acts as $A$ on the logical qubits.
 
 But why are these exactly the elements in $C_{\P_n}(S) \backslash S$? Well, for a logical operator to act on the logical, encoded qubits, it has to map codewords to codewords; after all, the new encoded state is part of the code as well.
 It is precisely the elements of $C_{\P_n}(S)$ that do that. On the other hand, the elements of $S$, per definition, act as the identity on the code, leaving it unchanged. We want to define only non-trivial logical operators as such, and leave therefore $S$ out.
-With a little more mathematics (the development of which would be too long for this thesis), logical operators can be further understood: 
 
 \begin{rem}
-FIXME: prove/check this:
-For each operator $A$ on $k$ qubits, there is - of course - an operator $A^{(n)}$ on the encoding $n$ qubits. This operator is not unique however: an equivalency class can be defined for logical operators, making two operators equivalent, when they act as the same operator on the $k$ logical qubits.
-Two such equivalent operators differ actually always by an element of the stabilizer group, i.e. : $ A^{(n)}$ and $ B^{(n)}$ are equivalent iff $ \exists T \in S$ with $ A^{(n)} = B^{(n)} T$. That these is true can be made at least plausible by reminding us of the definition of the stabilizer group: it does not
-alter the code!
+Let $f: \C^{2^k} \rightarrow \C^{2^n}$ be a $\C$-linear, injective mapping that encodes $k$ qubits in $n$ qubits, i.e. $f(\C^{2^k})=:C$ is an additive code. Then, $\text{Aut}_\C(C)$ acts on $\C^{2^k}$ via $\sigma v:= f^{-1}(\sigma f(v))$, and the stabilizer group S is the stabilizer of this action.
+Hence, for $A^{(n)}, B^{(n)}$ which both act as $A$ on $k$ qubits (as described above), there exists a $T \in S$ such, that $A^{(n)} = T B^{(n)}$.
+
 \end{rem}
 
 \begin{ex}
@@ -446,7 +445,9 @@ Again, the 9-qubit Shor code (ex.  \ref{shorcode}): It encodes only one qubit, s
 There is an easy way of quantifying how many errors a code can correct: the code distance. It is analogous to what is used in classical coding theory. It is also a good reason for studying logical operators. Before introducing it however, we need a further definition:
 
 \begin{defn}\label{weight}
-Let $ E \in \P_n$ be an arbitrary Pauli operator. The weight of E, $ | E |$, is defined as the number of qubits on which $E$ is supported, i.e. the number of qubits on which $E$ acts non-trivially, while disregarding an overall phase (factor).
+Let $V = (\C^2)^{\otimes n}$, and $\sigma = i^k \sigma_1 \otimes \ldots \otimes \sigma_n \in \mathcal{P}_n$. We define the support of $\sigma$ to be $\supp(\sigma) = \{ i \in \underline{n} \mid \sigma_i \neq \Id \}$ and
+its weight as $\wt(\sigma) = | \supp( \sigma) |$. 
+
 Similarly, we define a weight on $\F_2^{2n} = (e_1,\ldots,e_n,f_1,\ldots,f_n)$ through \begin{equation} | \sum_{i=1}^n a_i e_i + b_i f_i | := | \{ i \in \n \mid a_i \neq 0 \text{ or } b_i \neq 0 \}, a_i, b_i \in \F_2 \fa i \in \n \end{equation} This coincides with the Hamming-weight on $\F_4$ with the identification from remark \ref{symplecticnotation}.
 \end{defn}
 
@@ -489,52 +490,52 @@ The original construction actually uses classical codes, and is one of the advan
 
 \subsection{The Shor-laflamme and Rains enumerators}
 
-\begin{defn}
-Let $V = (\C^2)^{\otimes n}$, and $\sigma = i^k \sigma_1 \otimes \ldots \otimes \sigma_n \in \mathcal{P}_n$. We define the support of $\sigma$ to be $\supp(\sigma) = \{ i \in \underline{n} \mid \sigma_i \neq \Id \}$ and
-its weight as $\wt(\sigma) = | \supp( \sigma) |$. 
-\end{defn}
-
-This definition is consistent with the weight on $\F_4^n$.
 
 \begin{defn}\label{shorlaflamme}
-Let $V = (\C^2)^{\otimes n}$, and $\mathcal{E} = \{ \sigma_1 \otimes \ldots \otimes \sigma_n \mid \sigma_i \in \{X,Y,Z,\Id \} \forall i \in \underline{n} \}$ (generating set for the pauli group on V). Further let $S \subseteq \underline{n}$ and $M_1, M_2 \in \C^{2^n \times 2^n} (\cong \text{End}(V))$, with $\Tr(M_1) \neq 0 \neq \Tr(M_2)$.
+Let $V = (\C^2)^{\otimes n}$, and $\mathcal{E} = \{ \sigma_1 \otimes \ldots \otimes \sigma_n \mid \sigma_i \in \{X,Y,Z,\Id \} \fa i \in \underline{n} \}$ (generating set for the pauli group on V). Further let $S \subseteq \underline{n}$ and $M_1, M_2 \in \C^{2^n \times 2^n} (\cong \text{End}(V))$, with $\Tr(M_1) \neq 0 \neq \Tr(M_2)$.
 Then we define the coefficients of the Shor-Laflamme enumerators \cite{shor-laflamme} of $M_1, M_2$ as follows:
-\begin{equation} A_S(M_1,M_2) = \frac{1}{\Tr(M_1)\Tr(M_2)}\sum_{\substack{E \in \mathcal{E} \\ \supp(E) = S}}(\Tr(E M_1)\Tr(E M_2)) \end{equation}
-\begin{equation} B_S(M_1,M_2) = \frac{1}{\Tr(M_1 M_2)} \sum_{\substack{E \in \mathcal{E} \\ \supp(E) = S}}(\Tr(E M_1 E M_2)) \end{equation}
+\begin{equation} A_S(M_1,M_2) := \frac{1}{\Tr(M_1)\Tr(M_2)}\sum_{\substack{E \in \mathcal{E} \\ \supp(E) = S}}(\Tr(E M_1)\Tr(E M_2)) \end{equation}
+\begin{equation} B_S(M_1,M_2) := \frac{1}{\Tr(M_1 M_2)} \sum_{\substack{E \in \mathcal{E} \\ \supp(E) = S}}(\Tr(E M_1 E M_2)) \end{equation}
 And for $d \in \underline{n}$ we define
-\begin{equation} A_d(M_1,M_2) = \sum_{\substack{ S \subseteq \underline{n} \\ |S| = d}} A_S(M_1,M_2) ; B_d(M_1,M_2) = \sum_{\substack{ S \subseteq \underline{n} \\ |S| = d}} B_S(M_1,M_2) \end{equation}
+\begin{equation} A_d(M_1,M_2) := \sum_{\substack{ S \subseteq \underline{n} \\ |S| = d}} A_S(M_1,M_2) ; B_d(M_1,M_2): = \sum_{\substack{ S \subseteq \underline{n} \\ |S| = d}} B_S(M_1,M_2) \end{equation}
 \end{defn}
 
 
 \begin{defn}\label{rains}
-Again let $V = (\C^2)^{\otimes n}$, and $\mathcal{E} = \{ \sigma_1 \otimes \ldots \otimes \sigma_n \mid \sigma_i \in \{X,Y,Z,\Id \} \forall i \in \underline{n} \}$. Further let $S \subseteq \underline{n}, S^c = \n \backslash S$ and $M_1, M_2 \in \C^{2^n \times 2^n}$.
+Again let $V = (\C^2)^{\otimes n}$, and $\mathcal{E} = \{ \sigma_1 \otimes \ldots \otimes \sigma_n \mid \sigma_i \in \{X,Y,Z,\Id \} \fa i \in \underline{n} \}$. Further let $S \subseteq \underline{n}, S^c = \n \backslash S$ and $M_1, M_2 \in \C^{2^n \times 2^n}$ with $\Tr(M_1) \neq 0 \neq \Tr(M_2)$.
 We define the coefficient of the Rains enumerators \cite{rains} of $M_1,M_2$ as follows:
-\begin{equation}A'_S(M_1,M_2) = \Tr(\Tr_{S^c}(M_1)\Tr_{S^c}(M_2)) \end{equation}
-\begin{equation}B'_S(M_1,M_2) = \Tr(\Tr_S(M_1)\Tr_S(M_2)) \end{equation}
+\begin{equation}A'_S(M_1,M_2) := \frac{1}{\Tr(M_1)\Tr(M_2)} \Tr(\Tr_{S^c}(M_1)\Tr_{S^c}(M_2)) \end{equation}
+\begin{equation}B'_S(M_1,M_2) := \frac{1}{\Tr(M_1 M_2)} \Tr(\Tr_S(M_1)\Tr_S(M_2)) \end{equation}
 
 As well as for a $d \in \n$: 
-\begin{equation} A'_d(M_1,M_2) = \sum_{\substack{ S \subseteq \underline{n} \\ |S| = d}} A'_S(M_1,M_2) ; B'_d(M_1,M_2) = \sum_{\substack{ S \subseteq \underline{n} \\ |S| = d}} B'_S(M_1,M_2) \end{equation}
+\begin{equation} A'_d(M_1,M_2) := \sum_{\substack{ S \subseteq \underline{n} \\ |S| = d}} A'_S(M_1,M_2) ; B'_d(M_1,M_2) := \sum_{\substack{ S \subseteq \underline{n} \\ |S| = d}} B'_S(M_1,M_2) \end{equation}
+\end{defn}
+Note that these definitions differ by a normalisation factor from those in the original paper \cite{rains}.
+
+\begin{defn}
+Let $C \leq (\C^{2^n})$ be a quantum code, and $P: \C^{2^n} \rightarrow C$ be the projection onto $C$. 
+The Shor-Laflamme enumerator polynomial of $C$ is defined as $ \sum_{i=0}^n A_i(P,P) x^{n-i}y^i$, and the Rains enumerator polynomial similarly as  $\sum_{i=0}^n A'_i(P,P) x^{n-i}y^i$
 \end{defn}
 
 \begin{lem}\label{lemmaenums}
-Let $C \leq (C^2)^{\otimes n} =: V$ be an additive quantum code and $G \subseteq \mathcal{E}$ be its stabilizer group (i.e. $C = V^G$). and $E,E' \in \mathcal{E} = \{ \sigma_1 \otimes \ldots \otimes \sigma_n \mid \sigma_i \in \{X,Y,Z,\Id \} \forall i \in \underline{n} \}$. Then
+Let $C \leq (C^2)^{\otimes n} =: V$ be an additive quantum code and $G \subseteq \mathcal{E}$ be its stabilizer group (i.e. $C = V^G$). and $E,E' \in \mathcal{E} = \{ \sigma_1 \otimes \ldots \otimes \sigma_n \mid \sigma_i \in \{X,Y,Z,\Id \} \fa i \in \underline{n} \}$. Then
 \begin{enumerate}
 \item The projection operator on $C$ is given by $P_C = \frac{1}{|G|} \sum_{\sigma \in G} \sigma$
 \item Tr$(EP_c) = \frac{1}{|G|} \cdot \left\{ \begin{array}{lr} 2^n = \text{dim}(V) & \text{if } E \in G \\ 0 & \text{if } E \notin G \end{array} \right.$
-\item $\Tr(\Tr_S(E)\Tr_S(E')) = 0$ if $E \neq E'$ or if there exists an $i \in S$ which satisfies that for $E = \sigma_1 \otimes \ldots \sigma_n$, $\sigma_i \neq \Id$, otherwise $\Tr(\Tr_S(E)\Tr_S(E)) = 2^n$.
-\item $\Tr( E P_C E P_C) = \left{ \begin{array}{lr} \frac{2^n}{|G|} & \text{ for } E \in G^\perp \\ 0 & \text{ otherwise}$
+\item $\Tr(\Tr_S(E)\Tr_S(E')) = 0$ if $E \neq E'$ or if there exists an $i \in S$ which satisfies that for $E = \sigma_1 \otimes \ldots \otimes \sigma_n$, $\sigma_i \neq \Id$, otherwise $\Tr(\Tr_S(E)\Tr_S(E)) = 2^{n+|S|}$.
+\item $\Tr( E P_C E P_C) = \left\{ \begin{array}{lr} \frac{2^n}{|G|} & \text{ for } E \in G^\perp \\ 0 & \text{ otherwise} \end{array} \right.$ 
 \end{enumerate}
 
 \begin{bew}
 \begin{enumerate}
-\item From a simple calculation it follows that $\sigma P_c(v) = P_c(v)$ for all $v \in V, \sigma \in G$ and $P_c(v) = v \, forall \, v \in V^G$. From this it follows immediately that Im$(P_C) = V^G$ and $P_C^2 = P_C$, and hence that it is the projection onto $V^G$.
+\item From a simple calculation it follows that $\sigma P_c(v) = P_c(v)$ for all $v \in V, \sigma \in G$ and $P_c(v) = v \, \fa \, v \in V^G$. From this it follows immediately that Im$(P_C) = V^G$ and $P_C^2 = P_C$, and hence that it is the projection onto $V^G$.
 \item Since $\Tr(X) = \Tr(Z) = \Tr(Y) = 0$ and $\Tr(\sigma_1 \otimes \sigma_2) = \Tr(\sigma_1)\Tr(\sigma_2)$ it follows immediately that $\mathcal{E}$ is an orthogonal basis with respect to the trace bilinear form (since $<\mathcal{E}>_\C = \C^{2^n \times 2^n}$), and for all $E \in \mathcal{E}$ we have $E^2 = Id_V$, hence $\Tr(E^2) = \dim(V) = 2^n$.
 From a) we get: \begin{equation} \Tr( E P_c) = \frac{1}{|G|} \sum_{\sigma \in G} \Tr(\sigma E) = \frac{1}{|G|} \cdot \left\{ \begin{array}{lr} 2^n = \text{dim}(V) & \text{if } E \in G \\ 0 & \text{if } E \notin G \end{array} \right. \end{equation}
-\item Since $\Tr(X) = \Tr(Y) = \Tr(Z) = 0$, as soon as $S \cap \supp(E) \neq \emptyset$, it follows that $\Tr_S(E) = 0$, and hence $\Tr_S(E)\Tr_S(E') = 0$. The same applies obviously for $E'$. Now if $E \neq E'$, then $\Tr_S(E) \neq \Tr_S(E')$ and thus $\Tr_S(E)\Tr_S(E') \neq 2^{|S|} \Id $, which in turn implies that $\supp(\Tr_S(E)\Tr_S(E')) \neq \emptyset$ and so its trace vanishes.
-On the other hand, if $E = E'$ and $\supp(E) \cap S = \emptyset$, then $\Tr_S(E)\Tr_S(E) = 2^{|S|} \Id_{S^c}$ and $2^{|S|} \Tr(\Id_{S^c}) = 2^{|S|} \dim(V_{S^c}) = 2^n$.
+\item Since $\Tr(X) = \Tr(Y) = \Tr(Z) = 0$, as soon as $S \cap \supp(E) \neq \emptyset$, it follows that $\Tr_S(E) = 0$, and hence $\Tr_S(E)\Tr_S(E') = 0$. The same applies obviously for $E'$. Now if $E \neq E'$ and $S \cap \supp(E) = \emptyset$, then $\Tr_S(E) \neq \Tr_S(E')$ and thus $\Tr_S(E)\Tr_S(E') \neq 2^{|S|} \Id $, which in turn implies that $\supp(\Tr_S(E)\Tr_S(E')) \neq \emptyset$ and so its trace vanishes.
+On the other hand, if $E = E'$ and $\supp(E) \cap S = \emptyset$, then $\Tr_S(E)\Tr_S(E) = (2^{|S|})^2 \Id_{S^c}$ and $2^{2|S|} \Tr(\Id_{S^c}) = 2^{2|S|} \dim(V_{S^c}) = 2^{n + |S|}$.
 \item First note that $E = E^{-1} \fa E \in \mathcal{E}$ and that $\P_n' = \{\pm \Id \}$. This means that for $D \in \mathcal{E} \subseteq \P_n $: $EDE = EDE^{-1} = [E,D]D = \pm \Id D$. It follows that
 \begin{equation} \Tr(E P_C E P_C) = \frac{1}{|G|^2} \sum_{\sigma, \sigma' \in G} \Tr( \underbrace{E \sigma E}_{ = [E,\sigma]\sigma} \sigma') \end{equation}
-\begin{equation} = \frac{1}{|G|^2} \sum_{\sigma, \sigma' \in G} <E,\sigma> \Tr( \sigma \sigma') =  \frac{2^n}{|G|^2} \sum_{\sigma \in G} <E,\sigma> \end{equation}, where $< \cdot, \cdot >$ denotes the symplectic form onto $\{ \pm 1 \}$ induced by the commutator.
+\begin{equation} = \frac{1}{|G|^2} \sum_{\sigma, \sigma' \in G} <E,\sigma> \Tr( \sigma \sigma') =  \frac{2^n}{|G|^2} \sum_{\sigma \in G} <E,\sigma> \end{equation} where $< \cdot, \cdot >$ denotes the symplectic form onto $\{ \pm 1 \}$ induced by the commutator.
 For $E \in G^\perp$, per definition, $<E,\sigma> = 1 \fa \sigma \in G$, hence $\sum_{\sigma \in G} <E,\sigma> = |G|$. On the other hand, if $E \notin G^\perp$, there exists a $\sigma_0 \in G: <E, \sigma_0> = -1$. The mapping $\epsilon: G \rightarrow \{ \pm 1 \}, \sigma \mapsto <E,\sigma>$ is an epimorphism of groups and 
 in particular yields that the cosets Ker$(\epsilon)$, $\sigma_0$ Ker($\epsilon$) have the same size and give a paritition of G in classes of elements with $<\sigma,E> = 1$ and $<\sigma,E> = -1$, which implies that $\sum_{\sigma \in G} <E,\sigma> = 0$.
 
@@ -543,31 +544,33 @@ in particular yields that the cosets Ker$(\epsilon)$, $\sigma_0$ Ker($\epsilon$)
 \end{lem}
 
 \begin{theorem}
-Let $C \leq (C^2)^{\otimes n} =: V$ be an additive quantum code and $G \subseteq \mathcal{E}$ be its stabilizer group (i.e. $C = V^G$), and let $P_C$ be the projection onto $C$, and let $S \subseteq \n$. Then the coefficients are given as follows:
+Let $C \leq (C^2)^{\otimes n} =: V$ be an additive quantum code and $G \subseteq \mathcal{E}$ be its stabilizer group (i.e. $C = V^G$); let $P_C$ be the projection onto $C$, and let $S \subseteq \n$. Then the coefficients are given as follows:
 
 \begin{equation} A_S(P_C,P_C) = \# \{ E \in G \mid \supp(E) = S \} \end{equation}
 \begin{equation} B_S(P_C,P_C) = \# \{ E \in G^\perp \mid \supp(E) = S \} \end{equation}
-\begin{equation} A'_S(P_C,P_C) = \frac{2^n}{|G|^2} \# \{ \sigma \in G \mid \sigma_{\big| S^c} = \Id \} \end{equation}
-\begin{equation} B'_S(P_C,P_C) = \frac{2^n}{|G|^2} \# \{ \sigma \in G \mid \sigma_{\big| S} = \Id \} \end{equation}
+\begin{equation} A'_S(P_C,P_C) = 2^{-|S|} \# \{ \sigma \in G \mid \sigma_{\big| S^c} = \Id \} \end{equation}
+\begin{equation} B'_S(P_C,P_C) = \frac{2^{|S|}}{|G|} \# \{ \sigma \in G \mid \sigma_{\big| S} = \Id \} \end{equation}
 
 Where for $ \sigma = \sigma_1 \otimes \ldots \otimes \sigma_n$ and $S = \{ s_1 < \ldots < s_k \}$, $\sigma_{\big| S}$ denotes $\sigma_{s_1} \otimes \ldots \otimes \sigma_{s_k}$.
 
 \begin{proof}
 \begin{equation} \text{First } A_S(P_c,P_c) = \frac{1}{\dim(C)^2} \sum_{\substack{E \in \mathcal{E} \\ \supp(E) = S}} Tr(P_c E)^2 = \frac{1}{(\dim(C)|G|)^2} \sum_{\substack{E \in \mathcal{E} \\ \supp(E) = S}} \sum_{\sigma,\sigma' \in G} \underbrace{ \Tr(\sigma E) \Tr(\sigma' E)}_{\substack{=0, \sigma \neq E \text{ or } \sigma' \neq E \\ =2^{2n}, \sigma = \sigma' = E}} \end{equation}
-\begin{equation} = \underbrace{(\frac{2^n}{ |G| \dim C})^2 }_{ = 1, \text{see lemma on dim C}} \# \{ E \in G \mid \supp(E) = S \} \end{equation}
+\begin{equation} = \underbrace{(\frac{2^n}{ |G| \dim (C)})^2 }_{ = 1, \text{see prop. \ref{dimensioncode}}} \# \{ E \in G \mid \supp(E) = S \} \end{equation}
 Where the second and third equalities follow from lemma \ref{lemmaenums}. The calculation for $B_S(P_C,P_c)$ is completely analogous.
 
 Now, for the Rains enumerators: 
-\begin{equation} A'_S(P_C,P_C) = \Tr(\Tr_{S^c}(P_C)\Tr_{S^c}(P_C)) = \frac{1}{|G|^2} \sum_{\sigma, \sigma' \in G}  \Tr(\Tr_{S^c}(\sigma)\Tr_{S^c}(\sigma')) \end{equation}
-\begin{equation} = \frac{1}{|G|^2} \sum_{\sigma \in G}  \Tr(\Tr_{S^c}(\sigma)\Tr_{S^c}(\sigma)) = \frac{2^n}{|G|^2} \# \{ \sigma \in G \mid \sigma_{\big| S^c} = \Id \} \end{equation}
-Again, the 2. and 3. equalities follow from lemma \ref{lemmaenums}. For $B'_S$ it is enough to see that $B'_{S^c}(M_1,M_2) = A'_S(M_1,M_2)$ for all $M_1, M_2$ hermitian directly from its definition.
+\begin{equation} A'_S(P_C,P_C) = \frac{1}{\Tr(P_c)} \Tr(\Tr_{S^c}(P_C)\Tr_{S^c}(P_C)) = \frac{1}{\dim (C)^2} \frac{1}{|G|^2} \sum_{\sigma, \sigma' \in G}  \Tr(\Tr_{S^c}(\sigma)\Tr_{S^c}(\sigma')) \end{equation}
+\begin{equation} = \frac{1}{\dim (C)^2} \frac{1}{|G|^2} \sum_{\sigma \in G}  \Tr(\Tr_{S^c}(\sigma)\Tr_{S^c}(\sigma)) = \underbrace{\frac{1}{\dim (C)^2} \frac{2^{n+|S^c|}}{|G|^2}}_{= 2^{|S^c| - n}=2^{-|S|}} \# \{ \sigma \in G \mid \sigma_{\big| S^c} = \Id \} \end{equation}
+Again, the 2. and 3. equalities follow from lemma \ref{lemmaenums}. For $B'_S$ it is enough to see that $B'_{S} = \dim (C) A'_{S^c}$, which follows directly from their definitions.
 \end{proof}
 
 \end{theorem}
 
 \subsection{The relationship between the enumerators}
 
-There is an equivalent definition of the Rains enummerators, which also sheds some light to the motivation for defining $A'$ and $B'$. 
+There is a characterization of the Rains enummerators, which also sheds some light to the motivation for defining $A'$ and $B'$. 
+They are basically the Shor-Laflamme enumerators, but ``avereged over'' the whole unitary group, instead of over $\E$.
+
 \begin{theorem}\label{expectedvalues}%A', B' with expected values
 Let V be a finite-dimensional complex vector space, $n = \dim V, S \subseteq \n,$ $M_1, M_2 \in \End(V)$ hermitian, and let $U_S$ be a random , uniformly distibuted unitary matrix on $V_S$, and $U_S \otimes \Id_{S^c}$ its embedding on the full $\End(V)$. Then:
 \begin{equation} A'_S(M_1,M_2) = 2^{|S|} E( \Tr(M_1 (U_S \otimes \Id_{S^c})) \Tr(M_2 (U_S \otimes \Id_{S^c})^\dagger )) \end{equation}
@@ -579,7 +582,6 @@ Now for the $B'$, define $\tilde B_S(M_1, M_2) :=   2^{|S|} E( \Tr(M_1 (U_S \oti
 \begin{equation*}
 \tilde B_S(M_1,M_2) = \tilde B_S( E(U_S M_1 U_S^\dagger), E(U_s M_2 U_S^\dagger)) = 2^{-2|S|} \tilde B_S( \Tr_S(M_1) \otimes \Id_S, \Tr_S(M_2) \otimes \Id_S) \end{equation*}
 \begin{equation*} = 2^{-|S|} \Tr((\Tr_S(M_1) \otimes \Id_S)(\Tr_S(M_2) \otimes \Id_S)) = B'_S(M_1,M_2)\end{equation*}
-\end{equation*}
 \end{bew}
 \end{theorem}
 
@@ -594,19 +596,26 @@ Let $S \subseteq \n$. Then the Rains and Shor-Laflamme enumerators are related b
 For $A'_S$ The crucial observation here is that for $\sigma \in G$, $\sigma_{\big| S} = \Id \Leftrightarrow \supp(\sigma) \subseteq S^c$. 
 It follows that \[ \{ \sigma \in G \mid \sigma_{\big| S} = \Id \} = \dot \bigcup_{T \subseteq S^c} \{ \sigma \in G \mid \supp(\sigma) = T \} \]
 And this in turn implies: 
-\[ A'_S = \frac{2^n}{|G|^2} \#\{ \sigma \in G \mid \sigma_{\big| S^c} = \Id \} = \frac{2^n}{|G|^2} \sum_{T \subseteq} \underbrace{ \# \{ \sigma \in G \mid \supp(\sigma)=T \} }_{= A_T} = \frac{2^{n}}{|G|^2} \sum_{T \subseteq S} A_T \]
+\[ A'_S = 2^{-|S|} \#\{ \sigma \in G \mid \sigma_{\big| S^c} = \Id \} = 2^{-|S|} \sum_{T \subseteq S} \underbrace{ \# \{ \sigma \in G \mid \supp(\sigma)=T \} }_{= A_T} = 2^{-|S|} \sum_{T \subseteq S} A_T \]
 Now for $B'_S$ we use theorem \ref{expectedvalues}:
-\[ B'_S = 2^{|S|} E( \Tr( P_C (U_s \otimes \Id_{S^c}) P_C (U_S \otimes \Id_{S^c}) ) ) = \frac{2^{|S|}}{|G|^2} \sum_{g,g' \in G} E( \Tr[ g (\sigma U_S \otimes \Id_{S^c}) g' (U^\dagger_S \otimes \Id_{S^c}) ] ) \]
-Using the expansion for in the orthogonal basis $\E: U_S \otimes \Id_{S^c} = \sum_{\sigma \in \E} 2^{n} \Tr( (U_S \otimes \Id_{S^c}) \sigma) \sigma$ yields: 
-\[B'_S = \frac{2^{|S|-2n}}{|G|^2} \sum_{g,g' \in G} \sum_{\sigma, \sigma' \in \E} E( \Tr[ g \Tr(\sigma (U_S \otimes \Id_{S^c}))\sigma  g' \Tr(\sigma' (U_S^\dagger \otimes \Id_{S^c}))\sigma' ] ) \]
-\[  = \frac{2^{|S|-2n}}{|G|^2} \sum_{g,g' \in G} \sum_{\sigma, \sigma' \in \E} \Tr( g \sigma  g' \sigma')  E[ \Tr(\sigma (U_S \otimes \Id_{S^c})) \Tr(\sigma (U_S^\dagger \otimes \Id_{S^c})) ]  \]
-Lemma \ref{lemmaenums} together with equation \ref{fact1} yield $\ E[ \Tr((U_S \otimes \Id_S^c)\sigma) \Tr((U_S^\dagger \otimes \Id_S^c)\sigma' )] = 2^{n-|S|} \delta_{\sigma,\sigma'}$, from which in turn follows that:
-\[ B'_S = 2^{-n} \sum_{\sigma \in \E} \frac{1}{|G|^2} \sum_{g,g' \in G} \Tr(g \sigma g' \sigma) = 2^{-n} \sum_{\sigma \in \E} \Tr( P_C \sigma P_C \sigma) = 2^{|S| - n} B_S \]
+\[ B'_S = \frac{2^{-|S|}}{\dim (C)} E( \Tr( P_C (U_s \otimes \Id_{S^c}) P_C (U_S \otimes \Id_{S^c}) ) ) = \frac{2^{-|S|}}{\dim (C) |G|^2} \sum_{g,g' \in G} E( \Tr[ g (U_S \otimes \Id_{S^c}) g' (U^\dagger_S \otimes \Id_{S^c}) ] ) \]
+Using the expansion in the orthogonal basis $\E: U_S \otimes \Id_{S^c} = \sum_{\sigma \in \E} 2^{-n} \Tr( (U_S \otimes \Id_{S^c}) \sigma) \sigma$ yields: 
+\[B'_S = \frac{2^{|S|-2n}}{\dim (C) |G|^2} \sum_{g,g' \in G} \sum_{\sigma, \sigma' \in \E} E( \Tr[ g \Tr(\sigma (U_S \otimes \Id_{S^c}))\sigma  g' \Tr(\sigma' (U_S^\dagger \otimes \Id_{S^c}))\sigma' ] ) \]
+\[  = \frac{2^{|S|-2n}}{\dim (C) |G|^2} \sum_{g,g' \in G} \sum_{\sigma, \sigma' \in \E} \Tr( g \sigma  g' \sigma')  E[ \Tr(\sigma (U_S \otimes \Id_{S^c})) \Tr(\sigma' (U_S^\dagger \otimes \Id_{S^c})) ]  \]
+Lemma \ref{lemmaenums} together with equation \ref{fact1} yield
+ \begin{equation} \ E[ \Tr((U_S \otimes \Id_{S^c})\sigma) \Tr((U_S^\dagger \otimes \Id_S^c)\sigma' )] = 2^{-|S|} \Tr(\sigma_{\big| S} \sigma'_{\big| S}) \Tr(\sigma_{\big| S^c}) \Tr(\sigma'_{\big| S^c}) = 
+\left\{ \begin{array}{lr} 2^{2n - 2|S|} \delta_{\sigma,\sigma'} & \text{if} \supp(\sigma) \subseteq S \\  0 & \text{otherwise} \end{array} \right.  \end{equation}
+from which in turn follows that:
+\[ B'_S = \frac{2^{-|S|}}{\dim (C)} \sum_{\sigma \in \E, \supp(\sigma) \subseteq S} \frac{1}{|G|^2} \sum_{g,g' \in G} \Tr(g \sigma g' \sigma) = \frac{2^{-|S|}}{\dim (C)} \sum_{\sigma \in \E, \supp(\sigma) \subseteq S } \underbrace{\Tr( P_C \sigma P_C \sigma)}_{=\Tr(\sigma P_C \sigma P_C)} = 2^{-|S|} \sum_{T \subseteq S} B_T \]
 \end{bew}
 \end{prop}
 
 \begin{cor}\label{corlincomb}
-for the d's and mcwilliams 1.
+For $d \in \n$ we get thus: \begin{equation} A'_d = 2^{-d} \sum_{i=0}^d \binom{n-i}{n-d} A_i \text{  and   } B'_d = 2^{-d} \sum_{i=0}^d \binom{n-i}{n-d} B_i \end{equation}
+\begin{bew}
+\begin{equation}  A'_d = \sum_{S \subseteq \n, |S| = d} A'_S = 2^{-d} \sum_{S \subseteq \n, |S| = d} \sum_{T \subseteq S} A_T  = 2^{-d} \sum{i=0}^d \sum_{T \subseteq \n, |T| = i} \sum_{T \subseteq S, |S| = d} A_T \end{equation}
+ \begin{equation} = 2^{-d} \sum_{i=0}^d \sum_{T \subseteq \n, |T| = i} \binom{n-i}{n-d}A_T = 2^{-d} \sum_{i=0}^d \binom{n-i}{n-d} A_i \end{equation}
+The same works for $B'_d$.
 \end{cor}
 
 \begin{cor}
@@ -618,12 +627,36 @@ For the Rains enumerators it is immediately clear from theorem \ref{expectedvalu
 
 \subsection{Code distance and the McWilliams transform}
 
+\begin{lem}\label{relenums}
+The enumerator polynomials are related by the following:
+\begin{equation} A'(x,y) = A(x + \frac{y}{2},\frac{y}{2}) \end{equation}
+\begin{equation} B'(x,y) = B(x + \frac{y}{2},\frac{y}{2}) \end{equation}
+\begin{bew}
+Using cor. \ref{corlincomb} we get: 
+\begin{equation} A'(x,y) = \sum_{d=0}^n A'_d x^{n-d}y^d = \sum_{d=0}^n \sum_{i=0}^d 2^{-d} \binom{ n-i}{n-d} A_i x^{n-d}y^d \end{equation}
+\begin{equation} = \sum_{i=0}^n \sum_{d=i}^n 2^{-d} \binom{ n-i}{n-d} A_i x^{n-d}y^d \underbrace{ = }_{j:= n-d} \sum_{i=0}^n \sum_{j=0}^{n-i} 2^{-(n-j)} \binom{ n-i}{j} A_i x^{j}y^{n-j} \end{equation}
+\begin{equation} = \sum_{i=0}^n y^{i}2^{-i} \sum_{j=0}^{n-i} 2^{-(n-i-j)} \binom{ n-i}{j} A_i x^{j}y^{n-i-j} = \sum_{i=0}^n A_i (\frac{y}{2})^i (x+\frac{y}{2})^{n-i} = A(x+\frac{y}{2},\frac{y}{2}) \end{equation}
+The calculation for $B'$ is literally the same, replacing $A$ with $B$.
+\end{bew}
+\end{lem}
+
+\begin{theorem}
+We get analogies of the MacWilliams identity for Quantum codes: 
+Let $C \leq \C^{2^n}$ be a an additive quantum code on $n$ qubits, and $A(x,y), B(x,y)$ be the corresponing Shor-Laflamme enumerator polynomials, $A'(x,y), B'(x,y)$ the Rains enumerator polynomials. Then:
+\begin{equation} A'(x,y) = \dim (C) B'(y,x) \end{equation}
+\begin{equation} A(x,y) = \dim (C) B(\frac{x+3y}{2},\frac{x-y}{2}) \end{equation}
+\begin{proof}
+For the first one we again note that immediately from its definition it is clear that $A'_i =  \dim (C) B'_{n-i}$. It follows then
+\begin{equation} A'(x,y) = \sum_{d=0}^n A_d x^{n-d}y^d = \sum_{d=0}^n \dim (C) B_{n-d} x^{n-d}y^d = \dim (C) B'(y,x) \end{equation}
+Using lemma \ref{relenums} we can translate this identity to the Shor-Laflamme enumerators: 
+\begin{equation} A(x,y) = A'(x-y,2y) = \dim (C) B'(2y,x-y) = \dim (C) B(2y + \frac{x-y}{2},\frac{x-y}{2}) = \dim (C) B(\frac{x+3y}{2},\frac{x-y}{2}) \end{equation}
+\end{proof}
+\end{theorem}
+
+
 \begin{theorem}
 $K A \geq B$, minimal distance ( = )
 \end{theorem}
 
-\begin{theorem}
-McWilliams
-\end{theorem}
 
 \end{document}
