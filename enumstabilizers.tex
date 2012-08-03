@@ -249,7 +249,8 @@ Quantum mechanics is a mathematical framework for describing physical phenomena,
 \begin{rem}
 One does not have to think long to percieve an (appearent?) inconsistency in the postulates. The universe itself should be a closed quantum system, which means that the time evolution of the whole universe should be uniquely determined by it's starting state by the 1. postulate. But the 2. postulate states that a measurement has an inherent probabilistic behaviour, which is inconsistent with this. This problem is called the measurement problem, and is in the end rather a philosophical problem, which is why we will not further pursue it in this thesis.
 \end{rem}
-\newpage
+
+\clearpage \newpage
 \section{Qubits and Quantum Codes}
 
 \begin{defn}
@@ -485,15 +486,15 @@ The original construction actually uses classical codes, and is one of the advan
   The above defined $C = C(D_1,D_2)$ is an $[[n,k_1 - k_2,d]]$ code, with $d \geq 2t+1$. FIXME: proof!!  A proof can be found in \cite{NC}.
  \end{rem}
 
-\newpage
+\clearpage \newpage
 \section{Quantum Weight Enumerators}
 
-\subsection{The Shor-laflamme and Rains enumerators}
+\subsection{The Shor-Laflamme and Rains enumerators}
 
 
-\begin{defn}\label{shorlaflamme}
+\begin{defn}\label{shorLaflamme}
 Let $V = (\C^2)^{\otimes n}$, and $\mathcal{E} = \{ \sigma_1 \otimes \ldots \otimes \sigma_n \mid \sigma_i \in \{X,Y,Z,\Id \} \fa i \in \underline{n} \}$ (generating set for the pauli group on V). Further let $S \subseteq \underline{n}$ and $M_1, M_2 \in \C^{2^n \times 2^n} (\cong \text{End}(V))$, with $\Tr(M_1) \neq 0 \neq \Tr(M_2)$.
-Then we define the coefficients of the Shor-Laflamme enumerators \cite{shor-laflamme} of $M_1, M_2$ as follows:
+Then we define the coefficients of the Shor-Laflamme enumerators \cite{shor-Laflamme} of $M_1, M_2$ as follows:
 \begin{equation} A_S(M_1,M_2) := \frac{1}{\Tr(M_1)\Tr(M_2)}\sum_{\substack{E \in \mathcal{E} \\ \supp(E) = S}}(\Tr(E M_1)\Tr(E M_2)) \end{equation}
 \begin{equation} B_S(M_1,M_2) := \frac{1}{\Tr(M_1 M_2)} \sum_{\substack{E \in \mathcal{E} \\ \supp(E) = S}}(\Tr(E M_1 E M_2)) \end{equation}
 And for $d \in \underline{n}$ we define
