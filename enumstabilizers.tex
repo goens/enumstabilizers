@@ -660,14 +660,28 @@ Using lemma \ref{relenums} we can translate this identity to the Shor-Laflamme e
 \end{proof}
 \end{theorem}
 
+\begin{lem}\label{expvalvec}
+Let $C$ be a Quantum Code on $n$ qubits, $M \in \End(\C^{2^n})$ be any operator on those $n$ qubits, and let $v$ be a random unit vector of $C$, uniformly distributed. Further let $K:= \dim_\C C$ and $P$ be the orthogonal projection onto $C$. Then
+\begin{equation} E[|\Tr(M|v\rangle \langle v|) - \frac{1}{K}\Tr(MP)|^2] = \frac{1}{K^2(K+1)}(K \Tr(MPM^\dagger P) - |\Tr(MP)|^2) \end{equation}
+FIXME: proof!
+\end{lem}
 
-%% \begin{theorem}
-%% For the Rains enumerators $A'_i, B'_i$ of a quantum Code $C$ it holds that $B'_i \geq A'_i \geq 0$, where equality $B'_i = A'_i$ holds for $i \in \underline{d}$ if and only if $C$ has minimal distance $d$.
-%% \begin{proof}
 
-%% \end{proof}
+\begin{theorem}
+For both, the Rains and Shor-Laflamme enumerators $A'_i, B'_i, A_i, B_i$ of a quantum Code $C$ of dimension $K$ it holds that $B'_i \geq A'_i \geq 0$, where equality $B'_i = A'_i$  holds for $i \in \underline{d}$ if and only if $C$ has minimal distance $d$. The same is true for $A_i, B_i$.
+\begin{proof}
+First for the Shor-Laflamme enumerators $A_i, B_i$: Consider that by definition, for any hermitian operator $M$, it holds that $A_i(M,M) = A_i(M,M^\dagger) = \sum_{\substack{E \in \mathcal{E} \\ \wt(E) = i}} |\Tr(EM)|^2$. Since the orthogonal projection $P$ onto $C$ is hermitian,
+it follows immediately that $A_i \geq 0$. Now for the relationship between $A_i,B_i$ consider the hermitian operator $M_v$ for any normed $|v \rangle \in C$: $M_v:= |v\rangle \langle v| - \frac{1}{K}P$. Now let $v$ be a uniformly distributed, random unit vector from $C$.
+From our previous observation, and lemma \ref{expvalvec}, we get that
+\begin{equation} 0 \leq E[A_i(M_v,M_v)] \underbrace{=}_{\text{def.}} E[\frac{1}{K^2} \sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}} \Tr(\sigma M_v)^2] = \frac{1}{K^2}  \sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}} E[\Tr(\sigma |v\rangle \langle v| - \frac{1}{K} \sigma P)^2] \end{equation}
+\begin{equation} = \frac{1}{K^2(K+1)}(\frac{1}{K} \sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}}  \Tr(\sigma P \sigma^\dagger P) - \frac{1}{K^2}\sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}} |\Tr(\sigma P)|^2) = \frac{1}{K^2(K+1)} (B_i(P,P) - A_i(P,P)) \end{equation}
+Where in order to use lemma \ref{expvalvec} we examine, that the expressions under the modulus are real, since the operators are hermitian. Further we note that $A_i = B_i$ iff $E[\Tr (\langle v | \sigma |v \rangle) - \frac{1}{K} \Tr(\sigma P)] = 0$ for all $\sigma \in \E$.
+FIXME: finish!
+This proof transfers to the rains enumerators directly thanks to theorem \ref{expectedvalues}.
 
-%% \end{theorem}
+\end{proof}
+
+\end{theorem}
 
 
 \end{document}
