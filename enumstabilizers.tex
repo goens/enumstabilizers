@@ -549,7 +549,7 @@ in particular yields that the cosets Ker$(\epsilon)$, $\sigma_0$ Ker($\epsilon$)
 \end{bew}
 \end{lem}
 
-\begin{theorem}
+\begin{theorem}\label{coeffsadditive}
 Let $C \leq (C^2)^{\otimes n} =: V$ be an additive quantum code and $G \subseteq \mathcal{E}$ be its stabilizer group (i.e. $C = V^G$); let $P_C$ be the projection onto $C$, and let $S \subseteq \n$. Then the coefficients are given as follows:
 
 \begin{equation} A_S(P_C,P_C) = \# \{ E \in G \mid \supp(E) = S \} \end{equation}
@@ -633,26 +633,33 @@ For the Rains enumerators it is immediately clear from theorem \ref{expectedvalu
 \end{cor}
 
 \begin{ex}
-We can return to the example of the Shor code, the associated additive code has the (\F_2)-Generator matrix:
+We can return to the example of the Shor code, the associated additive code has the ($\F_2$)-Generator matrix: \\
+\begin{equation*}
 \left( \begin{tabular}{ccccccccc}
-$\omega^ 2$ & $\omega^ 2$ & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
-0 & $\omega^ 2$ & $\omega^ 2$ & 0 & 0 & 0 & 0 & 0 & 0 \\
-0 & 0 & 0 & $\omega^ 2$ & $\omega^ 2$ & 0 & 0 & 0 & 0 \\
-0 & 0 & 0 & 0 & $\omega^ 2$ & $\omega^ 2$&  0 & 0 & 0 \\
-0 & 0 & 0 & 0 & 0 & 0 & $\omega^ 2$ & $\omega^ 2$ & 0 \\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & $\omega^ 2$ & $\omega^ 2$ \\
-$\omega$ & $\omega$ & $\omega$ & $\omega$ & $\omega$ & $\omega$ & 0 & 0 & 0 \\
-0 & 0 & 0 & $\omega$ & $\omega$ & $\omega$ & $\omega$ & $\omega$ & $\omega$ \\
+\omega^ 2 & \omega^ 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+0 & \omega^ 2 & \omega^ 2 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & \omega^ 2 & \omega^ 2 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & \omega^ 2 & \omega^ 2&  0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & \omega^ 2 & \omega^ 2 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & \omega^ 2 & \omega^ 2 \\
+\omega & \omega & \omega & \omega & \omega & \omega & 0 & 0 & 0 \\
+0 & 0 & 0 & \omega & \omega & \omega & \omega & \omega & \omega \\
 \end{tabular} \right)
+\end{equation*}
 
 Using this we can easily get the Shor-Laflamme enumerator polynomials for this code, as it is the Hamming weight enumerator 
-of the additive code. FIXME: Finishme
-%%Magma output: $.1^9 + 9*$.1^7*$.2^2 + 27*$.1^5*$.2^4 + 75*$.1^3*$.2^6 + 144*$.1*$.2^8
+of the additive code
 
+\begin{equation}
+x^9 + 9 x^7y^2 + 27 x^5y^4 + 75 x^3y^6 + 144 xy^8
+\end{equation}
 
 The Rains enumerator polynomial is a little bit harder to calculate. It is:
-
-This was obtained using a relationship between both enumerator polynomials, as will be seen in \ref{fixme!}.
+\begin{equation}
+ x^9 + \frac9 2 x^8y + \frac{45}{4} x^7y^2 + \frac{147}{8} x^6y^3 + \frac{171}{8} x^5y^4 + 18 x^4 y^5 + \frac{93}{8} x^3 y^6 + \frac{45}{8} x^2 y^7 + \frac 9 4 x y^8 + \frac 1 2 y^9
+ \end{equation}
+This is obtained using cor. \ref{corlincomb}, or equivalently, a relationship between both enumerator polynomials which follows from it, as will be seen in \ref{relenums}. Note that the coefficients of the rains enumerator polynomial need not be integers,
+the reason for this becomes clear after examining theorem \ref{coeffsadditive}
 \end{ex}
 
 \subsection{Code distance and the MacWilliams transform}
@@ -684,7 +691,7 @@ Using lemma \ref{relenums} we can translate this identity to the Shor-Laflamme e
 \end{theorem}
 
 \begin{lem}\label{expvalvec}
-Let $C$ be a Quantum Code on $n$ qubits, $M \in \End(\C^{2^n})$ be any operator on those $n$ qubits, and let $v$ be a random unit vector of $C$, uniformly distributed. Further let $K:= \dim_\C C$ and $P$ be the orthogonal projection onto $C$. Then
+Let $C$ be a Quantum Code on $n$ qubits, $M \in \End(\C^{2^n})$ be any operator on those $n$ qubits, and let $v$ be a random unit vector of $C$, uniformly distributed. Further let $K:= \dim_\C C$ and $P$ be the orthogonal projection onto $C$. Thennn
 \begin{equation} E[|\Tr(M|v\rangle \langle v|) - \frac{1}{K}\Tr(MP)|^2] = \frac{1}{K^2(K+1)}(K \Tr(MPM^\dagger P) - |\Tr(MP)|^2) \end{equation}
 FIXME: proof!
 \end{lem}
@@ -709,9 +716,11 @@ This proof transfers to the rains enumerators directly thanks to theorem \ref{ex
 With this results we can see the usefulness of the weight enumerators. Since any quantum code must have a weight enumerator, an we have conditions it has to follow, we can get bounds on the minimal distance or on the dimension for a given number of qubits using these conditions.
 
 \begin{theorem}[LP bounds for additive codes]\label{lpadditive}
-
+Let $C$ be an additive $[[n,k,d]]$ code and $A_i, i = 0 \ldots n$ be the Shor-Laflamme weight enumerator of $C$. Then, the coefficients of the weight enumerator have to satisfy the following
 \end{theorem}
 
+With this we can get bounds on the distance $d$ for a given pair $n,k$ (the maximal number for which the system of equations on theorem \ref{lpadditive} have a solution), or bounds on the number of encoded qubits $k$, 
+by maximizing $2^k = \sum_{i=0}^n A_i$ with the rest of the constraints given by theorem \ref{lpadditive} - a problem which falls under what is known as linear programming, and can also easily be solved.
 This bounds hold for additive codes, but they are not strict for general quantum error correcting codes. The following is an example of a non-additive code that is strictly better than any additive code.
 
 \begin{ex}
