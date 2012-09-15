@@ -459,11 +459,13 @@ Similarly, we define a weight on $\F_2^{2n} = (e_1,\ldots,e_n,f_1,\ldots,f_n)$ t
 
 %For example, the operator $ Z_1X_2I_3X_4$ has weight 3, whereas $- I_1 I_2 X_3 Z_3 I_4$ has only weight 1.
 
-\begin{defn}
+\begin{defn}\label{defdist}
 Let $S \leq \P_n$ be a stabilizer group with corresponding code $C$. Then, the minimal distance (or code distance) $\rho$ of $C$ is defined as:
 \begin{equation} \rho := \min \{ |A| \in \P_n | A \text{ is a logical operator} \} = \min \{ |A| \mid A \in C_{\P_n}(S)\backslash S \} \end{equation}
 An [[n,k]] code with distance $\rho$ is also called an [[n,k,$\rho$]] code.
 \end{defn}
+
+
 
 The basic idea for the definition of $\rho$ is that it marks the number of qubits an operator has to minimally affect for it to change one codeword to another. 
 An argument similar to that of the classical coding theory (see \cite{classicalcodes}) can be made to prove that a code with distance $\rho$ can correct all errors $E$ which satisfy $|E| < \frac{\rho}{2}$. A direct proof for quantum coding theory can be found in \cite{leemhuis}.
@@ -475,6 +477,12 @@ We can look at, for example $ \overline Z g_8 = ZZZIIIIII$, or $g_2 g_3 g_6 \ove
 the Shor code corrects $1 < \frac{3}{2}$ errors. 
 \end{ex}
 
+Definition \ref{defdist} can be generalized for any quantum code, and it will have the same properties as it has for additive codes, as well as in classical coding theory. See \cite{nebe}
+\begin{defn}\label{distgeneral}
+For a quantum code $C$ on $n$ qubits, define $C$ to have minimal distance of at least $d$ iff $\langle v | U_d | v \rangle = \langle v' | U_d | v' \rangle$ for all unit vectors $|v \rangle, |v' \rangle \in C$, where $U_d$ ranges over all unitary operators with support on exactly $d$ qubits.
+\end{defn}
+
+%% FIXME: here maybe a theorem about this distance, how it can correct errors
 \subsection{CSS Codes}
 
 A class of codes worth mentioning, a subclass of stabilizer codes, are CSS codes. CSS codes are named after their inventors: A. R. Calderbank, Peter Shor and Andrew Steane.
@@ -574,7 +582,7 @@ Again, the 2. and 3. equalities follow from lemma \ref{lemmaenums}. For $B'_S$ i
 
 \subsection{The relationship between the enumerators}
 
-There is a characterization of the Rains enummerators, which also sheds some light to the motivation for defining $A'$ and $B'$. 
+There is a characterization of the Rains enumerators, which also sheds some light to the motivation for defining $A'$ and $B'$. 
 They are basically the Shor-Laflamme enumerators, but ``avereged over'' the whole unitary group, instead of over $\E$.
 
 \begin{theorem}\label{expectedvalues}%A', B' with expected values
@@ -610,7 +618,7 @@ Using the expansion in the orthogonal basis $\E: U_S \otimes \Id_{S^c} = \sum_{\
 \[  = \frac{2^{|S|-2n}}{\dim (C) |G|^2} \sum_{g,g' \in G} \sum_{\sigma, \sigma' \in \E} \Tr( g \sigma  g' \sigma')  E[ \Tr(\sigma (U_S \otimes \Id_{S^c})) \Tr(\sigma' (U_S^\dagger \otimes \Id_{S^c})) ]  \]
 Lemma \ref{lemmaenums} together with equation \ref{fact1} yield
  \begin{equation} \ E[ \Tr((U_S \otimes \Id_{S^c})\sigma) \Tr((U_S^\dagger \otimes \Id_S^c)\sigma' )] = 2^{-|S|} \Tr(\sigma_{\big| S} \sigma'_{\big| S}) \Tr(\sigma_{\big| S^c}) \Tr(\sigma'_{\big| S^c}) = 
-\left\{ \begin{array}{lr} 2^{2n - 2|S|} \delta_{\sigma,\sigma'} & \text{if} \supp(\sigma) \subseteq S \\  0 & \text{otherwise} \end{array} \right.  \end{equation}
+\left\{ \begin{array}{lr} 2^{2n - 2|S|} \delta_{\sigma,\sigma'} & \text{if } \supp(\sigma) \subseteq S \\  0 & \text{otherwise} \end{array} \right.  \end{equation}
 from which in turn follows that:
 \[ B'_S = \frac{2^{-|S|}}{\dim (C)} \sum_{\sigma \in \E, \supp(\sigma) \subseteq S} \frac{1}{|G|^2} \sum_{g,g' \in G} \Tr(g \sigma g' \sigma) = \frac{2^{-|S|}}{\dim (C)} \sum_{\sigma \in \E, \supp(\sigma) \subseteq S } \underbrace{\Tr( P_C \sigma P_C \sigma)}_{=\Tr(\sigma P_C \sigma P_C)} = 2^{-|S|} \sum_{T \subseteq S} B_T \]
 \end{bew}
@@ -662,7 +670,7 @@ This is obtained using cor. \ref{corlincomb}, or equivalently, a relationship be
 the reason for this becomes clear after examining theorem \ref{coeffsadditive}
 \end{ex}
 
-\subsection{Code distance and the MacWilliams transform}
+\subsection{The MacWilliams transform}
 
 \begin{lem}\label{relenums}
 The enumerator polynomials are related by the following:
@@ -677,7 +685,7 @@ The calculation for $B'$ is literally the same, replacing $A$ with $B$.
 \end{bew}
 \end{lem}
 
-\begin{theorem}
+\begin{theorem}\label{theoremmacwilliams}
 We get analogies of the MacWilliams identity for Quantum codes: 
 Let $C \leq \C^{2^n}$ be a an additive quantum code on $n$ qubits, and $A(x,y), B(x,y)$ be the corresponing Shor-Laflamme enumerator polynomials, $A'(x,y), B'(x,y)$ the Rains enumerator polynomials. Then:
 \begin{equation} A'(x,y) = \dim (C) B'(y,x) \end{equation}
@@ -690,14 +698,56 @@ Using lemma \ref{relenums} we can translate this identity to the Shor-Laflamme e
 \end{proof}
 \end{theorem}
 
+\section{Applications of the weight enumerators: Bounds}
+
+Having introduced weight enumerators for quantum error correcting codes, and having found out a few properties of these, we can go on to see one of the most important applications of the weight enumerators, namely that of finding bounds for the distance or dimension of codes with specific parameters.
+This is analogous to classical coding theory and is the reason why these enumerators for quantum codes were introduced in the first place by Shor and Laflamme. To do this, we first have to find out what the relationship is between the code distance and the weight enumerators.
+
+
+\subsection{The relationship between the code distance and the enumerators}
+
+\begin{lem}\label{expvalproj}
+Let $C$ be a quantum code on $n$ quibts, and let $v$ be a random unit vector of $C$, uniformly distributed. Further let $P$ be the orthogonal projection onto $C$, and $K$ be the dimenson of $C$, $K = \dim_\C C$.
+Then \begin{equation} E_{v \in C}(|v\rangle \langle v |) = \int_C |v \rangle \langle v | dv = \frac{P}{K} \end{equation}
+\begin{proof}
+ We start by identifying that the left hand side is well defined. This is the case since the unit sphere on $\C^K$ is compact (with respect to the natural topology), and is a submanifold of $\R^{2K}$, 
+ which allows us to define an finite integral on $C$, which can be chosen to be normed, see \cite{foerster}. Now, an integral of an operator can be defined using the scalar product - see \cite{harmana}, and thus the integral is well defined.
+ Now, since $C$ is isometric to $\C^K$, we will assume without loss of generality that $C = \C^K$ and thus it suffices to show that for $\tilde P := \int_C |v \rangle \langle v | dv$ it holds that $\tilde P = \frac{1}{K} \Id_{\C^K}$.
+To show this we note that the unitary group $\U_K(\C)$ acts on End($\C^K$) via conjugation, and this action defines a representation of $U_K(\C)$, which we will denote by $\pi$. Now, let $\mu$ denote the measure induced on $\C^K$ by the probability measure of $v$ and the isometry
+between $C$ and $\C^K$, and let $dU$ denote the Haar-measure on the unitary group $\U_K(\C)$. It follows that
+\begin{align}
+\tilde P = \int_{\C^K} |v \rangle \langle v | d \mu(v) = \int_{\C^K} U^\dagger |v \rangle \langle v | U d \mu(v) = \int_{\U_K(\C)} \int_{\C^K} U^\dagger |v \rangle \langle v | U d \mu(v) dU
+\end{align}
+Where in the first equality we used the uniformity of the probability measure on $v$ and on the second one we used the normalization of the Haar measure. Let $ |v_0 \rangle \in C^K, \langle v_0 | v_0 \rangle = 1$. Then because of the normalization of the $\mu$ measure it holds that
+\begin{equation}
+\tilde P = \int_{\U_K(\C)} \int_{\C^K} U^\dagger |v \rangle \langle v | U d \mu(v) dU = \int_{\U_K(\C)} U^\dagger |v_0 \rangle \langle v_0 | U dU =  \int_{\U_K(\C)} (\pi(U))( |v_0 \rangle \langle v_0 | ) dU
+\end{equation}
+
+Since the only fix point of the representation $\pi$ is $I_K$, and the mapping $A \mapsto \int_{\U_K(\C)} (\pi(U))(A) dU$ is an orthogonal projection to an invariant subspace of the representation $\pi$ (Reynolds operator), it follows that
+$\tilde P \in \C I_K$. That $\tilde P = \frac{1}{K} I_K$ can be seen by explicitly calculating the orthogonal projection: $\tilde P = \frac{\langle |v_0 \rangle \langle v_0 |, I_K \rangle}{ \langle I_K, I_K \rangle} I_K = \frac{1}{K} I_K$.
+\end{proof}
+\end{lem}
+
 \begin{lem}\label{expvalvec}
-Let $C$ be a Quantum Code on $n$ qubits, $M \in \End(\C^{2^n})$ be any operator on those $n$ qubits, and let $v$ be a random unit vector of $C$, uniformly distributed. Further let $K:= \dim_\C C$ and $P$ be the orthogonal projection onto $C$. Thennn
+Let $C$ be a Quantum Code on $n$ qubits, $M \in \End(\C^{2^n})$ be any operator on those $n$ qubits, and let $v$ be a random unit vector of $C$, uniformly distributed. Further let $K:= \dim_\C C$ and $P$ be the orthogonal projection onto $C$. Then
 \begin{equation} E[|\Tr(M|v\rangle \langle v|) - \frac{1}{K}\Tr(MP)|^2] = \frac{1}{K^2(K+1)}(K \Tr(MPM^\dagger P) - |\Tr(MP)|^2) \end{equation}
-FIXME: proof!
+If we write the term $|a|^2$ under the modulus as $a a^*$ and multiplying out yields:
+\begin{align*}
+E[|\Tr(M|v\rangle \langle v|) - \frac{1}{K}\Tr(MP)|^2] \\ = E[ |\Tr(\langle v | M | v \rangle )|^2 + \frac{1}{K^2} | \Tr(MP)|^2 - \frac{1}{K} \Tr(M |v \rangle \langle)^* \Tr(MP) - \frac{1}{K} \Tr(M |v\rangle \langle v|) \Tr(MP)^* \\
+\underbrace{=}_{\text{lemma }\ref{expvalproj}} E[|\Tr( \langle v|M|v\rangle)|^2 - \frac{1}{K^2}|\Tr(MP)|^2]
+\end{align*}
+
+Now consider only the first integral: 
+\begin{align*}
+\int_{\C^K} |\Tr( \langle v|M|v\rangle)|^2 dv = \int_{\C^K} |\langle v|M|v\rangle|^2 dv =  \int_{\C^K} \langle v|M|v\rangle  \langle v|M^\dagger |v\rangle \\
+ =  \int_{\C^K} \Tr (\langle v|M|v\rangle  \langle v|M^\dagger |v\rangle ) =  \int_{\C^K} \Tr(|v \rangle \langle v|M|v\rangle  \langle v|M^\dagger) =: \int_{\C^K} \varphi_M(|v \rangle \langle v|,|v \rangle \langle v|)
+\end{align*}
+Where the mapping $\varphi_M$ is the bi-linear functional defined by $\varphi_M(A,B):= \Tr(AMBM^\dagger)$. Using the universal property of the tensor product, there exists exactly one linear mapping $\psi_M: \End(\C^K) \otimes \End(\C^K) \rightarrow \C$, so that
+$\varphi_M(A,B) = \psi_M(A \otimes B)$ for all $A, B \in \End(\C^K)$.
 \end{lem}
 
 
-\begin{theorem}
+\begin{theorem}\label{distancenums}
 For both, the Rains and Shor-Laflamme enumerators $A'_i, B'_i, A_i, B_i$ of a quantum Code $C$ of dimension $K$ it holds that $B'_i \geq A'_i \geq 0$, where equality $B'_i = A'_i$  holds for $i \in \underline{d}$ if and only if $C$ has minimal distance $d$. The same is true for $A_i, B_i$.
 \begin{proof}
 First for the Shor-Laflamme enumerators $A_i, B_i$: Consider that by definition, for any hermitian operator $M$, it holds that $A_i(M,M) = A_i(M,M^\dagger) = \sum_{\substack{E \in \mathcal{E} \\ \wt(E) = i}} |\Tr(EM)|^2$. Since the orthogonal projection $P$ onto $C$ is hermitian,
@@ -705,18 +755,41 @@ it follows immediately that $A_i \geq 0$. Now for the relationship between $A_i,
 From our previous observation, and lemma \ref{expvalvec}, we get that
 \begin{equation} 0 \leq E[A_i(M_v,M_v)] \underbrace{=}_{\text{def.}} E[\frac{1}{K^2} \sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}} \Tr(\sigma M_v)^2] = \frac{1}{K^2}  \sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}} E[\Tr(\sigma |v\rangle \langle v| - \frac{1}{K} \sigma P)^2] \end{equation}
 \begin{equation} = \frac{1}{K^2(K+1)}(\frac{1}{K} \sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}}  \Tr(\sigma P \sigma^\dagger P) - \frac{1}{K^2}\sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}} |\Tr(\sigma P)|^2) = \frac{1}{K^2(K+1)} (B_i(P,P) - A_i(P,P)) \end{equation}
-Where in order to use lemma \ref{expvalvec} we examine, that the expressions under the modulus are real, since the operators are hermitian. Further we note that $A_i = B_i$ iff $E[\Tr (\langle v | \sigma |v \rangle) - \frac{1}{K} \Tr(\sigma P)] = 0$ for all $\sigma \in \E$.
-FIXME: finish!
-This proof transfers to the rains enumerators directly thanks to theorem \ref{expectedvalues}.
+Where in order to use lemma \ref{expvalvec} we examine, that the expressions under the modulus are real, since the operators are hermitian. Further we note that $A_i = B_i$ iff $E[\Tr (\langle v | \sigma |v \rangle) - \frac{1}{K} \Tr(\sigma P)] = 0$ for all $\sigma \in \E$ with $\wt(\sigma) = i$.
+Since this condition is linear, it holds for the span of $\{ \sigma \in \E \mid \wt(\sigma) = i \}$ which includes all $i$-qubit errors, i.e. all unitary operators whose support is exactly $i$ qubits.
+The condition $E(\langle v | U_i | v \rangle - \frac{1}{K}\Tr(U_i P)) = 0$ for all $i$-qubit errors $U_i$ can be seen, using lemma \ref{expvalproj}, as the variance of the random variable $ \langle v | U_i | v \rangle  = \Tr(\langle v | U_i | v \rangle) = \Tr( U_i | v \rangle \langle v |)$.
+Thus, this variance is zero if and only if the random variable is constant, which means that for all $ |v_0 \rangle, |v'_0 \rangle \in C$ with $\langle v_0 | v_0 \rangle = \langle v'_0 | v'_0 \rangle = 1$ it holds that $\langle v_0 | U_i | v_0 \rangle = \langle v'_0 | U_i | v'_0 \rangle$.
+But this is exactly definition \ref{distgeneral}. This proof transfers to the rains enumerators directly thanks to theorem \ref{expectedvalues}.
 
 \end{proof}
 
 \end{theorem}
 
 With this results we can see the usefulness of the weight enumerators. Since any quantum code must have a weight enumerator, an we have conditions it has to follow, we can get bounds on the minimal distance or on the dimension for a given number of qubits using these conditions.
+This proceding is inspired by classical coding theory, which also gives a theorem for additive codes:
+
+\begin{defn}
+Let $n \in \N, j \in \n$. We define the Krawtchouk polynomials $P_j(x,n)$ as follows: 
+\begin{equation}
+P_j(x,n) := \sum_{s=0}^j (-1)^s 3^{j-s} \binom{x}{s}\binom{n-x}{j-s}
+\end{equation}
+\end{defn}
 
 \begin{theorem}[LP bounds for additive codes]\label{lpadditive}
-Let $C$ be an additive $[[n,k,d]]$ code and $A_i, i = 0 \ldots n$ be the Shor-Laflamme weight enumerator of $C$. Then, the coefficients of the weight enumerator have to satisfy the following
+Let $C$ be an additive $[[n,k,d]]$ code and $A_i, i = 0 \ldots n$ be the Shor-Laflamme weight enumerator of $C$. Further let the associated $\F_4$ code have no vectors of weight 1.
+Further let $P_j(x,n)$ denote the Krawtchouk polynomials.  Then, the coefficients of the weight enumerator have to satisfy the following
+\begin{align} 
+A_0 = 1, A_1 = 0, A_j \geq 0 \text{ for all } j \in \{ 2,3, \ldots, n \} \\
+A_0 + A_1 + \ldots + A_n = 2^{n-k} \\
+A'_j := \frac{1}{2^{n-k}} \sum_{r = 0}^n P_j(r,n) A_r  \text{ for all } j \in \{ 0,1, \ldots, n \} \\
+A_j := A'_j \text{ for all } j \in \{0, \ldots, d-1 \}, A_j \leq A'_j \fa j \in \{d, \ldots, n \} \\
+\sum_{j=0}^{\floor{\frac{n}{2}}} A_{2j} = 2^{n-k-1} \text{ or } 2^{n-k} \\
+\frac{1}{2^{n-k-1}} \sum_{r=0}^n P_j(2r,n)A_{2r} \geq A'_j \fa j \in \n
+\end{align}
+
+A proof of this can be found in \cite{gf4}, and can be proved with classical coding theory. It will be omitted here since an analogous result for general quantum codes will be proven later.
+Note that the requirement of no vectors of weight 1 is not really much of a restriction: It can be proved (see \cite{gf4}) that if an $[[n,k,d]]$ code with vectors of weight 1 in the associated $\F_4$ exists,
+then also an $[[n-1,k,d]]$ code exists. In particular, for finding bounds we can safetely make this assumption.
 \end{theorem}
 
 With this we can get bounds on the distance $d$ for a given pair $n,k$ (the maximal number for which the system of equations on theorem \ref{lpadditive} have a solution), or bounds on the number of encoded qubits $k$, 
@@ -724,13 +797,148 @@ by maximizing $2^k = \sum_{i=0}^n A_i$ with the rest of the constraints given by
 This bounds hold for additive codes, but they are not strict for general quantum error correcting codes. The following is an example of a non-additive code that is strictly better than any additive code.
 
 \begin{ex}
-FiXME: non-additive code from paper
+According to theorem \ref{lpadditive} there is no additive $[[5,k,2]]$ code for $k > 2$, which means that 
+code space dimension for an additive code with $n=5$ qubits and minimal distance $d=2$ is bounded by $2^2 = 4$.
+There is, however, a $((5,6,2))$ code - which means there is strictly better than the $((5,4,2))$ bound for additive codes. 
+This code can be given explicitly, for example, by giving a projection operator onto it:
+\begin{align*}
+  P:= \frac{1}{16} [ 3 (I_2 \otimes I_2 \otimes I_2 \otimes I_2 \otimes I_2) + (I_2 \otimes Z \otimes Y \otimes Y \otimes Z)_\text{cyc} +  (I_2 \otimes X \otimes Z \otimes Z \otimes X)_\text{cyc} \\
+-  (I_2 \otimes Y \otimes X \otimes X \otimes Y)_\text{cyc} + 2  (Z \otimes X \otimes Y \otimes Y \otimes X)_\text{cyc} - 2 (Z \otimes Z \otimes Z \otimes Z \otimes Z)_\text{cyc}]
+\end{align*}
+
+Here, the subscript cyc denotes that it is the sum of all cyclic shifts of that element. A simple calculation lets us see that this is indeed a projection operator ($P^2 = P$) and since $\Tr(P) = 6$ it does project onto a $6$-dimensional subspace of $\C^{2^5}$.
+That it has minimal distance two can be seen from its weight enumerator, $A(x,y) =  x^5 + \frac{10}{6} xy^4 + \frac{8}{3} y^5$ using theorem \ref{distancenums}. For further properties of the code, see \cite{nonadditive}
 \end{ex}
 
 The main reason for introducing the Shor-Laflamme/Rains enumerators is generalizing the Hamming weight enumerator from additive codes to general quantum codes. In this way, we can get a result analogous to theorem \ref{lpadditive} which holds for any quantum code. 
 
-\begin{theorem}
-LP bound for general quantum codes
+\begin{theorem}[LP bound for general quantum codes]\label{lpgeneral}
+Let $C$ be a quantum $((n,K,d))$ code and let $\sum_{i=0}^n A_i x^{n-i} y^{i}$ be its (Shor-Laflamme) weight enumerator. Then the $A_i$ satisfy the following set of linear equations and inequalities:
+\begin{align}\label{lpgeneraleq}
+A_0 = 1, A_i \geq 0 \fa i \in \n \label{positivity}\\
+B_i := \frac{1}{K 2^{n}} \sum_{r=0}^n P_i(r,n) A_r  \label{macwill}\\
+A_i = B_i \fa i \in \{0, \ldots, d-1 \} \label{dist1}\\
+A_i \leq B_i \fa i \in \{d, \ldots, n \} \label{dist2}
+\end{align}
+\begin{proof}
+$A_0 = 1$ follows directly from the definition. Equations \ref{positivity}, \ref{dist1} and \ref{dist2} all follow from theorem \ref{distancenums}. 
+Equation \ref{macwill} is, of course, the MacWilliams transform (theorem \ref{theoremmacwilliams}). This can be seen immediately if we expand the terms on the MacWilliams transform:
+\begin{equation}
+A(x,y) = \dim (C) B(\frac{x+3y}{2},\frac{x-y}{2}) \Leftrightarrow B(x,y) = \frac{1}{K} A(\frac{x+3y}{2},\frac{x-y}{2}) 
+\end{equation}
+As can be seen with a simple variable substitution. Now, expanding the right hand side of the last equation yields:
+\begin{align}
+ \frac{1}{K} A(\frac{x+3y}{2},\frac{x-y}{2}) = \frac{1}{K} \sum_{r=0}^n  (\frac{x+3y}{2})^{n-r} (\frac{x-y}{2})^r A_i  = \frac{1}{2^n K} \sum_{r=0}^n (x+3y)^{n-r}(x-y)^r A_r  \notag \\
+ = \frac{1}{2^n K} \sum_{r=0}^n \sum_{j=0}^{n-r} \binom{n-r}{j}x^j(3y)^{n-r-j} \sum_{i=0}^r \binom{r}{i}(-1)^ix^iy^{r-i} A_r \notag \\
+ = \frac{1}{2^n K} \sum_{r=0}^n \sum_{i=0}^r \sum_{j=0}^{n-r} \binom{r}{i} \binom{n-r}{j} (-1)^i 3^{n-r-j} x^{i+j} y^{n-(i+j)} A_r
+\end{align}
+
+From this we can read $B_d$ as the coefficient of $x^{n-d}y^d$ to be the Krawtchouk polynomial.
+\end{theorem}
+
+\subsection{Shadow enumerators}
+
+Theorem \ref{lpgeneral} gives us a good start on finding bounds on the minimal distance or code space dimension for general quantum error correcting codes.
+The motivation for this theorem came from the hamming weight enumerators of classical coding theory. There is another enumerator on binary codes which has not been discused, that (as we will see) can also be generalized for quantum error correcting codes and gives even tighter bounds, namely, the shadow enumerator.
+
+\begin{defn}
+Let $C$ be an additive quantum code on $n$ qubits, and $S$ be the associated stabilizer group. We define the shadow of $C$ to be the set $S(C)$ of all $\sigma \in \E$ with $\langle \sigma, \sigma' \rangle \equiv wt(\sigma') (\text{mod }2) \fa \sigma' \in S$, where $\langle \cdot , \cdot \rangle$ denotes the trace inner product.
+The (hamming) weight enumerator of $S(C)$ we call the shadow enumerator of $C$, and denote it by $S(x,y)$.
+\end{defn}
+
+Just as for the enumerator of the dual code, there is a simple relationship relating the weight enumerator to the shadow enumerator, as the MacWilliams identity. For additive codes this is also very simple:
+
+\begin{prop}\label{macwillshadowstab}
+Let $C$ be an additive quantum code with associated stabilizer group $G$, then the (Shor-Laflamme) weight enumerator is related to the shadow enumerator in the following way:
+\begin{equation}
+S(x,y) = A(\frac{x+3y}{2},\frac{y-x}{2})
+\end{equation}
+\begin{proof}
+If $S$ has no elements of odd weight, then the assertion follows from the fact that $S(C) = G^\perp$ in this case, as can be seen from the definition of both. Since for a code with only even-weighted elements, the weight enumerator
+fulfils $A(x,y) = A(x,-y)$ we get the required identity from the MacWilliams transform. Hence, we assume $G$ has elements of odd weight.
+
+Define $G_0 \subset G$ as the subset of all elements of even weight. We know that $G$ is self-orthogonal with respect to the symplectic form given by the commutator. Applying this we get the following inclusions:
+\begin{equation}
+G_0 \subset G \subset G^\perp \subset G_0^\perp
+\end{equation}
+From the self-orthogonality we also get that $G_0$ is in fact subspace of $G$. Let $A^{(0)}, B^{(0)}$ be the (Shor-Laflamme) weight enumerators of $G_0$. 
+Now, consider $S(C) = \{ \sigma \in \E \mid \langle \sigma, \sigma' \rangle \equiv wt(\sigma') (\text{mod }2) \fa \sigma' \in G \} \subseteq G_0^\perp$.
+In fact, since for any $\sigma \in S(C), \sigma' \in G$ it has to hold that $\langle \sigma, \sigma' \rangle = 0$ if and only if $\sigma' \in G_0$, it turns out that
+$S(C)$ is exactly $G_0^\perp \backslash G^\perp$. Using the combinatorial intepretation of the weight enumerators (as hamming weight enumerators), we can thus express the shadow enumerator:
+\begin{equation}
+S(x,y) = B^{(0)}(x,y) - B(x,y) = A^{(0)}(\frac{x+3y}{2},\frac{x-y}{2}) - A(\frac{x+3y}{2},\frac{x-y}{2})
+\end{equation}
+On the other hand we see that $A(x,y) + A(x,-y) = 2A^{(0)}(x,y)$, as exactly the elements of even weight cancel out like this. This yields the required identity.
+\end{prop}
+
+As already mentioned, shadow enumerators can be generalized for any quantum code, just as the hamming weight enumerators were. The original article in which these were introduced, \cite{shadow}, includes a detailed discussion 
+of the steps taken to do this generalization, and the rationale behind it. Here, we will just present the finished generalization along with the important accompanying results. 
+
+\begin{defn}
+Let $M$ be a hermitian operator acting on $\C^{2^n}$, and let $M = \sum_{\sigma \in \E} c_\sigma \sigma$ be the decomposition in the basis $\E$.
+We define 
+\begin{equation}M^{(-)}:=  \sum_{\sigma \in \E} (-1)^{\wt(\sigma)} c_\sigma \sigma \end{equation}
+\end{defn}
+
+\begin{defn}
+Let $C$ be a quantum code on $n$ qubits and $P$ be the orthogonal projection operator onto $C$. We define the shadow enumerator coefficients 
+\begin{equation} S_d:= B_d(P,P^{(-)}) \end{equation}
+ and similarly the shadow enumerator polynomial as 
+\begin{equation} S(x,y):= \sum_{d=0}^n S_d x^{n-d} y^d \end{equation}
+Note that for any hermitian operator $M$, $M^{(-)}$ is also hermitian, and thus, the shadow enumerator is well defined.
+\end{defn}
+
+We also get a theorem analogous to prop. \ref{macwillshadowstab}. 
+
+\begin{theorem}\label{macwillshadow}
+Let $C$ be a $K$-dimensional quantum code on $n$ qubits, $P$ be the orthogonal projection operator onto $C$, and $A(x,y), S(x,y)$ be the (Shor-Laflamme) weight enumerator and shadow enumerator respectively. Then they are related by the following MacWilliams transform:
+\begin{equation}
+K S(x,y) = A(\frac{x+3y}{2},\frac{y-x}{2})
+\end{equation}
+\begin{proof}
+Consider the polynomial $W(x,y):= \sum_{d=0}^n A_d(P,P^{(-)})$. Note that though the MacWilliams transform, theorem \ref{theoremmacwilliams}, was stated explicitly for
+the projection operator onto a quantum code, the proof does holds the same for the enumerator coefficients with respect to any two hermitian operators.
+ Thus, by the MacWilliams transform we get that $KS(x,y) = W(\frac{x+3y}{2},\frac{x-y}{2})$. It is therefore sufficient to prove that $W(x,y) = A(x,-y)$. 
+Writing the coefficients explicitly we get the desired result:
+\begin{align*}
+ A_d(P,P^{(-)}) = \frac{1}{\Tr(P) \Tr(P^{(-)})} \sum_{\substack{\sigma \in \E \\ \wt(\sigma) = d}} \Tr(P \sigma) \Tr(P^{(-)} \sigma) \\
+= \frac{1}{\Tr(P) \Tr(P^{(-)})} \sum_{\substack{\sigma \in \E \\ \wt(\sigma) = d}} (-1)^d \Tr(P \sigma) \Tr(P \sigma) = (-1)^d A_d(P,P)
+\end{align*}
+\end{theorem}
+
+In the case of stabilizer codes we defined the shadow enumerators via a combinatorial identity, which also restricted many of their properties.
+Now we have properly generalized shadow codes and indentified the relationship to the (Shor-Laflamme) weight enumerators via a MacWilliams transform. We still have, however, no new information from these in the general case. 
+While these do not have to be integers in the general case, we can prove that they have to be nonnegative, which adds indeed new restrictions to the set of equations and inequalities. This is proven in the following theorem:
+
+\begin{theorem}\label{shadowgeq0}
+Let $C$ be a quantum code on $n$ qubits, and let $S(x,y)= \sum_{d=0}^n S_d x^{n-d} y^d $ be its shadow enumerator polynomial. Then \begin{equation} S_d \geq 0 \fa d \in \{0, \ldots, \n \} \end{equation}
+\begin{proof}
+It suffices to show that for the orthogonal projection operator $P$ onto $C$, $P^{(-)}$ is positive semi-definite. Indeed, for two hermitian, positive semi-definite operators $M,N$ with $\Tr(MN) \neq 0$ we always have that
+\begin{equation} B_d(M,N) = \frac{1}{\Tr(M N)} \sum_{\substack{E \in \mathcal{E} \\ \wt(E) = d}} \underbrace{(\Tr(M E N E^{-1}))}_{\geq 0} \end{equation}
+Now, to show that $P^{(-)}$ is positive definite, we can use the fact that for any hermitian operator $M$,  $M^{(-)} = Y^{\otimes n} \bar M Y^{\otimes n}$, where $\bar \cdot$ denotes the complex conjugate.
+Since $M$ is hermitian as are all $E \in \E$, the coefficients $c_E$ of the basis decomposition $M = \sum_{E \in \E} c_E E$ are all real, and thus it suffices to show this holds for $M \in \E$.
+For $M \in \E$, we have $ M^{(-)} = (-1)^{\wt M} M$. Since the products of elements in $\E$ can be computed 'qubit-wise', i.e. diagonally on the tensor product components, we can see what happens for each of $I_2, X, Y, Z$:
+$YI_2Y = Y^2 = I_2, YYY = Y^2 Y = Y$, so $I_2$ and $Y$ are invariant under conjugation with $Y$. $YXY = i^2 XZXXZ = -X, YZY = i^2 XZZXZ = -Z$, so $X$ and $Z$ have both change signs with the conjugation. 
+On the other hand, $X = \bar X$ and $Z = \bar Z$, but $Y = - \bar Y$, so that the equality holds for all cases. Since $Y^{\otimes n}$ is unitary, this means that $P^{(-)}$ is positive semi-definite, since $P$ is as a projection, which completes the proof.
+\end{proof}
+\end{theorem}
+
+
+With this result we can now refine theorem \ref{lpgeneral} to include the new inequalities, giving tighter bounds.
+
+\begin{theorem}[tighter LP bound for general quantum codes]
+Let $C$ be a quantum $((n,K,d))$ code and let $\sum_{i=0}^n A_i x^{n-i} y^{i}$ be its (Shor-Laflamme) weight enumerator. Then the $A_i$ satisfy the following set of linear equations and inequalities:
+\begin{align}
+A_0 = 1, A_i \geq 0 \fa i \in \n \\
+B_i := \frac{1}{K 2^{n}} \sum_{r=0}^n P_i(r,n) A_r \\
+A_i = B_i \fa i \in \{0, \ldots, d-1 \} \\
+A_i \leq B_i \fa i \in \{d, \ldots, n \} \\
+S_i := \frac{1}{K 2^{n}} \sum_{r=0}^n (-1)^r P_i(r,n) A_r \\
+S_i \geq 0 \fa i \in \{0, \ldots, n \}
+\end{align}
+\begin{proof}
+This is just theorem \ref{lpgeneral} enhanced by theorems \ref{macwillshadow} and \ref{shadowgeq0}.
+\end{proof}
 \end{theorem}
 
 \end{document}
