@@ -1,4 +1,6 @@
+\documentclass[12pt,a4paper,BCOR15mm,twoside,DIV12]{article}
 \documentclass{article}
+%\usepackage[paper=a4paper,left=20mm,right=20mm,top=25mm,bottom=25mm]{geometry}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -8,6 +10,7 @@
 \usepackage{amsthm}
 \usepackage{hyperref}
 \usepackage{graphicx, float,epsfig}
+\usepackage[nottoc,numbib]{tocbibind}
 
 \def\P{\mathcal{P}}
 \def\R{\mathbb{R}} 
@@ -33,7 +36,8 @@
 \def\H{\mathcal{H}}
 \def\wt{\text{wt}}
 \def\Perf{\text{Perf}}
-\usepackage[paper=a4paper,left=20mm,right=20mm,top=25mm,bottom=25mm]{geometry}
+
+
 \renewcommand{\labelenumi}{\alph{enumi})}
 %\renewcommand{\P}{\textfrak{P}}
 \newcommand{\cupdot}{\mathop{\mathaccent\cdot\cup}}
@@ -49,37 +53,121 @@
 \newtheorem{defn}[Satz]{Definition}
 \newtheorem{lem}[Satz]{Lemma}
 
-\title{Quantum Weight Enumerators of Stabilizer Codes}
+\title{On Weight Enumerators of Quantum Codes}
 \author{Andr\'{e}s Goens}
 \date{\today}
 \begin{document}
 
-Notational conventions
+\begin{titlepage}
+\clearpage
+\thispagestyle{empty}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.40\textwidth]{rwth_logo.jpg}
+\end{figure}
 
-\begin{itemize}
-\item $\mathcal{H}$ a complex Hilbert space
-\item $\Tr$ The trace of an endomorphism (or square matrix)
-\item $V \otimes W$ the tensor-product of $V$ and $W$. This will be treated as the Kronecker-Product on all finite dimensional vector spaces.
-\item $X, Y, Z$ Pauli matrices (see def. \ref{paulimat})
-\item $\mathcal{E}_n:= \{ \sigma_1 \otimes \ldots \otimes \sigma_n \text{, where }\sigma_i \in \{ I,X,Y,Z \} \fa i \in \n \}$.
-\item $D_n = \langle a, b \mid a^2 b^n (ab)^2 \rangle$ the dihedral group on a regular polygon with n sides.
-\item $V^*$: the dual space to $V$.
+\begin{center}
+\Large
+FAKULTAT FUR MATHEMATIK, INFORMATIK 
+UND NATURWISSENSCHAFTEN \\
+\vspace{1cm}
+\large
+RHEINISCH-WESTFALISCHE TECHNISCHE HOCHSCHULE AACHEN\\
+\vspace{1cm}
+Bachelorarbeit in Mathematik\\
+\vspace{1cm}
+\\
+im September 2012\\
+\vspace{1cm}
+\\
 
-\item $\Hom_{G}(A,B)$ the set of G-Homomorphisms from A to B (i.e., G-equivariant homomorphisms)
-\item $ G \wr H$ the wreath product of G and H
-\item $ \omega \in \F_4$ a root of $x^2 + x + 1 \in \F_2[x]$
-\item Im the image a mapping, Ker the kernel of a homomorphisms
-\item $\sigma_{\big| S}$ denotes $\sigma_{s_1} \otimes \ldots \otimes \sigma_{s_k}$, where $S = \{ s_1, \ldots, s_k \} \subseteq \n$ .
-\end{itemize}
+\LARGE
+\textbf{On Weight Enumerators of Quantum Codes} \\
+\vspace{2cm}
+\Large
+\\
+\Large
+Andr\'{e}s Wilhelm Goens Jokisch\\
+\vspace{3cm}
+LEHRSTUHL D FÜR MATHEMATIK
+\\
+Prof. Dr$.$ Gabriele Nebe
+\end{center}\
 
+\end{titlepage}
 \clearpage \newpage
+\thispagestyle{empty}
+\mbox{}
+\clearpage \newpage
+\newpage
+\thispagestyle{empty}
+Ich versichere, dass ich die Arbeit selbstständig verfasst und keine anderen als die 
+angegebenen Quellen und Hilfsmittel benutzt, sowie Zitate kenntlich gemacht habe. 
+\newline
+\newline
+\newline 
+\\
+\hfill Aachen, den 28. September 2012
+\\
+\clearpage \newpage
+\thispagestyle{empty}
+\mbox{}
+\clearpage \newpage
+\setcounter{page}{1}
 \tableofcontents
+\addcontentsline{toc}{section}{Table of Contents}
+\clearpage \newpage
+\section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
+Coding theory has played a very important role on the development of modern computers. If large-scale quantum computing is ever going to be possible, it is only plausible to assume that quantum codes will play a similar role. 
+In this thesis we will introduce the subject of quantum coding theory, and in an analogy to classical coding theory, we will develop the theory of quantum Weight Enumerators to get bounds for quantum error correcting codes. In Section 1 a few mathematical
+preliminaries will be treated: results that while are not part of the standard curriculum of mathematics, do not directly belong to quantum coding theory. As a bachelors thesis in mathematics, we will assume the reader has
+ no prior knowledge of quantum mechanics and the physical preliminaries, these will be therefore also covered. Section two will then follow and introduce quantum codes, explaining how coding, decoding and error detection and
+ correction should work in principle. Section 3 then goes on to introduce the quantum Weight Enumerators and a few properties of these, and Section 4 presents one of the main uses for them, which is that of finding bounds on the minimal
+distance or code space dimension for quantum error correcting codes. 
+
+\section*{Acknowledgements}
+\addcontentsline{toc}{section}{Acknowledgements}
+I want to thank Prof. Dr. Gabriele Nebe for all the patience she had with me for this thesis, and for all her help on it. 
 \clearpage \newpage
 
 \section{Preliminaries}
+The aim of this section is only to introduce the mathematical and physical preliminaries needed for the rest of the thesis, which thematically however, do not belong in the other chapters.
+\subsection{On Notational Conventions in this Thesis}\label{firstnotations}
 
-\subsection{ Remarks on linear algebra}
-Throughout this thesis we will focus mainly on groups acting on tensor product spaces of a particular finite-dimensional complex Hilbert space. Recall that a complex Hilbert space $\mathcal{H}$ is a complete complex vector space with a complex scalar product $\langle \cdot , \cdot \rangle$, i.e. a positive-definite, hermitian, bilinear form. Every finite dimensional complex vector space with a scalar product is complete, and as we will only work with such in these thesis, we need not worry about the completeness.
+Throughout this thesis we will use a few concepts for which there is not one single standard notation, or for which the notation is sometimes used elsewhere. To help clarify problems that might arise, 
+we will here note some of the most important of these notations. \\
+
+This thesis will use the so-called bra and ket notation: Let $\mathcal{H}$ be a finite-dimensional complex Hilbert space. We will denote elements of $\mathcal{H}$ as so-called kets: $|v \rangle \in \mathcal{H}$.
+For the scalar product of $|v \rangle, | w \rangle \in \mathcal{H}$ we will write $\langle v | w \rangle$. 
+The dual space of $\mathcal{H}$ (the space of linear forms), we will denote by $\mathcal{H}^* := \Hom(\mathcal{H},\C)$. Through the scalar product on $\mathcal{H}$ we get a canonical isomporhism from $\mathcal{H}$ to
+$\mathcal{H}^*$, which maps $\mathcal{H} \ni |v \rangle \mapsto (|w \rangle \mapsto \langle v | w \rangle) \in \mathcal{H}^*$ to the linear form given by taking the scalar product. We will identify $\mathcal{H}$ with
+$\mathcal{H}^*$ through this isomorphism and write the image of $|v \rangle \in \mathcal{H}$ under this isomorphism as $\langle v |$. Since by definition, applying the linear form on a vector $ | w \rangle \in \mathcal{H}$ 
+coincides with the scalar product, we will write both the same, leaving one of the $|$ characters which would correspond on the former: $ \langle v | w \rangle \equiv \langle v | | w \rangle := (\langle v |)(| w \rangle)$. 
+Since we are dealing with finite dimensional vectorspace, we will often explicitly use $\mathcal{H}:= \C^n$ for an integer $n$. In this case, we will think of the elements of $\mathcal{H}$ as column vectors, and will identify
+$\mathcal{H}^*$ with row vectors. The canonical isomorphism then becomes hermitian conjugation, i.e. transposition and complex conjugation. For a general complex $n \times m$ matrix $A \in \C^{n \times m}$ we will use the notation
+$A^\dagger$ to refer to the hermitian conjugate. \\
+
+A few further notational conventions adopted in this thesis are the following: 
+Let $V, W$ be vector spaces over a field $K$, and let $A$ be an endomorphism of $V$, i.e. a linear mapping $A \in \Hom_K(V,V)$
+\begin{itemize}
+\item By $\Tr(A)$ we denote the trace of the endomorphism $A$ (the same for a square matrix)
+\item By $V \otimes W$ we denote the tensor-product of $V$ and $W$. This will be treated as the Kronecker-Product on all finite dimensional vector spaces.
+\item Let $G$ be a group acting on $V$ and $W$. Through this, $V$ and $W$ become $KG$-Modules. We denote by $\Hom_{G}(V,W)$ the set of G-Homomorphisms from $V$ to $W$ (i.e., G-equivariant homomorphisms)
+\item We denote with Im$(A)$ the image the mapping $A$, Ker($A$) its kernel. The same notation will be used for other mappings where it makes sense.
+\end{itemize} \\
+
+Also, some group theoretical notational conventions we will assume:
+Let $G, H$ be two groups, and let $H$ act on the set $\Omega$. then we denote by $ G \wr_\Omega H$ the wreath product of G and H with respect to the action of $H$ on $\Omega$. When this action is clear from the context, we will omit it. 
+We will denote by $D_n = \langle a, b \mid a^2 b^n (ab)^2 \rangle$ the dihedral group on a regular polygon with n sides. \\
+
+Further, we will work with finite fields, which we will denote by $\F_{q}$ for a prime power $q$. For $q = 4$ we will fix the construction as $\F_2[x]/(x^2 + x + 1)$ and will use $ \omega \in \F_4$ to denote the residue class of $x$ modulo the ideal generated by $x^2 + x + 1$, i.e. 
+$\omega^2 + \omega + 1 = 0$ in $\F_4$. \\
+
+A list of these conventions and further ones introduced later can be found at the end of the thesis. 
+
+\subsection{ Remarks on Linear Algebra}
+Throughout this thesis we will focus mainly on tensor product spaces of a particular finite-dimensional complex Hilbert space. Recall that a complex Hilbert space $\mathcal{H}$ is a complete complex vector space with a complex scalar product $\langle \cdot , \cdot \rangle$, i.e. a positive-definite, hermitian, bilinear form. Every finite dimensional complex vector space with a scalar product is complete, and as we will only work with such in these thesis, we need not worry about the completeness.
 
 
 \begin{rem}
@@ -96,18 +184,22 @@ All of which immediately follow from the definition.
 \begin{defn}\label{traces}
 Let $V, W$ be finite-dimensional Hilbert spaces, and $A \in \text{End}(V), B \in \End(W)$ Hermitian. We define the partial trace of $A \otimes B$ over $W$ as $\Tr_W(A \otimes B) := \Tr(B) A$, and extend the definition linearly. Since the trace is linear, this is well defined.
 \end{defn}
-\begin{rem}
-With the notation from def. \ref{traces}, the partial trace of $A \in \End(V \otimes W)$ Hermitian, is the unique Hermitian operator $\Tr_W(A) \in \End(V)$ which satisfies:
+
+\begin{prop}
+With the notation from Def. \ref{traces}, the partial trace of $A \in \End(V \otimes W)$ Hermitian, is the unique Hermitian operator $\Tr_W(A) \in \End(V)$ which satisfies:
  \begin{equation} \Tr(A(B \otimes \Id_W)) = \Tr(\Tr_W(A)B) \fa B \in \End(V) \text{ Hermitian} \end{equation}
-Further for a Hilbert space with a particular decomposition $V_1 \otimes \ldots \otimes V_n, \text{e.g.} (\C^2)^{\otimes n} \text{with } V_i \cong \C^2 \, \fa \, i \, \in \n$, and $S \dot{\cup} S^c = \underline{n}, S = \{ s_1 < \ldots < s_j \}, S^c = \{ s^c_1 < \ldots < s^c_k \}$ we define $V_S := V_{s_1} \otimes \ldots \otimes V_{s_j}, V_{S^c} := V_{s^c_1} \otimes \ldots \otimes V_{s^c_k}$.
-And use $\Tr_S$  as a short notation for $\Tr_{V_S} : \End(V_1 \otimes \ldots \otimes V_n) \rightarrow \End(V_{S^c})$. Note that for $s_j \geq s_1^c$ this is not entirely correct, since we cannot write $V$ as $V_S \otimes V_{S^c}$, but we get a canonical isomorphism from reordering the tensor product components, and by abuse of notation we will always identify $V$ with its image under it, such that we can always write $V = V_S \otimes V_{S^c}$.
-With this notation, and the definition of the partial trace it is easy to see that $\Tr_{S \dot \cup S'}(A) = \Tr_S(\Tr_{S'}(A)) \fa S,S' \subseteq \n$ disjoint.
 \begin{proof}
 $ \Tr_W(A)$ is hermitian since $A$ already is. Let $ A = \sum_{i=1}^k V_i \otimes W_i$ with $V_i \in \End(V), W_i \in \End(W)$ Hermitian $\fa i \in \underline{k}$. Then $\Tr_W(A) = \sum_{i=1}^k \Tr(W_i) V_i$ satisfies  $\fa B \in \End(W) \text{Herm.}$:
-\[ \Tr(A(B \otimes \Id_W)) = \Tr( \sum_{i=1}^k V_i B \otimes W_i ) = \sum_{i=1}^k \Tr(V_i B) \Tr(W_i) = \Tr( \sum_{i=1}^k V_i B \Tr(W_i)) = \Tr( \Tr_W(A) B)\]
-Further is $\Tr_W(A)$ unique with this property, since the restriction of trace bilinear form to hermitian operators is non-degenerate. Assuming there is a $T \in \End(V)$ hermitian with $\Tr(TB) = Tr(A(B \otimes Id_W)) = \Tr(\Tr_W(A)B) \fa B \in \End(W) \text{Herm.}$, 
+\begin{align*} \Tr(A(B \otimes \Id_W)) = \Tr( \sum_{i=1}^k V_i B \otimes W_i ) \\ = \sum_{i=1}^k \Tr(V_i B) \Tr(W_i) = \Tr( \sum_{i=1}^k V_i B \Tr(W_i)) = \Tr( \Tr_W(A) B) \end{align*}
+Further is $\Tr_W(A)$ unique with this property, since the restriction of trace bilinear form to hermitian operators is non-degenerate. Assuming there is a $T \in \End(V)$ hermitian with $\Tr(TB) = Tr(A(B \otimes Id_W)) = \Tr(\Tr_W(A)B)$ for all $B \in \End(W) \text{Herm.}$, 
 then it follows that $\Tr( (T-\Tr_W(A)), B) = 0 \fa \text{ such } B$ which implies that $ T - \Tr_W(A) = 0$.
 \end{proof}
+\end{prop}
+
+\begin{rem}\label{rempartr}
+Let $\mathcal{H}$ be a Hilbert space with a particular decomposition $\mathcal{H} = V_1 \otimes \ldots \otimes V_n, \text{e.g.} (\C^2)^{\otimes n} \text{with } V_i \cong \C^2 \, \fa \, i \, \in \n$, and $S \dot{\cup} S^c = \underline{n}, S = \{ s_1 < \ldots < s_j \}, S^c = \{ s^c_1 < \ldots < s^c_k \}$ we define $V_S := V_{s_1} \otimes \ldots \otimes V_{s_j}, V_{S^c} := V_{s^c_1} \otimes \ldots \otimes V_{s^c_k}$.
+And use $\Tr_S$  as a short notation for $\Tr_{V_S} : \End(V_1 \otimes \ldots \otimes V_n) \rightarrow \End(V_{S^c})$. Note that for $s_j \geq s_1^c$ this is not entirely correct, since we cannot write $V$ as $V_S \otimes V_{S^c}$, but we get a canonical isomorphism from reordering the tensor product components, and by abuse of notation we will always identify $V$ with its image under it, such that we can always write $V = V_S \otimes V_{S^c}$.
+With this notation, and the definition of the partial trace it is easy to see that $\Tr_{S \dot \cup S'}(A) = \Tr_S(\Tr_{S'}(A)) \fa S,S' \subseteq \n$ disjoint.
 \end{rem}
 
 \subsection{The Pauli Group}
@@ -124,7 +216,7 @@ The Pauli matrices, or Pauli operators on $\C^2$ are defined by:
 
 
 
-We denote with \begin{equation} \mathcal{E}_n:= \{ \sigma_1 \otimes \ldots \otimes \sigma_n \text{, where }\sigma_i \in \{ I,X,Y,Z \} \fa i \in \n \} \subseteq \End((\C^2)^{\otimes n}):= \End( \underbrace{\C^2 \otimes \C^2}_\text{ n times}) \end{equation}
+We denote with \begin{align*} \mathcal{E}_n:= \{ \sigma_1 \otimes \ldots \otimes \sigma_n \text{, where }\sigma_i \in \{ I,X,Y,Z \} \fa i \in \n \} \\ \subseteq \End((\C^2)^{\otimes n}):= \End( \underbrace{\C^2 \otimes \cdot \otimes \C^2}_\text{ n times}) \end{align*}
 the set of all so-called Pauli operators, and by $\mathcal{P}_n:= \langle \mathcal{E} \rangle \leq \GL_n(\C)$, we denote the generated subgroup, which we will call the Pauli group on n qubits. 
 \end{defn}
 
@@ -162,13 +254,12 @@ The set $\{ \Id, X, Y, Z \}$ is linearly independent and thus forms a basis of $
 \end{prop}
 
 \begin{rem}\label{symplecticnotation}
-Let $G = \P_n$, $G \ni g = i^k X_1^{a_1}\ldots X_n^{a_n} Y_1^{b_1} \ldots Y_n^{b_n}, k \in \underline{4}, a_i, b_i \in \{0,1\} \fa i \in \n$. Note that by prop. \ref{pauliprops} every element in G can be written than way. Then an $\F_2$ isomorphism $\varphi : G/G' \rightarrow \F_2^{2n}$ is given by:
+Let $G = \P_n$, $G \ni g = i^k X_1^{a_1}\ldots X_n^{a_n} Y_1^{b_1} \ldots Y_n^{b_n}, k \in \underline{4}, a_i, b_i \in \{0,1\} \fa i \in \n$. Note that by Prop. \ref{pauliprops} every element in G can be written than way. Then an $\F_2$ isomorphism $\varphi : G/G' \rightarrow \F_2^{2n}$ is given by:
 \[ \varphi (g = i^k X_1^{a_1}\ldots X_n^{a_n} Y_1^{b_1} \ldots Y_n^{b_n}) = (a_1, \ldots, a_n, b_1, \ldots, b_n) \in \F_2^{2n} \]
 The image under $\varphi$ is sometimes referred to as symplectic notation.
 Further let $\F_4 = \F_2[\omega]$, with $\omega^2 + \omega + 1 = 0$, equipped with the $\F_2$-symplectic form $ (x,y) \mapsto \Tr(x \bar y)$, where $ (x \mapsto \bar x)$ denotes the Galois automorphism from $\F_4$: $(x \mapsto x^2)$.
 Note that since $\Tr(x \bar y) = \bar{(x \bar y)} + \bar{\bar{(x \bar y)}} = x^2y + xy^2 = xy^2 + x^2y = \Tr(y \bar x) (= - \Tr(y \bar x))$ this is indeed a symplectic form.
-Then we can identify $\F_2^{2n} \cong_{\F_2} \F_4^n$ in a canonical way with respect to the symplectic notation: $(a_1, \ldots, a_n, b_1, \ldots, b_n) \mapsto (\omega a_1 + \bar \omega b_1, \ldots, \omega a_n + \bar \omega b_n)$
-, and call the resulting isomorphism $\tilde \varphi$. $\tilde \varphi$ is an isometry with respect to the commutator and the $\F_2$-symplectic form on $\F_4$. 
+Then we can identify $\F_2^{2n} \cong_{\F_2} \F_4^n$ in a canonical way with respect to the symplectic notation: $(a_1, \ldots, a_n, b_1, \ldots, b_n) \mapsto (\omega a_1 + \bar \omega b_1, \ldots, \omega a_n + \bar \omega b_n)$. The isomorphism given by the composition of these two we denote by $\tilde \varphi$. $\tilde \varphi$ is an isometry with respect to the commutator and the $\F_2$-symplectic form on $\F_4$. 
 \end{rem}
 
 
@@ -176,10 +267,10 @@ Then we can identify $\F_2^{2n} \cong_{\F_2} \F_4^n$ in a canonical way with res
 \subsection{Random Unitary Matrices}
 
 \begin{theorem}[Haar Measure]
-Let $\U := \U_n(\C)$ denote the group of unitary $n \times n$ matrices over the complex field $\C$. 
-Then there exists a unique measure $\mu$ on $\U$, called the Haar measure, which satisfies the following:
+Let $\U := \U_n(\C)$ denote the group of unitary $n \times n$ matrices over the complex field $\C$. With respect to the topology induced by the norm on $\C^{n \times n} \cong \C^{n^2}$, $\U$ becomes a (compact) topological group:
+the multiplication and inversion mappings are continuous. There exists a unique measure $\mu$ on $\U$, called the Haar measure, which satisfies the following:
 \begin{itemize}
-\item $\mu$ is a countably additive, non-trivial measure on the Borel subsets of $\U$ (i.e. on the $\sigma-$Algebra generated by the open subsets of $\U$). 
+\item $\mu$ is a countably additive, non-trivial measure on the Borel subsets of $\U$ (i.e. on the $\sigma-$algebra generated by the open subsets of $\U$). 
 \item $\mu(\U) = 1$
 \item $\mu(gEh) = \mu(E)$ for all Borel sets $E \subseteq \U$, and for all $g,h \in \U$. 
 \end{itemize}
@@ -188,9 +279,10 @@ This last property is usually referred to as (left and right) translation invari
 A proof can be found in \cite{halmos}.
 \end{theorem}
 
-\begin{rem}
+\begin{rem}\label{remrandommatrix}
 The Haar measure makes the group of unitary $n \times n$ matrices $\U:=\U_n(\C)$ over $\C$ with its Borel sets into a measurable space, and through it, all familiar concepts of stochastics carry over.
 Since the Haar measure is translation invariant it is in particular uniform on $\U$, and thus we can interpret the identity mapping on $\U$ as a random, uniformly distributed unitary matrix.
+In the following, for simplicity, we will say "Let $U$ be a uniformly distributed random unitary matrix" as an abuse of notation for saying: Let $U: \U \rightarrow \U, u \mapsto u$ be the identity mapping on the measurable space $\U$ as a random variable.
 The expected value of a measurable function $f$ on $\U$ can thus be explicitly be calculated through a Lebesgue integral: 
 \begin{equation}
 E(f) = \int_{\U} f(x) d\mu(x)
@@ -198,12 +290,12 @@ E(f) = \int_{\U} f(x) d\mu(x)
 \end{rem}
 
 \begin{lem}\label{homiso}
-Let V be a finite dimensional $\C$ vector space and $V^*$ its dual space. Further let $G$ be the unitary group acting on $V$. Then \begin{equation} \Hom_{G}(V \otimes V^*, \C) \cong \Hom_{G}(V,V) \end{equation} as vector spaces, where G acts diagonally on $V \otimes V^*$.
+Let $G$ be a group and let $V$ be a $\C G$ module, finite dimensional as a $\C$ vector space. Further let $V^*$ be its dual space. Then \begin{equation} \Hom_{G}(V \otimes V^*, \C) \cong \Hom_{G}(V,V) \end{equation} as vector spaces, where G acts on $V^*$ through $g \cdot f := f \circ g^{-1}$ for all $f \in V^*, g \in G$, and it acts diagonally on $V \otimes V^*$.
 \begin{proof}
 We fix a $\C$ basis $e_1, \ldots, e_n$ of $V$. With respect to this basis we see that both are basically just $n \times n$ matrices, and we get an isomorphism easily: 
 \begin{equation}\label{isohomiso} \End_G(V,V) \ni (e_i \mapsto \sum_{j=0}^n a_{i,j}e_j) \mapsto \sum_{i,j=0}^n a_{i,j} (e_i \otimes e^*_j)^* \in \Hom_G((V \otimes V^*),\C) \end{equation}
-This linear mapping is well defined, since the condition of being $G$-equivariant translates to the set of linear equations on the coefficients $a_{i,j}$ given by the fact that the mapping described by $a_{i,j}$ has to commute with all
-representation matrices given by the action of $G$ on $V$ with respect to the basis $e_1, \ldots, e_n$. From equation \ref{isohomiso} we can immediately see the inverse mapping, which implies bijectivity.
+From Equation \ref{isohomiso} we can immediately see the inverse mapping, which implies bijectivity. It only remains to prove that this linear mapping is well defined. This is the case since the condition of being $G$-equivariant translates to the set of linear equations on the coefficients $a_{i,j}$ given by the fact that the mapping described by $a_{i,j}$ has to commute with all
+representation matrices given by the action of $G$ on $V$ with respect to the basis $e_1, \ldots, e_n$. 
 %% Since $End(V) \cong V \otimes V^*$ we will identify them with each-other and in particular, not distinguish between $\Hom( End(V), \C)$ and $\Hom(V \otimes V^*, \C)$.
 %% Let $\varphi \in \Hom_G(V , V)$. Then define $\eta(\varphi)( v \otimes \alpha) := \alpha(\varphi(v)) \fa v \otimes \alpha \in V \otimes V^*$ and extend it linearly to $V \otimes V^*$. It is easy to see that $\eta$ is a well-defined as a vector space homomorphism (linear mapping), since Im($\eta$) is G-equivariant.
 %% If $\alpha (\varphi(v)) = 0 \fa v \in V, \alpha \in V^*$ it follows that $\varphi = 0$, and hence $\eta$ is injective. Let $f: V \otimes V^* \rightarrow \C$ be a G-equivariant linear mapping. Then $f$ is fully characterized by the image of elements of the form $v \otimes \alpha$, $v \in V, \alpha \in V^*$... finish me...!
@@ -211,7 +303,7 @@ representation matrices given by the action of $G$ on $V$ with respect to the ba
 \end{lem}
 
 \begin{theorem}
-Let $U$ be a random unitary $n \times n$ matrix over $\C$ and $A,B \in \C^{n \times n}$, and let $\U := \U_n(\C)$ be the set of unitary $n \times n$ matrices. Then:
+Let $U$ be a random unitary $n \times n$ matrix over $\C$ (see Remark \ref{remrandommatrix}) and $A,B \in \C^{n \times n}$, and let $\U := \U_n(\C)$ be the set of unitary $n \times n$ matrices. Then:
 
 \begin{equation}\label{fact2} %% as referred to by rains in his paper
 E(UAU^\dagger) = \frac{1}{n} \Tr(A) I_n
@@ -225,26 +317,28 @@ Where $E$ is the expected value and $I_n$ denotes the unit matrix $\in \C^{n \ti
 
 \begin{proof}
 
-For the first one (eqn. \ref{fact2}) we note that $\text{for }W \in \U_n(\C):$
- \begin{equation}  W E(UAU^{\dagger}) W^\dagger = W \int_{\U} ( U A  U^\dagger) d \mu (U) W^\dagger = \int_{\U} (WU) A (WU)^\dagger d \mu (WU) = E(UAU^\dagger) \end{equation}, where in the second equality we used the fact that $\mu$ is translation invariant.
+For the first one (Eqn. \ref{fact2}) we note that $\text{for }W \in \U_n(\C):$
+ \begin{align}  W E(UAU^{\dagger}) W^\dagger = W \int_{\U} ( U A  U^\dagger) d \mu (U) W^\dagger \notag \\ = \int_{\U} (WU) A (WU)^\dagger d \mu (WU) = E(UAU^\dagger), \end{align}
+ where in the second equality we used the fact that $\mu$ is translation invariant.
 In particular, $[E(UAU^\dagger), \U_n] = \{ I_n \}$, and since $\U_n$ is an irreducible representation of itself, it contains a $\C$ basis for $\C^{n \times n}$ (for example, the set $\E$ of Pauli operators), which means that $E(UAU^\dagger) \in \{ \lambda I_n \mid \lambda \in \C \}$, since it has to commute with every matrix in $\C^{n \times n}$.
 
-Further we note that the mapping \[ \varphi: \C^{n \times n} \rightarrow \C I_n, A \mapsto E(UAU^\dagger) \] is a $\C$-linear, $\U_n$-equivariant mapping, i.e. $\varphi \in \Hom_{\U_n}(\C^n \otimes (\C^n)^*, \C) \cong Hom_{\U_n}(V,V)$ by lemma \ref{homiso}. Since $\U_n$ is transitive on $V \backslash \{ 0 \}$, $\dim_\C (Hom_{\U_n}(V,V)) = 1$, and thus $\Hom_{\U_n}(\C^n \otimes (\C^n)^*, \C)$ is also 1-dimensional.
-Since $\Tr$ is a $\U_n$-equivariant, non-trivial homomorphism, it follows that $\Hom_{\U_n}(\C^n \otimes (\C^n)^*, \C) = \langle \Tr \rangle_\C$, and in particular, $\varphi = \lambda \Tr$, for some $\lambda \in \C$. That $\lambda = \frac 1 n$ follows immediately from $E(U I_n U^\dagger) = I_n = \lambda \Tr(I_n) I_n = \lambda n I_n$.
+Further we note that the mapping \[ \varphi: \C^{n \times n} \rightarrow \C I_n, A \mapsto E(UAU^\dagger) \] is a $\C$-linear, $\U_n$-equivariant mapping, i.e. $\varphi \in \Hom_{\U_n}(\C^n \otimes (\C^n)^*, \C) \cong \Hom_{\U_n}(V,V)$ by Lemma \ref{homiso}. Since $\U_n$ is transitive on $V \backslash \{ 0 \}$, $\dim_\C (\Hom_{\U_n}(V,V))$ \\$ = 1$, and thus $\Hom_{\U_n}(\C^n \otimes (\C^n)^*, \C)$ is also 1-dimensional.
+Since $\Tr$ is a $\U_n$-equivariant, non-trivial homomorphism, it follows that \\$\Hom_{\U_n}(\C^n \otimes (\C^n)^*, \C) = \langle \Tr \rangle_\C$, and in particular, $\varphi = \lambda \Tr$, for some $\lambda \in \C$. That $\lambda = \frac 1 n$ follows immediately from $E(U I_n U^\dagger) = I_n = \lambda \Tr(I_n) I_n = \lambda n I_n$.
 
-For equation \ref{fact1} we consider the mapping \[ \psi: \C^{n \times n} \times  \C^{n \times n} \rightarrow \C, (A,B) \mapsto  E(\Tr(AU)\Tr(B U^\dagger)) \]
-Since both the trace and the Lebesgue integral are linear mappings, it follows that $\psi$ is a bilinear mapping. There are two crucial observations to complete the proof. First, $\psi( \cdot, I_n) \in \Hom_{\U_n}(\C^n \otimes (\C^n)^*, \C)$ and, by the same argument as above, there exists a $\lambda \in \C$ such, that $\psi(A,I_n) = \lambda \Tr(A) \fa A \in \C^{n \times n}$.
+For Equation \ref{fact1} we consider the mapping \[ \psi: \C^{n \times n} \times  \C^{n \times n} \rightarrow \C, (A,B) \mapsto  E(\Tr(AU)\Tr(B U^\dagger)) \]
+Since both the trace and the Lebesgue integral are linear mappings, it follows that $\psi$ is a bilinear mapping. There are two crucial observations to complete the proof. First, the mapping $\psi( \cdot, I_n): \C \otimes (\C^n)^* \rightarrow \C, A \mapsto \psi(A,I_n)$ is an $\U_n$-equivariant linear form: $\psi( \cdot, I_n):  \in \Hom_{\U_n}(\C^n \otimes (\C^n)^*, \C)$ and, by the same argument as above, there exists a $\lambda \in \C$ such, that $\psi(A,I_n) = \lambda \Tr(A) \fa A \in \C^{n \times n}$.
 On the other hand, for $A \in \C^{n \times n}, B \in \E$ 
-\begin{equation} \psi(A,B) = \int_{\U_n} \Tr(AU) \Tr(BU^\dagger) d \mu(U) = \int_{\U_n} \underbrace{\Tr(AU)}_{= \Tr (ABBU)} \underbrace{\Tr(B U^\dagger)}_{= \Tr( (BU)^\dagger)} d \mu(BU) = \int_{\U_n} \Tr(AB U) \Tr(I_n U^\dagger) d \mu(U) = \psi(AB,I_n) \end{equation}
-Since $B = B^\dagger = B^{-1} \fa B \in \E \subseteq \U_n$. But $ \langle \E \rangle_\C = \C^{n \times n}$, so it holds for all $B \in \C^{n \times n}$ from the bilinearity of $\psi$. That $\lambda = \frac 1 n$ follows again from $\psi(I_n,I_n) = \int_{\U_n} \Tr(U) \Tr(U^{\dagger}) d \mu (U) = 1$, by a generalization of the Schur orthogonality relations for characters, see for example \cite{fixme}
+\begin{align*} \psi(A,B) = \int_{\U_n} \Tr(AU) \Tr(BU^\dagger) d \mu(U) = \int_{\U_n} \underbrace{\Tr(AU)}_{= \Tr (ABBU)} \underbrace{\Tr(B U^\dagger)}_{= \Tr( (BU)^\dagger)} d \mu(BU) \\ = \int_{\U_n} \Tr(AB U) \Tr(I_n U^\dagger) d \mu(U) = \psi(AB,I_n) \end{align*}
+Since $B = B^\dagger = B^{-1} \fa B \in \E \subseteq \U_n$. But $ \langle \E \rangle_\C = \C^{n \times n}$, so it holds for all $B \in \C^{n \times n}$ from the bilinearity of $\psi$. That $\lambda = \frac 1 n$ follows again from $\psi(I_n,I_n) = \int_{\U_n} \Tr(U) \Tr(U^{\dagger}) d \mu (U) = 1$, by a generalization of the Schur orthogonality relations for characters, see for example 5.8 in \cite{harmana}
 \end{proof}
 \end{theorem}
 
-\subsection{Physical background: The postulates of quantum mechanics}
+\subsection{Physical Background: the Postulates of Quantum Mechanics}
 
 The motivation for studying quantum codes comes obviously from physics. To better understand quantum codes, it might therefore be a sensible thing to study the basic mathematical foundations of quantum mechanics. 
-Quantum mechanics is a mathematical framework for describing physical phenomena, and can be given an axiomatic basis: this basis is usually referred to as 'the postulates of quantum mechanics'. The following formulation is mainly based on \cite{NC}, section 2.2. 
-\\ \textbf{The postulates of Quantum Mechanics} \\
+Quantum mechanics is a mathematical framework for describing physical phenomena, and can be given an axiomatic basis: this basis is usually referred to as 'the postulates of quantum mechanics'. The following formulation is mainly based on Section 2.2. of \cite{NC}. \\
+
+\subsubsection*{The postulates of Quantum Mechanics}
 \begin{enumerate}
 \item Every isolated physical system $S$ is described by a tuple $(\H, \varphi)$, where $\H$ is a complex Hilbert space, called the state space of $S$, and $\varphi: \R \rightarrow \U(\H), t \mapsto U_t$ a group homomorphism of $(\R, +)$ in the unitary group of $\H$ is the mapping that gives the time evolution of the system. The concrete state of the space is described by a family of unit vectors $\{ | \psi_t \rangle \mid t \in \R \}$, related by $| \psi_t \rangle = U_t U_{t'}^{-1} | \psi_{t'} \rangle \fa t,t' \in \R$. Alternatively the system can be seen as described by the projective space of $\H$. In this thesis $\H$ will always be finite-dimensional, but the formalism does not require it to be.
 \item A measurement made on the system is described by a collection $\{ M_m | m \in I \} \subseteq End(\H)$ of operators, where $I$ is some countable index set which represents the possible outcomes of the measurement. For a system in a state $| \psi \rangle$, the probability of measuring $m \in I$, $p(m)$ is given by $p(m) = \langle \psi | M_m^\dagger M_m | \psi \rangle$, and after a measurement with outcome $m \in I$ the system is in the state $\frac{1}{|| M_m | \psi \rangle ||} M_m | \psi \rangle$. Further, the set of measurement operators has to satisfy: $\sum_{m \in I} M_m^\dagger M_m = \Id_\H$, which basically means that $\sum_{m \in I} p(m) = 1$.
@@ -252,14 +346,16 @@ Quantum mechanics is a mathematical framework for describing physical phenomena,
 \end{enumerate}
 
 \begin{rem}
-One does not have to think long to perceive an (apparent?) inconsistency in the postulates. The universe itself should be a closed quantum system, which means that the time evolution of the whole universe should be uniquely determined by it's starting state by the 1. postulate. But the 2. postulate states that a measurement has an inherent probabilistic behavior, which is inconsistent with this. This problem is called the measurement problem, and is in the end rather a philosophical problem, which is why we will not further pursue it in this thesis.
+One does not have to think long to perceive an (apparent?) inconsistency in the postulates. The universe itself should be a closed quantum system, which means that the time evolution of the whole universe should be uniquely determined by it's starting state by the 1. postulate. But the 2. postulate states that a measurement has an inherent probabilistic behavior, which is inconsistent with this. This problem is called the measurement problem, and is in the end rather of philosophical nature, which is why we will not further pursue it in this thesis.
 \end{rem}
 
 \clearpage \newpage
 \section{Qubits and Quantum Codes}
 
+With the required mathematical and physical preliminares, we can now turn our attention to quantum coding theory. We will now introduce the subject, and a few of the more important results or families of codes.
+
 \begin{defn}
-A qubit is a two dimensional complex Hilbert space, $(\C^2, < \cdot , \cdot >)$. It is an abstraction of a two state quantum system, whose physical realization we disregard. For convention we will fix an orthonormal basis of $\C^2$ and call the two vectors $|0\rangle$ and $|1\rangle$ in analogy to the two states of a bit, 0 and 1. 
+A qubit is a two dimensional complex Hilbert space $\mathcal{H} = (\C^2, < \cdot , \cdot >)$. It is an abstraction of a two state quantum system, whose physical realization we disregard. For convention we will fix an orthonormal basis of $\C^2$ and call the two vectors $|0\rangle$ and $|1\rangle$ in analogy to the two states of a bit, 0 and 1. 
 \end{defn}
 
 \begin{rem}
@@ -267,17 +363,17 @@ A many qubit system is, as by the postulates of quantum mechanics, described by 
 \end{rem}
 
 \begin{defn}
-A quantum code $\mathcal{C}$ is a (linear) subspace of an n-qubit space $\C^{2^n}$. If the code is a $2^k$ dimensional subspace of $\C^{2^n}$ for some integer $k \leq n$, then we call the code $\mathcal{C}$ an $[[n,k]]$-Code. In this case there is a bijective linear mapping from a $k$-qubit system to the code $\mathcal{C}$. We say the code encodes $k$ qubits in $n$ qubits.
+A quantum code $\mathcal{C}$ is a (linear) subspace of an n-qubit space $\C^{2^n}$. If the code is a $2^k$ dimensional subspace of $\C^{2^n}$ for some integer $k \leq n$, then we call the code $\mathcal{C}$ an $[[n,k]]$-Code. In this case there is a bijective linear mapping from a $k$-qubit system to the code $\mathcal{C}$. We say the code encodes $k$ qubits in $n$ qubits. For a general $K$-dimensional code on $n$ qubits, we say it is an $((n,K))$ code.
 \end{defn}
 
 
-\subsection{Error correction}
+\subsection{Error Correction}
 
 
 So, how does quantum error correction work? We will describe the basic theory of quantum error correction in analogy to the classical theory of linear codes. In particular, we will develop it in this section based on the very simple example of the [3,1,3] binary linear code $ 0 \mapsto 000, 1 \mapsto 111$ (repetition code).
 
 By the postulates of quantum mechanics, errors (possible time-evolutions of the physical space) are given by elements of the Unitary group on $\mathcal{H}$, which for this case is the group $\mathcal{U}_{2^n}(\C)$.
-Because of its many useful properties, we will first consider the Pauli operators ($\E$) as errors. These are, in particular, a unitary, hermitian basis of $\End(\H)$. There is also a very good physical motivation for choosing the Pauli operators, since these are closely related to the spin of the system.
+Because of its many useful properties, we will first consider the Pauli operators ($\E_n$) as errors. These are, in particular, a unitary, hermitian basis of $\End(\H)$. There is also a very good physical motivation for choosing the Pauli operators, since these are closely related to the spin of the system.
 
 \begin{ex} \label{repetitionqubits}
 
@@ -289,10 +385,13 @@ Because of its many useful properties, we will first consider the Pauli operator
   And just as in the classical analog, we can see this (assuming only one $X_i$ error) can only have been $|000 \rangle$. It is not difficult to see that this code will protect from a single $X_i$ error on an arbitrary qubit.
   Simple, right? The problem is, we have to measure in some way the state of the code in order to find out what the state is and what error happened. Fortunately, there is a way of covering all 'bit flip' $(X_i)$ errors with a measurement:
   Define the following measurement operators: 
-  \[ P_0 := |000\rangle \langle 000 | + |111\rangle \langle 111 | \text{,    } P_1 := |100\rangle \langle 100 | + |011\rangle \langle 011 | \]
-  \[ P_2 := |010\rangle \langle 010 | + |101\rangle \langle 101 | \text{,    } P_3 := |001\rangle \langle 001 | + |110\rangle \langle 110 | \]
+  \[ P_\emptyset := |000\rangle \langle 000 | + |111\rangle \langle 111 | \text{,    } P_{\{1\}} := |100\rangle \langle 100 | + |011\rangle \langle 011 | \]
+  \[ P_{\{2\}} := |010\rangle \langle 010 | + |101\rangle \langle 101 | \text{,    } P_{\{3\}} := |001\rangle \langle 001 | + |110\rangle \langle 110 | \]
 
-  From the operators themselves it is easy to see that a measurement in this basis will immediately identify if exactly one 'bit flip' error (but nothing else) has happened, and leave everything as it is.
+  These operators satisfy the requirements for the measurement postulate, so they represent a measurement of a physical quantity whose values are the indices of the measurement operators. These have been chosen to be the support of the error for simplicity,
+so what this means is that measuring the quantity described by this set of operators will give as a result the support of the error, assuming at most a single $X_i$ error. In our example where the recieved message is $ |010 \rangle$, 
+we see that by the postulates, the result of the measurement is going to be $\{2 \}$ with probability $p(\{2 \}) = \langle 010 | P_{\{2\}}^\dagger P_{\{2\}} | 010 \rangle = \langle 010 | 010 \rangle = 1$, and all the other possibilities with probability $p(m) = 0, m \in \{ \{1 \}, \{3 \}, \emptyset \}$.
+A close inspection of the operators then makes it clear that if exactly one 'bit flip' error (but nothing else) has happened, this measurement will identify the error with $100\%$ probability and leave everything as it is.
 \end{ex}
 
   This example also shows another point where the analogies to classical codes have its limits: any unitary operator could be an error on the qubits.
@@ -304,12 +403,12 @@ We can modify the code to detect phase flip ($Z_i$) errors: We have seen that th
 With this in mind, it is not difficult to see why coding $ |0\rangle \mapsto | +++ \rangle$,  $|1 \rangle \mapsto | --- \rangle$ would be a good idea. If we make the same measurement as above, but in the $ | + \rangle, | - \rangle$ basis instead, 
 a phase flip would be the same as a bit flip in that basis, and would be detected. It can be immediately checked that the operator \[ H = \frac{1}{\sqrt{2}} \left[ \begin{array}{cc}
  1 & 1 \\
- 1 & -1 \end{array} \right] \] also called a Haddamard gate, takes $ (|0\rangle, |1\rangle) \mapsto (|+\rangle , | - \rangle )$. So the measurement operators would be $ H P_i H^\dagger = H P_i H, i = 0,1,2,3$.
+ 1 & -1 \end{array} \right] \] also called a Hadamard gate, takes $ (|0\rangle, |1\rangle) \mapsto (|+\rangle , | - \rangle )$. So the measurement operators would be $ H P_i H^\dagger = H P_i H, i = 0,1,2,3$.
 
 But this code, again, would not be able to detect a bit flip. We can try combining them, on a 9 qubit code:
 
 \begin{ex}\label{shorcode}
-This 9 qubit code, also known as Shor code \cite{NC} can correct an  $X$ or $Z$ error on \textbf{a single qubit}. This is achieved by combining the two codes previously mentioned.
+This 9 qubit code, also known as Shor code (see \cite{NC}) can correct an  $X$ or $Z$ error on \textbf{a single qubit}. This is achieved by combining the two codes previously mentioned.
 First the phase flip code, $ |0\rangle \mapsto | +++ \rangle$,  $|1 \rangle \mapsto | --- \rangle$, then the bit flip code to each of the three qubits of the first encoding:
 $ |+++\rangle = |+\rangle |+\rangle |+ \rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) \mapsto \frac{1}{2 \sqrt{2}} (|000\rangle + |111 \rangle) (|000\rangle + |111 \rangle) (|000\rangle + |111 \rangle)$ and 
 in an analogous fashion $ |--- \rangle \mapsto  \frac{1}{2 \sqrt{2}} (|000\rangle - |111 \rangle) (|000\rangle - |111 \rangle) (|000\rangle - |111 \rangle)$
@@ -326,7 +425,7 @@ Let $\{ E_i \mid i \in I \}$ for some index set $I$ be a set of unitary operator
 Then, $C$ can also correct all errors $F_j, j \in J$. This theorem actually holds for a wider class of errors, where $E_i, F_j$ are so-called quantum operations; but this goes beyond the scope of this thesis. The more general statement, along with a proof, can be found in \cite{NC}.
 \end{theorem}
 
-\subsection{Stabilizer codes}
+\subsection{Additive Codes}
 
 We will now study a very important class of quantum codes, stabilizer or additive quantum codes.
 
@@ -339,20 +438,22 @@ Let $V$, $(\cdot,\cdot)$ be as above and let $C \leq_{\F_2} V$ be an $\F_2$ subs
 \end{defn}
 
 \begin{prop}\label{dimensioncode}
-Let $C \leq_{\F_2} V = \F_4^n$ be an additive code, and the symplectic form$ (x,y) = \Tr(x \bar y) \fa x,y \in V$ as in rem. \ref{symplecticnotation}. Then $C$ defines a quantum code on $n$ qubits via a lifting $\psi$ of the inverse mapping to the induced by the symplectic notation defined in rem. \ref{symplecticnotation}:
+Let $C \leq_{\F_2} V = \F_4^n$ be an additive code, and the symplectic form $(x,y) = \Tr(x \bar y) \fa x,y \in V$ as in Rem. \ref{symplecticnotation}. Then $C$ defines a quantum code on $n$ qubits via a lifting $\psi$ of the inverse mapping to the induced by the symplectic notation defined in Rem. \ref{symplecticnotation}:
 \[ \psi: V \rightarrow G, (\omega a_1 + \bar \omega b_1, \ldots, \omega a_n + \bar \omega b_n) \mapsto X_1^{a_1}Y_1^{b_1} \ldots X_n^{a_n}Y_n^{b_n} \]
 $S:= \psi(C)$ is an abelian subgroup of $\P_n$, called the stabilizer group of $C$, which defines a quantum code $\tilde C$ on $\C^{2^n}$ through $\tilde C := \{ v \in \C^{2^n} \mid sv = v \fa s \in S \}$. The dimension of this code is $2^{n-dim_{\F_2}(C)}$.
 \begin{proof}
-From rem. \ref{symplecticnotation} we know that symplectic notation is an isometry to $\P_n / \P_n'$. Further since $C$ is self-orthogonal it follows that $S$ is abelian (since two elements of $\P_n$ commute iff their images are orthogonal over $\F_4$) and since $C \leq_{\F_2} V$ it follows that $S$ is an $\F_2$ vector space.
-Define $R_S:= \frac{1}{|S|} \sum_{g \in S} g \in \End(\C^{2n})$. $R_S = R_S^2$ is a projection onto $\tilde C$, then for $s \in S, v \in V, c \in \tilde C$ it holds that:   \[ s R_s(v) = \frac{1}{|S|}  \sum_{g \in S} (sg) v = R_S(v),  R_S(c) = \frac{1}{|S|} \sum_{g \in S} gc = \frac{1}{|S|} \sum_{g \in S} c = c \]
-and in particular $c \in R_S^{-1}(c)$. It follows that \[ \dim_\C(\tilde C) = \Tr(R_S) = \frac{1}{|S|} \sum_{g \in S} \Tr(g) = \frac{1}{|S|} \Tr(\Id) = 2^n/|S| = 2^{n-\dim_{\F_2}(S)} \] since for $\Id \neq g \in G: \Tr(g) = 0 $ which follows directly from $\Tr(X) = \Tr(Y) = \Tr(Z) = 0$ and $\Tr(A \otimes B)= \Tr(A) \Tr(B) \fa A \in \C^{k_1 \times k_1}, B \in \C^{k_2 \times k_2}, k_1, k_2 \in \N$.
+From Rem. \ref{symplecticnotation} we know that symplectic notation is an isometry to $\P_n / \P_n'$. Further since $C$ is self-orthogonal it follows that $S$ is abelian (since two elements of $\P_n$ commute iff their images are orthogonal over $\F_4$) and since $C \leq_{\F_2} V$ it follows that $S$ is an $\F_2$ vector space.
+Define $R_S:= \frac{1}{|S|} \sum_{g \in S} g \in \End(\C^{2n})$. $R_S = R_S^2$ is a projection onto $\tilde C$, then for $s \in S, v \in V, c \in \tilde C$ it holds that:   \[ s R_S(v) = \frac{1}{|S|}  \sum_{g \in S} (sg) v = R_S(v),  R_S(c) = \frac{1}{|S|} \sum_{g \in S} gc = \frac{1}{|S|} \sum_{g \in S} c = c \]
+and in particular $c \in R_S^{-1}(c)$. It follows that \[ \dim_\C(\tilde C) = \Tr(R_S) = \frac{1}{|S|} \sum_{g \in S} \Tr(g) = \frac{1}{|S|} \Tr(\Id) = 2^n/|S| = 2^{n-\dim_{\F_2}(S)} \] since for $\Id \neq g \in G: \Tr(g) = 0 $ which follows directly from the fact that $\Tr(X) = \Tr(Y) = \Tr(Z) = 0$ and $\Tr(A \otimes B)= \Tr(A) \Tr(B) \fa A \in \C^{k_1 \times k_1}, B \in \C^{k_2 \times k_2}, k_1, k_2 \in \N$.
 \end{proof}
 \end{prop}
 
-
+\begin{defn}
+The quantum code $\tilde C$ constructed on Proposition \ref{dimensioncode} is called an additive quantum code, and $C$ is called the associated additive code over $\F_4$.
+\end{defn}
 
 \begin{defn}
-A subgroup $S \leq \mathcal{P}_n$  is called a stabilizer group iff $-I \notin S$. Note that this implies that $S$ is abelian, since $\P_n' = \{ \pm \Id \}$. This definition is also consistent with the notation introduced in prop.\cite{dimensioncode}: Through symplectic notation, S defines an $\F_2$ vector space (equivalent to S being closed under multiplication) that is self orthogonal with respect to the commutator, since S is abelian.
+A subgroup $S \leq \mathcal{P}_n$  is called a stabilizer group iff $-I \notin S$. Note that this implies that $S$ is abelian, since $\P_n' = \{ \pm \Id \}$. This definition is also consistent with the notation introduced in Prop. \ref{dimensioncode}: Through symplectic notation, S defines an $\F_2$ vector space (equivalent to S being closed under multiplication) that is self orthogonal with respect to the commutator, since S is abelian.
 \end{defn}
 
 %% We are now ready to define a stabilizer code.
@@ -399,7 +500,8 @@ A subgroup $S \leq \mathcal{P}_n$  is called a stabilizer group iff $-I \notin S
 %% \end{theorem}
 
 \begin{ex}\label{shorstab}
-With stabilizer codes now properly defined, we can return to the previous example ( \ref{shorcode}), the 9-qubit Shor code. The Shor code is generated by the 8 $\F_2$-linearly independent generators in table  \ref{shorgenerators} (see \cite{NC}). This is, in general, a much more compact way to write down the code. We see that, of course, the code is stabilized by all operators and there is 8 of them (what is in agreement with theorem  \ref{dimensionfromgenerators}). From their symplectic notation it can be immediately checked they are indeed $\F_2$-linearly independent generators.
+With stabilizer codes now properly defined, we can return to the previous example ( \ref{shorcode}), the 9-qubit Shor code. The Shor code is generated by the 8 $\F_2$-linearly independent generators in Table \ref{shorgenerators} (see \cite{NC}). This is, in general, a much more compact way to write down the code. We see that, of course, the code is stabilized by all operators and there is 8 of them (what is in agreement with Theorem  \ref{dimensioncode}). From their symplectic notation it can be immediately checked they are indeed $\F_2$-linearly independent generators.
+We see that it agrees with the construction: The stabilizer group has $2^8$ elements, since it is an $8$-dimensional additive $\F_2$ code. Hence, the quantum code associated to it, the Shor code, has dimension $2^{9-1} = 2$, encoding exactly $1$ qubit.
 \begin{table}[h]
 \centering 
 \begin{tabular}{|c|c|}
@@ -426,10 +528,10 @@ There is another class of operators which is very important for stabilizer codes
 Let $S \leq \P_n$ be a stabilizer group. Let $C_{\P_n}(S)$ be the centralizer of S in $\P_n$,  i.e.:
 \[ C_{\P_n}(S) = \{ A \in \P_n \mid [A,B] = 0 \text{ for all } B \in S \} \]
 Note that since $S$ is abelian, $S \leq C_{\P_n}(S)$. An element $L \in C_{\P_n}(S) \backslash S$ is called a logical operator.
-v\end{defn}
+\end{defn}
 
 Logical operators have the following interpretation:
-An [[n,k]] qubit code encodes $k$ qubits in $n > k$. Once encoded, we are confronted with $n$ physical qubits, but know that logically, only $k$ are represented. If we were to do an operator $A$ on the unencoded $k$ qubits, 
+An [[n,k]] qubit code encodes $k$ qubits in $n > k$. Once encoded, we are confronted with $n$ physical qubits, but know that logically, only $k$ are represented. If we were to apply an operator $A$ on the unencoded $k$ qubits, 
 we would obtain a different state for these $k$ qubits. But, how would this new state look like when encoded in the $n$ qubits? There has to be an operator $A^{(n)}$ on $n$ qubits that applies $A$ on the encoded qubits: $A^{(n)}$ is a logical
 operator, as it acts as $A$ on the logical qubits.
 
@@ -437,16 +539,16 @@ But why are these exactly the elements in $C_{\P_n}(S) \backslash S$? Well, for 
 It is precisely the elements of $C_{\P_n}(S)$ that do that. On the other hand, the elements of $S$, per definition, act as the identity on the code, leaving it unchanged. We want to define only non-trivial logical operators as such, and leave therefore $S$ out.
 
 \begin{rem}
-Let $f: \C^{2^k} \rightarrow \C^{2^n}$ be a $\C$-linear, injective mapping that encodes $k$ qubits in $n$ qubits, i.e. $f(\C^{2^k})=:C$ is an additive code. Then, $\text{Aut}_\C(C)$ acts on $\C^{2^k}$ via $\sigma v:= f^{-1}(\sigma f(v))$, and the stabilizer group S is the stabilizer of this action.
-Hence, for $A^{(n)}, B^{(n)}$ which both act as $A$ on $k$ qubits (as described above), there exists a $T \in S$ such, that $A^{(n)} = T B^{(n)}$.
+Let $f: \C^{2^k} \rightarrow \C^{2^n}$ be a $\C$-linear, injective mapping that encodes $k$ qubits in $n$ qubits, i.e. $f(\C^{2^k})=:C$ is an additive quantum code. Then, $\text{Aut}_\C(C)$ acts on $\C^{2^k}$ via $\sigma v:= f^{-1}(\sigma f(v))$, and the stabilizer group S is the stabilizer of this action.
+Note that this is well defined since Im$(\sigma) = C$. Hence, for an operator $A \in \End(\C^{2^n})$ and  $A^{(n)}, B^{(n)}$ such, that both act as $A$ on $k$ qubits (as described above), there exists a $T \in S$ such, that $A^{(n)} = T B^{(n)}$.
 
 \end{rem}
 
 \begin{ex}
-Again, the 9-qubit Shor code (ex.  \ref{shorcode}): It encodes only one qubit, so we will only search for the two logical operators $\overline{X}$ and $\overline{Z}$. These are given by $\overline{X} = ZZZZZZZZZ$ and $\overline{Z} = XXXXXXXXX$, as can be checked with a simple calculation. Note that it is not as one might naively expect at first, but exactly the opposite instead.
+Again, the 9-qubit Shor code (Ex.  \ref{shorcode}): It encodes only one qubit, so we will only search for the two logical operators $X^{(9)}$ and $Z^{(9)}$. These are given by $X^{(9)} = ZZZZZZZZZ$ and $Z^{(9)} = XXXXXXXXX$, as can be checked with a simple calculation. Note that it is not as one might naively expect at first, but exactly the opposite instead.
 \end{ex}
 
-\subsection{ Code distance}
+\subsection{Code Distance}
 
 There is an easy way of quantifying how many errors a code can correct: the code distance. It is analogous to what is used in classical coding theory. It is also a good reason for studying logical operators. Before introducing it however, we need a further definition:
 
@@ -454,7 +556,7 @@ There is an easy way of quantifying how many errors a code can correct: the code
 Let $V = (\C^2)^{\otimes n}$, and $\sigma = i^k \sigma_1 \otimes \ldots \otimes \sigma_n \in \mathcal{P}_n$. We define the support of $\sigma$ to be $\supp(\sigma) = \{ i \in \underline{n} \mid \sigma_i \neq \Id \}$ and
 its weight as $\wt(\sigma) = | \supp( \sigma) |$. 
 
-Similarly, we define a weight on $\F_2^{2n} = (e_1,\ldots,e_n,f_1,\ldots,f_n)$ through \begin{equation} | \sum_{i=1}^n a_i e_i + b_i f_i | := | \{ i \in \n \mid a_i \neq 0 \text{ or } b_i \neq 0 \}, a_i, b_i \in \F_2 \fa i \in \n \end{equation} This coincides with the Hamming-weight on $\F_4$ with the identification from remark \ref{symplecticnotation}.
+Similarly, we define a weight on $\F_2^{2n} = (e_1,\ldots,e_n,f_1,\ldots,f_n)$ through \begin{equation} | \sum_{i=1}^n a_i e_i + b_i f_i | := | \{ i \in \n \mid a_i \neq 0 \text{ or } b_i \neq 0 \}, a_i, b_i \in \F_2 \fa i \in \n \end{equation} This coincides with the Hamming-weight on $\F_4$ with the identification from Remark \ref{symplecticnotation}.
 \end{defn}
 
 %For example, the operator $ Z_1X_2I_3X_4$ has weight 3, whereas $- I_1 I_2 X_3 Z_3 I_4$ has only weight 1.
@@ -462,7 +564,7 @@ Similarly, we define a weight on $\F_2^{2n} = (e_1,\ldots,e_n,f_1,\ldots,f_n)$ t
 \begin{defn}\label{defdist}
 Let $S \leq \P_n$ be a stabilizer group with corresponding code $C$. Then, the minimal distance (or code distance) $\rho$ of $C$ is defined as:
 \begin{equation} \rho := \min \{ |A| \in \P_n | A \text{ is a logical operator} \} = \min \{ |A| \mid A \in C_{\P_n}(S)\backslash S \} \end{equation}
-An [[n,k]] code with distance $\rho$ is also called an [[n,k,$\rho$]] code.
+An [[n,k]] code with minimal distance $\rho$ is also called an [[n,k,$\rho$]] code, and similarily for an $((n,K))$ code with minimal distance $\rho$ we say it is an $((n,K,\rho))$ code.
 \end{defn}
 
 
@@ -471,15 +573,16 @@ The basic idea for the definition of $\rho$ is that it marks the number of qubit
 An argument similar to that of the classical coding theory (see \cite{classicalcodes}) can be made to prove that a code with distance $\rho$ can correct all errors $E$ which satisfy $|E| < \frac{\rho}{2}$. A direct proof for quantum coding theory can be found in \cite{leemhuis}.
 
 \begin{ex}
-We can calculate the code distance of ex.  \ref{shorcode}. We know two logical operators, $\overline X = ZZZZZZZZZ$ and $\overline Z = XXXXXXXXX$, and know that they represent the only two equivalency classes of logical operators, since the Shor code encodes a single qubit.
-This means we can get all logical operators this way, by going through the equivalency classes: \begin{equation}\label{shorclasses} C_{\P_n}(S) = \{ A \overline X \mid A \in S \} \cup \{ A \overline Z \mid A \in S \} \end{equation} From table  \ref{shorgenerators} we get the generators of S, so we know in principle all logical operators.
-We can look at, for example $ \overline Z g_8 = ZZZIIIIII$, or $g_2 g_3 g_6 \overline X = ZIIIIZZII$. It is not hard to see that these operators are of minimal weight in the two classes from eqn.  \ref{shorclasses}. This means that $\rho = 3$, and hence, 
+We can calculate the code distance of Ex. \ref{shorcode}. We know two logical operators, $\overline X := ZZZZZZZZZ$ and $\overline Z := XXXXXXXXX$, and know that they represent the only two equivalency classes of logical operators, since the Shor code encodes a single qubit.
+This means we can get all logical operators this way, by going through the equivalency classes: \begin{equation}\label{shorclasses} C_{\P_n}(S) = \{ A \overline X \mid A \in S \} \cup \{ A \overline Z \mid A \in S \} \end{equation} From Table \ref{shorgenerators} we get the generators of S, so we know in principle all logical operators.
+We can look at, for example $ \overline Z g_8 = ZZZIIIIII$, or $g_2 g_3 g_6 \overline X = ZIIIIZZII$. It is not hard to see that these operators are of minimal weight in the two classes from Eqn. \ref{shorclasses}. This means that $\rho = 3$, and hence, 
 the Shor code corrects $1 < \frac{3}{2}$ errors. 
 \end{ex}
 
-Definition \ref{defdist} can be generalized for any quantum code, and it will have the same properties as it has for additive codes, as well as in classical coding theory. See \cite{nebe}
+Definition \ref{defdist} can be generalized for any quantum code, and it will have the same properties as it has for additive codes, as well as in classical coding theory. 
 \begin{defn}\label{distgeneral}
 For a quantum code $C$ on $n$ qubits, define $C$ to have minimal distance of at least $d$ iff $\langle v | U_d | v \rangle = \langle v' | U_d | v' \rangle$ for all unit vectors $|v \rangle, |v' \rangle \in C$, where $U_d$ ranges over all unitary operators with support on exactly $d$ qubits.
+Since for $\dim_\C C = 1$ this always holds trivially, we define $C$ in that case to have minimal distance $\geq d$ iff there exisits an $a \in \C$ such that $\Tr_{S^c}(|u \rangle \langle u|) = a \Id$ for the (here, unique) unit vector $|u \rangle \in C$ and $S^c \subseteq \n, |S^c| = n - d$. This condition is usually called purity, for a more detailed discussion see 13.1 of \cite{nebe}.
 \end{defn}
 
 %% FIXME: here maybe a theorem about this distance, how it can correct errors
@@ -501,6 +604,10 @@ The original construction actually uses classical codes, and is one of the advan
 
 \clearpage \newpage
 \section{Quantum Weight Enumerators}
+
+Having now seen what quantum error correcting codes are, and how they should work in principle, one of the first questions that it invites is that of how good a code can be. 
+How many qubits can a code on a given number of qubits and with a given distance maximally encode? What about a fix code space dimension, what the maximal distance is. 
+To anwser these types of questions we will use a concept which is again inspired on classical coding theory, nameley Weight Enumerators. 
 
 \subsection{The Shor-Laflamme and Rains enumerators}
 
@@ -527,14 +634,14 @@ As well as for a $d \in \n$:
 Note that these definitions differ by a normalization factor from those in the original paper \cite{rains}.
 
 \begin{defn}
-Let $C \leq (\C^{2^n})$ be a quantum code, and $P: \C^{2^n} \rightarrow C$ be the projection onto $C$. 
+Let $C \leq (\C^{2^n})$ be a quantum code, and $P: \C^{2^n} \rightarrow C$ be the orthogonal projection onto $C$. 
 The Shor-Laflamme enumerator polynomial of $C$ is defined as $ \sum_{i=0}^n A_i(P,P) x^{n-i}y^i$, and the Rains enumerator polynomial similarly as  $\sum_{i=0}^n A'_i(P,P) x^{n-i}y^i$
 \end{defn}
 
 \begin{lem}\label{lemmaenums}
 Let $C \leq (C^2)^{\otimes n} =: V$ be an additive quantum code and $G \subseteq \mathcal{E}$ be its stabilizer group (i.e. $C = V^G$). and $E,E' \in \mathcal{E} = \{ \sigma_1 \otimes \ldots \otimes \sigma_n \mid \sigma_i \in \{X,Y,Z,\Id \} \fa i \in \underline{n} \}$. Then
 \begin{enumerate}
-\item The projection operator on $C$ is given by $P_C = \frac{1}{|G|} \sum_{\sigma \in G} \sigma$
+\item The orthogonal projection operator on $C$ is given by $P_C = \frac{1}{|G|} \sum_{\sigma \in G} \sigma$
 \item Tr$(EP_c) = \frac{1}{|G|} \cdot \left\{ \begin{array}{lr} 2^n = \text{dim}(V) & \text{if } E \in G \\ 0 & \text{if } E \notin G \end{array} \right.$
 \item $\Tr(\Tr_S(E)\Tr_S(E')) = 0$ if $E \neq E'$ or if there exists an $i \in S$ which satisfies that for $E = \sigma_1 \otimes \ldots \otimes \sigma_n$, $\sigma_i \neq \Id$, otherwise $\Tr(\Tr_S(E)\Tr_S(E)) = 2^{n+|S|}$.
 \item $\Tr( E P_C E P_C) = \left\{ \begin{array}{lr} \frac{2^n}{|G|} & \text{ for } E \in G^\perp \\ 0 & \text{ otherwise} \end{array} \right.$ 
@@ -542,8 +649,8 @@ Let $C \leq (C^2)^{\otimes n} =: V$ be an additive quantum code and $G \subseteq
 
 \begin{bew}
 \begin{enumerate}
-\item From a simple calculation it follows that $\sigma P_c(v) = P_c(v)$ for all $v \in V, \sigma \in G$ and $P_c(v) = v \, \fa \, v \in V^G$. From this it follows immediately that Im$(P_C) = V^G$ and $P_C^2 = P_C$, and hence that it is the projection onto $V^G$.
-\item Since $\Tr(X) = \Tr(Z) = \Tr(Y) = 0$ and $\Tr(\sigma_1 \otimes \sigma_2) = \Tr(\sigma_1)\Tr(\sigma_2)$ it follows immediately that $\mathcal{E}$ is an orthogonal basis with respect to the trace bilinear form (since $<\mathcal{E}>_\C = \C^{2^n \times 2^n}$), and for all $E \in \mathcal{E}$ we have $E^2 = Id_V$, hence $\Tr(E^2) = \dim(V) = 2^n$.
+\item From a simple calculation it follows that $\sigma P_c(v) = P_c(v)$ for all $v \in V, \sigma \in G$ and $P_c(v) = v \, \fa \, v \in V^G$. From this it follows immediately that Im$(P_C) = V^G$ and $P_C^2 = P_C$, and hence that it is the orthogonal projection onto $V^G$.
+\item Since $\Tr(X) = \Tr(Z) = \Tr(Y) = 0$ and $\Tr(\sigma_1 \otimes \sigma_2) = \Tr(\sigma_1)\Tr(\sigma_2)$ it follows immediately that $\mathcal{E}$ is an orthogonal basis with respect to the trace bilinear form (since $<\mathcal{E}>_\C = \C^{2^n \times 2^n}$), and for all $E \in \mathcal{E}$ we have $E^2 = \Id_V$, hence $\Tr(E^2) = \dim(V) = 2^n$.
 From a) we get: \begin{equation} \Tr( E P_c) = \frac{1}{|G|} \sum_{\sigma \in G} \Tr(\sigma E) = \frac{1}{|G|} \cdot \left\{ \begin{array}{lr} 2^n = \text{dim}(V) & \text{if } E \in G \\ 0 & \text{if } E \notin G \end{array} \right. \end{equation}
 \item Since $\Tr(X) = \Tr(Y) = \Tr(Z) = 0$, as soon as $S \cap \supp(E) \neq \emptyset$, it follows that $\Tr_S(E) = 0$, and hence $\Tr_S(E)\Tr_S(E') = 0$. The same applies obviously for $E'$. Now if $E \neq E'$ and $S \cap \supp(E) = \emptyset$, then $\Tr_S(E) \neq \Tr_S(E')$ and thus $\Tr_S(E)\Tr_S(E') \neq 2^{|S|} \Id $, which in turn implies that $\supp(\Tr_S(E)\Tr_S(E')) \neq \emptyset$ and so its trace vanishes.
 On the other hand, if $E = E'$ and $\supp(E) \cap S = \emptyset$, then $\Tr_S(E)\Tr_S(E) = (2^{|S|})^2 \Id_{S^c}$ and $2^{2|S|} \Tr(\Id_{S^c}) = 2^{2|S|} \dim(V_{S^c}) = 2^{n + |S|}$.
@@ -558,7 +665,7 @@ in particular yields that the cosets Ker$(\epsilon)$, $\sigma_0$ Ker($\epsilon$)
 \end{lem}
 
 \begin{theorem}\label{coeffsadditive}
-Let $C \leq (C^2)^{\otimes n} =: V$ be an additive quantum code and $G \subseteq \mathcal{E}$ be its stabilizer group (i.e. $C = V^G$); let $P_C$ be the projection onto $C$, and let $S \subseteq \n$. Then the coefficients are given as follows:
+Let $C \leq (C^2)^{\otimes n} =: V$ be an additive quantum code and $G \subseteq \mathcal{E}$ be its stabilizer group (i.e. $C = V^G$); let $P_C$ be the orthogonal projection onto $C$, and let $S \subseteq \n$. Then the coefficients of the weight enumerators are given as follows:
 
 \begin{equation} A_S(P_C,P_C) = \# \{ E \in G \mid \supp(E) = S \} \end{equation}
 \begin{equation} B_S(P_C,P_C) = \# \{ E \in G^\perp \mid \supp(E) = S \} \end{equation}
@@ -568,19 +675,19 @@ Let $C \leq (C^2)^{\otimes n} =: V$ be an additive quantum code and $G \subseteq
 Where for $ \sigma = \sigma_1 \otimes \ldots \otimes \sigma_n$ and $S = \{ s_1 < \ldots < s_k \}$, $\sigma_{\big| S}$ denotes $\sigma_{s_1} \otimes \ldots \otimes \sigma_{s_k}$.
 
 \begin{proof}
-\begin{equation} \text{First } A_S(P_c,P_c) = \frac{1}{\dim(C)^2} \sum_{\substack{E \in \mathcal{E} \\ \supp(E) = S}} Tr(P_c E)^2 = \frac{1}{(\dim(C)|G|)^2} \sum_{\substack{E \in \mathcal{E} \\ \supp(E) = S}} \sum_{\sigma,\sigma' \in G} \underbrace{ \Tr(\sigma E) \Tr(\sigma' E)}_{\substack{=0, \sigma \neq E \text{ or } \sigma' \neq E \\ =2^{2n}, \sigma = \sigma' = E}} \end{equation}
-\begin{equation} = \underbrace{(\frac{2^n}{ |G| \dim (C)})^2 }_{ = 1, \text{see prop. \ref{dimensioncode}}} \# \{ E \in G \mid \supp(E) = S \} \end{equation}
-Where the second and third equalities follow from lemma \ref{lemmaenums}. The calculation for $B_S(P_C,P_c)$ is completely analogous.
+\begin{align*} \text{First } A_S(P_c,P_c) = \frac{1}{\dim(C)^2} \sum_{\substack{E \in \mathcal{E} \\ \supp(E) = S}} Tr(P_c E)^2 \\ = \frac{1}{(\dim(C)|G|)^2} \sum_{\substack{E \in \mathcal{E} \\ \supp(E) = S}} \sum_{\sigma,\sigma' \in G} \underbrace{ \Tr(\sigma E) \Tr(\sigma' E)}_{\substack{=0, \sigma \neq E \text{ or } \sigma' \neq E \\ =2^{2n}, \sigma = \sigma' = E}} 
+\\ = \underbrace{(\frac{2^n}{ |G| \dim (C)})^2 }_{ = 1, \text{see Prop. \ref{dimensioncode}}} \# \{ E \in G \mid \supp(E) = S \} \end{align*}
+Where the second and third equalities follow from Lemma \ref{lemmaenums}. The calculation for $B_S(P_C,P_c)$ is completely analogous.
 
 Now, for the Rains enumerators: 
-\begin{equation} A'_S(P_C,P_C) = \frac{1}{\Tr(P_c)} \Tr(\Tr_{S^c}(P_C)\Tr_{S^c}(P_C)) = \frac{1}{\dim (C)^2} \frac{1}{|G|^2} \sum_{\sigma, \sigma' \in G}  \Tr(\Tr_{S^c}(\sigma)\Tr_{S^c}(\sigma')) \end{equation}
-\begin{equation} = \frac{1}{\dim (C)^2} \frac{1}{|G|^2} \sum_{\sigma \in G}  \Tr(\Tr_{S^c}(\sigma)\Tr_{S^c}(\sigma)) = \underbrace{\frac{1}{\dim (C)^2} \frac{2^{n+|S^c|}}{|G|^2}}_{= 2^{|S^c| - n}=2^{-|S|}} \# \{ \sigma \in G \mid \sigma_{\big| S^c} = \Id \} \end{equation}
-Again, the 2. and 3. equalities follow from lemma \ref{lemmaenums}. For $B'_S$ it is enough to see that $B'_{S} = \dim (C) A'_{S^c}$, which follows directly from their definitions.
+\begin{align*} A'_S(P_C,P_C) = \frac{1}{\Tr(P_c)} \Tr(\Tr_{S^c}(P_C)\Tr_{S^c}(P_C)) \\= \frac{1}{\dim (C)^2} \frac{1}{|G|^2} \sum_{\sigma, \sigma' \in G}  \Tr(\Tr_{S^c}(\sigma)\Tr_{S^c}(\sigma'))
+ \\ = \frac{1}{\dim (C)^2} \frac{1}{|G|^2} \sum_{\sigma \in G}  \Tr(\Tr_{S^c}(\sigma)\Tr_{S^c}(\sigma)) \\ = \underbrace{\frac{1}{\dim (C)^2} \frac{2^{n+|S^c|}}{|G|^2}}_{= 2^{|S^c| - n}=2^{-|S|}} \# \{ \sigma \in G \mid \sigma_{\big| S^c} = \Id \} \end{align*}
+Again, the 2. and 3. equalities follow from Lemma \ref{lemmaenums}. For $B'_S$ it is enough to see that $B'_{S} = \dim (C) A'_{S^c}$, which follows directly from their definitions.
 \end{proof}
 
 \end{theorem}
 
-\subsection{The relationship between the enumerators}
+\subsection{The Relationship between the Enumerators}
 
 There is a characterization of the Rains enumerators, which also sheds some light to the motivation for defining $A'$ and $B'$. 
 They are basically the Shor-Laflamme enumerators, but ``averaged over'' the whole unitary group, instead of over $\E$.
@@ -590,18 +697,19 @@ Let V be a finite-dimensional complex vector space, $n = \dim V, S \subseteq \n,
 \begin{equation} A'_S(M_1,M_2) = 2^{|S|} E( \Tr(M_1 (U_S \otimes \Id_{S^c})) \Tr(M_2 (U_S \otimes \Id_{S^c})^\dagger )) \end{equation}
 \begin{equation} B'_S(M_1,M_2) = 2^{|S|} E( \Tr(M_1 (U_S \otimes \Id_{S^c}) M_2 (U_S \otimes \Id_{S^c})^\dagger)) \end{equation}
 \begin{bew}
-With equation \ref{fact1} we have: \begin{equation*} A'_S(M_1, M_2) = \Tr(\Tr_{S^c}(M_1)\Tr_{S^c}(M_2)) = 2^{|S|} E(\Tr(\Tr_{S^c}(M_1) U_S) \Tr( \Tr_{S^c}(M_2) U_S^\dagger)) \end{equation*} \begin{equation*} = 2^{|S|} E(\Tr(M_1 (U_S \otimes \Id_{S^c})) \Tr(M_2 (U_S \otimes \Id_{S^c})^\dagger)) \end{equation*} 
-Where the last equality follows from remark \ref{rempartr}.
-Now for the $B'$, define $\tilde B_S(M_1, M_2) :=   2^{|S|} E( \Tr(M_1 (U_S \otimes \Id_{S^c}) M_2 (U_S \otimes \Id_{S^c})^\dagger))$. Then it follows with equation \ref{fact2}: 
-\begin{equation*}
-\tilde B_S(M_1,M_2) = \tilde B_S( E(U_S M_1 U_S^\dagger), E(U_s M_2 U_S^\dagger)) = 2^{-2|S|} \tilde B_S( \Tr_S(M_1) \otimes \Id_S, \Tr_S(M_2) \otimes \Id_S) \end{equation*}
-\begin{equation*} = 2^{-|S|} \Tr((\Tr_S(M_1) \otimes \Id_S)(\Tr_S(M_2) \otimes \Id_S)) = B'_S(M_1,M_2)\end{equation*}
+With Equation \ref{fact1} we have: \begin{equation*} A'_S(M_1, M_2) = \Tr(\Tr_{S^c}(M_1)\Tr_{S^c}(M_2)) = 2^{|S|} E(\Tr(\Tr_{S^c}(M_1) U_S) \Tr( \Tr_{S^c}(M_2) U_S^\dagger)) \end{equation*} \begin{equation*} = 2^{|S|} E(\Tr(M_1 (U_S \otimes \Id_{S^c})) \Tr(M_2 (U_S \otimes \Id_{S^c})^\dagger)) \end{equation*} 
+Where the last equality follows from Remark \ref{rempartr}.
+Now for the $B'$, define $\tilde B_S(M_1, M_2) :=   2^{|S|} E( \Tr(M_1 (U_S \otimes \Id_{S^c}) M_2 (U_S \otimes \Id_{S^c})^\dagger))$. Then it follows with Equation \ref{fact2}: 
+\begin{align*}
+\tilde B_S(M_1,M_2) = \tilde B_S( E(U_S M_1 U_S^\dagger), E(U_s M_2 U_S^\dagger)) \\ = 2^{-2|S|} \tilde B_S( \Tr_S(M_1) \otimes \Id_S, \Tr_S(M_2) \otimes \Id_S) 
+\\ = 2^{-|S|} \Tr((\Tr_S(M_1) \otimes \Id_S)(\Tr_S(M_2) \otimes \Id_S)) = B'_S(M_1,M_2)\end{align*}
 \end{bew}
 \end{theorem}
 
 
 
-From here on, we will focus exclusively on the enumerators in the case of additive/stabilizer codes. For the remainder of this section let $C \leq \C^{2^n}$ be an additive quantum code, $G$ its stabilizer group, and for $S \subseteq \n$ let $A_S:= A_S(P_C,P_C)$, and similarly for $A'_S, B_S, B'_S$. The results of this section have been proved by Eric Rains \cite{quantumweightenums} for non-additive codes as well.
+For the remainder of this section let $C \leq \C^{2^n}$ be an additive quantum code, $G$ its stabilizer group, and for $S \subseteq \n$ let $A_S:= A_S(P_C,P_C)$, and similarly for $A'_S, B_S, B'_S$. The results of this section have been proved by Eric Rains \cite{rains} for non-additive codes as well, and the proof is in fact, not harder.
+We focus here on additive codes for purely didactical reasons.
 
 \begin{prop}\label{lincomb}%relationship A, A'; B,B'
 Let $S \subseteq \n$. Then the Rains and Shor-Laflamme enumerators are related by the following: 
@@ -610,17 +718,17 @@ Let $S \subseteq \n$. Then the Rains and Shor-Laflamme enumerators are related b
 For $A'_S$ The crucial observation here is that for $\sigma \in G$, $\sigma_{\big| S} = \Id \Leftrightarrow \supp(\sigma) \subseteq S^c$. 
 It follows that \[ \{ \sigma \in G \mid \sigma_{\big| S} = \Id \} = \dot \bigcup_{T \subseteq S^c} \{ \sigma \in G \mid \supp(\sigma) = T \} \]
 And this in turn implies: 
-\[ A'_S = 2^{-|S|} \#\{ \sigma \in G \mid \sigma_{\big| S^c} = \Id \} = 2^{-|S|} \sum_{T \subseteq S} \underbrace{ \# \{ \sigma \in G \mid \supp(\sigma)=T \} }_{= A_T} = 2^{-|S|} \sum_{T \subseteq S} A_T \]
-Now for $B'_S$ we use theorem \ref{expectedvalues}:
-\[ B'_S = \frac{2^{-|S|}}{\dim (C)} E( \Tr( P_C (U_s \otimes \Id_{S^c}) P_C (U_S \otimes \Id_{S^c}) ) ) = \frac{2^{-|S|}}{\dim (C) |G|^2} \sum_{g,g' \in G} E( \Tr[ g (U_S \otimes \Id_{S^c}) g' (U^\dagger_S \otimes \Id_{S^c}) ] ) \]
-Using the expansion in the orthogonal basis $\E: U_S \otimes \Id_{S^c} = \sum_{\sigma \in \E} 2^{-n} \Tr( (U_S \otimes \Id_{S^c}) \sigma) \sigma$ yields: 
+\begin{align*} A'_S = 2^{-|S|} \#\{ \sigma \in G \mid \sigma_{\big| S^c} = \Id \} \\ = 2^{-|S|} \sum_{T \subseteq S} \underbrace{ \# \{ \sigma \in G \mid \supp(\sigma)=T \} }_{= A_T} = 2^{-|S|} \sum_{T \subseteq S} A_T \end{align*}
+Now for $B'_S$ we use Theorem \ref{expectedvalues}:
+\begin{align*} B'_S = \frac{2^{-|S|}}{\dim (C)} E( \Tr( P_C (U_s \otimes \Id_{S^c}) P_C (U_S \otimes \Id_{S^c}) ) ) \\ = \frac{2^{-|S|}}{\dim (C) |G|^2} \sum_{g,g' \in G} E( \Tr[ g (U_S \otimes \Id_{S^c}) g' (U^\dagger_S \otimes \Id_{S^c}) ] ) \end{align*}
+Using the expansion in the orthogonal basis $\E: U_S \otimes \Id_{S^c} \\ = \sum_{\sigma \in \E} 2^{-n} \Tr( (U_S \otimes \Id_{S^c}) \sigma) \sigma$ yields: 
 \[B'_S = \frac{2^{|S|-2n}}{\dim (C) |G|^2} \sum_{g,g' \in G} \sum_{\sigma, \sigma' \in \E} E( \Tr[ g \Tr(\sigma (U_S \otimes \Id_{S^c}))\sigma  g' \Tr(\sigma' (U_S^\dagger \otimes \Id_{S^c}))\sigma' ] ) \]
 \[  = \frac{2^{|S|-2n}}{\dim (C) |G|^2} \sum_{g,g' \in G} \sum_{\sigma, \sigma' \in \E} \Tr( g \sigma  g' \sigma')  E[ \Tr(\sigma (U_S \otimes \Id_{S^c})) \Tr(\sigma' (U_S^\dagger \otimes \Id_{S^c})) ]  \]
-Lemma \ref{lemmaenums} together with equation \ref{fact1} yield
- \begin{equation} \ E[ \Tr((U_S \otimes \Id_{S^c})\sigma) \Tr((U_S^\dagger \otimes \Id_S^c)\sigma' )] = 2^{-|S|} \Tr(\sigma_{\big| S} \sigma'_{\big| S}) \Tr(\sigma_{\big| S^c}) \Tr(\sigma'_{\big| S^c}) = 
-\left\{ \begin{array}{lr} 2^{2n - 2|S|} \delta_{\sigma,\sigma'} & \text{if } \supp(\sigma) \subseteq S \\  0 & \text{otherwise} \end{array} \right.  \end{equation}
+Lemma \ref{lemmaenums} together with Equation \ref{fact1} yield
+ \begin{align*} \ E[ \Tr((U_S \otimes \Id_{S^c})\sigma) \Tr((U_S^\dagger \otimes \Id_S^c)\sigma' )] = 2^{-|S|} \Tr(\sigma_{\big| S} \sigma'_{\big| S}) \Tr(\sigma_{\big| S^c}) \Tr(\sigma'_{\big| S^c}) \\ = 
+\left\{ \begin{array}{lr} 2^{2n - 2|S|} \delta_{\sigma,\sigma'} & \text{if } \supp(\sigma) \subseteq S \\  0 & \text{otherwise} \end{array} \right.  \end{align*}
 from which in turn follows that:
-\[ B'_S = \frac{2^{-|S|}}{\dim (C)} \sum_{\sigma \in \E, \supp(\sigma) \subseteq S} \frac{1}{|G|^2} \sum_{g,g' \in G} \Tr(g \sigma g' \sigma) = \frac{2^{-|S|}}{\dim (C)} \sum_{\sigma \in \E, \supp(\sigma) \subseteq S } \underbrace{\Tr( P_C \sigma P_C \sigma)}_{=\Tr(\sigma P_C \sigma P_C)} = 2^{-|S|} \sum_{T \subseteq S} B_T \]
+\begin{align*} B'_S = \frac{2^{-|S|}}{\dim (C)} \sum_{\sigma \in \E, \supp(\sigma) \subseteq S} \frac{1}{|G|^2} \sum_{g,g' \in G} \Tr(g \sigma g' \sigma) \\ = \frac{2^{-|S|}}{\dim (C)} \sum_{\sigma \in \E, \supp(\sigma) \subseteq S } \underbrace{\Tr( P_C \sigma P_C \sigma)}_{=\Tr(\sigma P_C \sigma P_C)} = 2^{-|S|} \sum_{T \subseteq S} B_T \end{align*}
 \end{bew}
 \end{prop}
 
@@ -629,128 +737,141 @@ For $d \in \n$ we get thus: \begin{equation} A'_d = 2^{-d} \sum_{i=0}^d \binom{n
 \begin{bew}
 \begin{equation}  A'_d = \sum_{S \subseteq \n, |S| = d} A'_S = 2^{-d} \sum_{S \subseteq \n, |S| = d} \sum_{T \subseteq S} A_T  = 2^{-d} \sum{i=0}^d \sum_{T \subseteq \n, |T| = i} \sum_{T \subseteq S, |S| = d} A_T \end{equation}
  \begin{equation} = 2^{-d} \sum_{i=0}^d \sum_{T \subseteq \n, |T| = i} \binom{n-i}{n-d}A_T = 2^{-d} \sum_{i=0}^d \binom{n-i}{n-d} A_i \end{equation}
-The same works for $B'_d$.
+The same proof works for $B'_d$.
 \end{bew}
 \end{cor}
 
 \begin{cor}
-The enumerators $A_d(M_1,M_2), A'_d(M_1,M_2), B_d(M_1,M_2), B'_d(M_1,M_2)$ are invariant under equivalence of codes, i.e., under the action of $ \U_2(\C) \wr S_n$, where $S_n$ is the symmetric group on the tensor product components.
+For $S \subseteq \n$, the enumerators $A_S(M_1,M_2), A'_S(M_1,M_2)$, \\ $B_S(M_1,M_2), B'_S(M_1,M_2)$ are invariant under the equivalence of codes given by the action of $ \U_2(\C) \wr S_S$, where $S_S$ is the symmetric group on the tensor product components given by $S$.
 \begin{bew}
-For the Rains enumerators it is immediately clear from theorem \ref{expectedvalues}. For the Shor-Laflamme enumerators it follows from cor. \ref{corlincomb}  as we can explicitly write $A_d(M_1,M_2)$ in terms of $A'_d(M_1,M_2)$ and the same for the $B$'s.
+For the Rains enumerators it is immediately clear from Theorem \ref{expectedvalues}: Since an element $\sigma \in \U_2(\C) \wr S_d$ would not change the support, and the unitary operators do not change the enumerator coefficients because of the tranlation invariance of the haar measure.
+For the Shor-Laflamme enumerators it follows from Proposition \ref{lincomb} as we can explicitly write $A_S(M_1,M_2)$ in terms of $A'_S(M_1,M_2)$ and the same for the $B$'s.
 \end{bew}
 \end{cor}
 
-\begin{ex}
+\begin{ex}\label{enumshor}
 We can return to the example of the Shor code, the associated additive code has the ($\F_2$)-Generator matrix: \\
-\begin{equation*}
+
+\begin{equation*} M:= 
 \left( \begin{tabular}{ccccccccc}
-\omega^ 2 & \omega^ 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
-0 & \omega^ 2 & \omega^ 2 & 0 & 0 & 0 & 0 & 0 & 0 \\
-0 & 0 & 0 & \omega^ 2 & \omega^ 2 & 0 & 0 & 0 & 0 \\
-0 & 0 & 0 & 0 & \omega^ 2 & \omega^ 2&  0 & 0 & 0 \\
-0 & 0 & 0 & 0 & 0 & 0 & \omega^ 2 & \omega^ 2 & 0 \\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & \omega^ 2 & \omega^ 2 \\
-\omega & \omega & \omega & \omega & \omega & \omega & 0 & 0 & 0 \\
-0 & 0 & 0 & \omega & \omega & \omega & \omega & \omega & \omega \\
+$\omega^ 2$ & $\omega^ 2$ & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+0 & $\omega^ 2$ & $\omega^ 2$ & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & $\omega^ 2$ & $\omega^ 2$ & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & $\omega^ 2$ & $\omega^ 2$&  0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & $\omega^ 2$ & $\omega^ 2$ & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & $\omega^ 2$ & $\omega^ 2$ \\
+$\omega$ & $\omega$ & $\omega$ & $\omega$ & $\omega$ & $\omega$ & 0 & 0 & 0 \\
+0 & 0 & 0 & $\omega$ & $\omega$ & $\omega$ & $\omega$ & $\omega$ & $\omega$ \\
 \end{tabular} \right)
 \end{equation*}
 
-Using this we can easily get the Shor-Laflamme enumerator polynomials for this code, as it is the Hamming weight enumerator 
+Using this we can easily get the Shor-Laflamme enumerator polynomials for this code, as it is the Hamming Weight Enumerator 
 of the additive code
 
 \begin{equation}
-x^9 + 9 x^7y^2 + 27 x^5y^4 + 75 x^3y^6 + 144 xy^8
+A(x,y) = x^9 + 9 x^7y^2 + 27 x^5y^4 + 75 x^3y^6 + 144 xy^8
 \end{equation}
 
 The Rains enumerator polynomial is a little bit harder to calculate. It is:
-\begin{equation}
- x^9 + \frac9 2 x^8y + \frac{45}{4} x^7y^2 + \frac{147}{8} x^6y^3 + \frac{171}{8} x^5y^4 + 18 x^4 y^5 + \frac{93}{8} x^3 y^6 + \frac{45}{8} x^2 y^7 + \frac 9 4 x y^8 + \frac 1 2 y^9
- \end{equation}
-This is obtained using cor. \ref{corlincomb}, or equivalently, a relationship between both enumerator polynomials which follows from it, as will be seen in \ref{relenums}. Note that the coefficients of the rains enumerator polynomial need not be integers,
-the reason for this becomes clear after examining theorem \ref{coeffsadditive}
+\begin{align}
+A'(x,y) =  x^9 + \frac9 2 x^8y + \frac{45}{4} x^7y^2 + \frac{147}{8} x^6y^3 + \frac{171}{8} x^5y^4 + 18 x^4 y^5 \notag \\ + \frac{93}{8} x^3 y^6 + \frac{45}{8} x^2 y^7 + \frac 9 4 x y^8 + \frac 1 2 y^9
+ \end{align}
+This is obtained using Cor. \ref{corlincomb}, or equivalently, a relationship between both enumerator polynomials which follows from it, as will be seen in \ref{relenums}. Note that the coefficients of the rains enumerator polynomial need not be integers,
+the reason for this becomes clear after examining Theorem \ref{coeffsadditive}
 \end{ex}
 
-\subsection{The MacWilliams transform}
+\subsection{The MacWilliams Transform}
 
 \begin{lem}\label{relenums}
-The enumerator polynomials are related by the following:
+Let $C$ be a quantum code on $n$ qubits and let $A(x,y),B(x,y)$, \\$ A'(x,y), B(x,y)$ be its Short-Laflamme and Rains enumerator polynomials respectively. Then they are related by the following:
 \begin{equation} A'(x,y) = A(x + \frac{y}{2},\frac{y}{2}) \end{equation}
 \begin{equation} B'(x,y) = B(x + \frac{y}{2},\frac{y}{2}) \end{equation}
 \begin{bew}
-Using cor. \ref{corlincomb} we get: 
-\begin{equation} A'(x,y) = \sum_{d=0}^n A'_d x^{n-d}y^d = \sum_{d=0}^n \sum_{i=0}^d 2^{-d} \binom{ n-i}{n-d} A_i x^{n-d}y^d \end{equation}
-\begin{equation} = \sum_{i=0}^n \sum_{d=i}^n 2^{-d} \binom{ n-i}{n-d} A_i x^{n-d}y^d \underbrace{ = }_{j:= n-d} \sum_{i=0}^n \sum_{j=0}^{n-i} 2^{-(n-j)} \binom{ n-i}{j} A_i x^{j}y^{n-j} \end{equation}
-\begin{equation} = \sum_{i=0}^n y^{i}2^{-i} \sum_{j=0}^{n-i} 2^{-(n-i-j)} \binom{ n-i}{j} A_i x^{j}y^{n-i-j} = \sum_{i=0}^n A_i (\frac{y}{2})^i (x+\frac{y}{2})^{n-i} = A(x+\frac{y}{2},\frac{y}{2}) \end{equation}
+Using Cor. \ref{corlincomb} we get: 
+\begin{align*} A'(x,y) = \sum_{d=0}^n A'_d x^{n-d}y^d = \sum_{d=0}^n \sum_{i=0}^d 2^{-d} \binom{ n-i}{n-d} A_i x^{n-d}y^d 
+\\ = \sum_{i=0}^n \sum_{d=i}^n 2^{-d} \binom{ n-i}{n-d} A_i x^{n-d}y^d \underbrace{ = }_{j:= n-d} \sum_{i=0}^n \sum_{j=0}^{n-i} 2^{-(n-j)} \binom{ n-i}{j} A_i x^{j}y^{n-j} 
+\\ = \sum_{i=0}^n y^{i}2^{-i} \sum_{j=0}^{n-i} 2^{-(n-i-j)} \binom{ n-i}{j} A_i x^{j}y^{n-i-j} 
+\\ = \sum_{i=0}^n A_i (\frac{y}{2})^i (x+\frac{y}{2})^{n-i} = A(x+\frac{y}{2},\frac{y}{2}) \end{align*}
 The calculation for $B'$ is literally the same, replacing $A$ with $B$.
 \end{bew}
 \end{lem}
 
 \begin{theorem}\label{theoremmacwilliams}
-We get analogies of the MacWilliams identity for Quantum codes: 
+We get analogies of the MacWilliams Identity for Quantum codes: 
 Let $C \leq \C^{2^n}$ be a an additive quantum code on $n$ qubits, and $A(x,y), B(x,y)$ be the corresponding Shor-Laflamme enumerator polynomials, $A'(x,y), B'(x,y)$ the Rains enumerator polynomials. Then:
-\begin{equation} A'(x,y) = \dim (C) B'(y,x) \end{equation}
-\begin{equation} A(x,y) = \dim (C) B(\frac{x+3y}{2},\frac{x-y}{2}) \end{equation}
+\begin{equation} \dim (C) A'(x,y) =  B'(y,x) \end{equation}
+\begin{equation} \dim (C) A(x,y) =  B(\frac{x+3y}{2},\frac{x-y}{2}) \end{equation}
 \begin{proof}
-For the first one we again note that immediately from its definition it is clear that $A'_i =  \dim (C) B'_{n-i}$. It follows then
-\begin{equation} A'(x,y) = \sum_{d=0}^n A_d x^{n-d}y^d = \sum_{d=0}^n \dim (C) B_{n-d} x^{n-d}y^d = \dim (C) B'(y,x) \end{equation}
-Using lemma \ref{relenums} we can translate this identity to the Shor-Laflamme enumerators: 
-\begin{equation} A(x,y) = A'(x-y,2y) = \dim (C) B'(2y,x-y) = \dim (C) B(2y + \frac{x-y}{2},\frac{x-y}{2}) = \dim (C) B(\frac{x+3y}{2},\frac{x-y}{2}) \end{equation}
+For the first one we again note that immediately from its definition it is clear that $\dim(C) A'_i =  B'_{n-i}$. It follows then
+\begin{equation*} \dim (C) A'(x,y) = \dim (C) \sum_{d=0}^n A_d x^{n-d}y^d = \sum_{d=0}^n  B_{n-d} x^{n-d}y^d =  B'(y,x) \end{equation*}
+Using Lemma \ref{relenums} we can translate this identity to the Shor-Laflamme enumerators: 
+\begin{align*} \dim (C) A(x,y) = \dim (C) A'(x-y,2y) =  B'(2y,x-y) 
+\\= B(2y + \frac{x-y}{2},\frac{x-y}{2}) =  B(\frac{x+3y}{2},\frac{x-y}{2}) \end{align*}
 \end{proof}
 \end{theorem}
 
+\begin{ex}
+Knowing the enumerator polynomials of the Shor code, Ex. \ref{enumshor}, we immediately get the enumerator polynomials for the dual codes through the MacWilliams Transform: 
+\begin{align}
+B(x,y) = 9x^7y^2+27x^5y^4+75x^3y^6+144xy^8  +39x^6y^3+ \notag \\ 207x^4y^5+333x^2y^7+x^9+189y^9\\
+B'(x,y) = 2y^9 + 9 y^8x + \frac{45}{2} y^7x^2 + \frac{147}{4} y^6x^3 + \frac{171}{4} y^5x^4 \notag \\ + 36 y^4 x^5 + \frac{93}{4} y^3 x^6 + \frac{45}{4} y^2 x^7 + \frac 9 2 y x^8 + x^9
+\end{align}
+\end{ex}
+
 \clearpage
-\section{Applications of the weight enumerators: Bounds}
+\section{Applications of the Weight Enumerators: Bounds}
 
-Having introduced weight enumerators for quantum error correcting codes, and having found out a few properties of these, we can go on to see one of the most important applications of the weight enumerators, namely that of finding bounds for the distance or dimension of codes with specific parameters.
-This is analogous to classical coding theory and is the reason why these enumerators for quantum codes were introduced in the first place by Shor and Laflamme. To do this, we first have to find out what the relationship is between the code distance and the weight enumerators.
+Having introduced Weight Enumerators for quantum error correcting codes, and having found out a few properties of these, we can go on to see one of the most important applications of the Weight Enumerators, namely that of finding bounds for the distance or dimension of codes with specific parameters.
+This is analogous to classical coding theory and is the reason why these enumerators for quantum codes were introduced in the first place by Shor and Laflamme. To do this, we first have to find out what the relationship is between the code distance and the Weight Enumerators.
 
 
-\subsection{The relationship between the code distance and the enumerators}
+\subsection{The Relationship between the Code Distance and the Enumerators}
 
 \begin{lem}\label{expvalproj}
 Let $C$ be a quantum code on $n$ qubits, and let $v$ be a random unit vector of $C$, uniformly distributed. Further let $P$ be the orthogonal projection onto $C$, and $K$ be the dimension of $C$, $K = \dim_\C C$.
 Then \begin{equation} E_{v \in C}(|v\rangle \langle v |) = \int_C |v \rangle \langle v | dv = \frac{P}{K} \end{equation}
 \begin{proof}
  We start by identifying that the left hand side is well defined. This is the case since the unit sphere on $\C^K$ is compact (with respect to the natural topology), and is a sub manifold of $\R^{2K}$, 
- which allows us to define an finite integral on $C$, which can be chosen to be normed, see \cite{foerster}. Now, an integral of an operator can be defined using the scalar product - see \cite{harmana}, and thus the integral is well defined.
+ which allows us to define an finite integral on $C$, which can be chosen to be normed, see \cite{foerster}. Now, an integral of an operator can be defined using the scalar product - see Appendix 3 in \cite{harmana}, and thus the integral is well defined.
  Now, since $C$ is isometric to $\C^K$, we will assume without loss of generality that $C = \C^K$ and thus it suffices to show that for $\tilde P := \int_C |v \rangle \langle v | dv$ it holds that $\tilde P = \frac{1}{K} \Id_{\C^K}$.
-To show this we note that the unitary group $\U_K(\C)$ acts on End($\C^K$) via conjugation, and this action defines a representation of $U_K(\C)$, which we will denote by $\pi$. Now, let $\mu$ denote the measure induced on $\C^K$ by the probability measure of $v$ and the isometry
+To show this we note that the unitary group $\U_K(\C)$ acts on End($\C^K$) via conjugation, and this action defines a representation of $\U_K(\C)$, which we will denote by $\pi$. Now, let $\mu$ denote the measure induced on $\C^K$ by the probability measure of $v$ and the isometry
 between $C$ and $\C^K$, and let $dU$ denote the Haar-measure on the unitary group $\U_K(\C)$. It follows that
 \begin{align}
 \tilde P = \int_{\C^K} |v \rangle \langle v | d \mu(v) = \int_{\C^K} U^\dagger |v \rangle \langle v | U d \mu(v) = \int_{\U_K(\C)} \int_{\C^K} U^\dagger |v \rangle \langle v | U d \mu(v) dU
 \end{align}
 Where in the first equality we used the uniformity of the probability measure on $v$ and on the second one we used the normalization of the Haar measure. Let $ |v_0 \rangle \in C^K, \langle v_0 | v_0 \rangle = 1$. Then because of the normalization of the $\mu$ measure it holds that
-\begin{equation}
-\tilde P = \int_{\U_K(\C)} \int_{\C^K} U^\dagger |v \rangle \langle v | U d \mu(v) dU = \int_{\U_K(\C)} U^\dagger |v_0 \rangle \langle v_0 | U dU =  \int_{\U_K(\C)} (\pi(U))( |v_0 \rangle \langle v_0 | ) dU
-\end{equation}
+\begin{align}
+\tilde P = \int_{\U_K(\C)} \int_{\C^K} U^\dagger |v \rangle \langle v | U d \mu(v) dU \notag \\ = \int_{\U_K(\C)} U^\dagger |v_0 \rangle \langle v_0 | U dU =  \int_{\U_K(\C)} (\pi(U))( |v_0 \rangle \langle v_0 | ) dU
+\end{align}
 
 Since the only fix point of the representation $\pi$ is $I_K$, and the mapping $A \mapsto \int_{\U_K(\C)} (\pi(U))(A) dU$ is an orthogonal projection to an invariant subspace of the representation $\pi$ (Reynolds operator), it follows that
-$\tilde P \in \C I_K$. That $\tilde P = \frac{1}{K} I_K$ can be seen by explicitly calculating the orthogonal projection: $\tilde P = \frac{\langle |v_0 \rangle \langle v_0 |, I_K \rangle}{ \langle I_K, I_K \rangle} I_K = \frac{1}{K} I_K$.
+$\tilde P \in \C I_K$. That $\tilde P = \frac{1}{K} I_K$ can be seen by explicitly calculating the orthogonal projection: \[ \tilde P = \frac{\langle |v_0 \rangle \langle v_0 |, I_K \rangle}{ \langle I_K, I_K \rangle} I_K = \frac{1}{K} I_K \]
 \end{proof}
 \end{lem}
 
 \begin{lem}\label{expvalvec}
 Let $C$ be a Quantum Code on $n$ qubits, $M \in \End(\C^{2^n})$ be any operator on those $n$ qubits, and let $v$ be a random unit vector of $C$, uniformly distributed. Further let $K:= \dim_\C C$ and $P$ be the orthogonal projection onto $C$. Then
 \begin{equation} E[|\Tr(M|v\rangle \langle v|) - \frac{1}{K}\Tr(MP)|^2] = \frac{1}{K^2(K+1)}(K \Tr(MPM^\dagger P) - |\Tr(MP)|^2) \end{equation}
-If we write the term $|a|^2$ under the modulus as $a a^*$ and multiplying out yields:
+\begin{proof}
+Since for any $a \in \C$ it holds that $|a|^2 = a a^*$, multiplying out yields:
 \begin{align*}
-E[|\Tr(M|v\rangle \langle v|) - \frac{1}{K}\Tr(MP)|^2] \\ = E[ |\Tr(\langle v | M | v \rangle )|^2 + \frac{1}{K^2} | \Tr(MP)|^2 - \frac{1}{K} \Tr(M |v \rangle \langle)^* \Tr(MP) - \frac{1}{K} \Tr(M |v\rangle \langle v|) \Tr(MP)^* \\
-\underbrace{=}_{\text{lemma }\ref{expvalproj}} E[|\Tr( \langle v|M|v\rangle)|^2 - \frac{1}{K^2}|\Tr(MP)|^2]
+E[|\Tr(M|v\rangle \langle v|) - \frac{1}{K}\Tr(MP)|^2] \\ = E[ |\Tr(\langle v | M | v \rangle )|^2 + \frac{1}{K^2} | \Tr(MP)|^2 \\ - \frac{1}{K} \Tr(M |v \rangle \langle)^* \Tr(MP) - \frac{1}{K} \Tr(M |v\rangle \langle v|) \Tr(MP)^*] \\
+ \underbrace{=}_{\text{Lemma }\ref{expvalproj}} E[|\Tr( \langle v|M|v\rangle)|^2 - \frac{1}{K^2}|\Tr(MP)|^2]
 \end{align*}
 
 Now consider only the first integral, and from the isometry $C \cong \C^K$ we assume $C = \C^K$ without loss of generality: 
 \begin{align*}
-\int_{\C^K} |\Tr( \langle v|M|v\rangle)|^2 dv = \int_{\C^K} |\langle v|M|v\rangle|^2 dv =  \int_{\C^K} \langle v|M|v\rangle  \langle v|M^\dagger |v\rangle \\
- =  \int_{\C^K} \Tr (\langle v|M|v\rangle  \langle v|M^\dagger |v\rangle ) =  \int_{\C^K} \Tr(|v \rangle \langle v|M|v\rangle  \langle v|M^\dagger) =: \int_{\C^K} \varphi_M(|v \rangle \langle v|,|v \rangle \langle v|) dv
+\int_{\C^K} |\Tr( \langle v|M|v\rangle)|^2 dv = \int_{\C^K} |\langle v|M|v\rangle|^2 dv \\ =  \int_{\C^K} \langle v|M|v\rangle  \langle v|M^\dagger |v\rangle 
+ =  \int_{\C^K} \Tr (\langle v|M|v\rangle  \langle v|M^\dagger |v\rangle ) \\ =  \int_{\C^K} \Tr(|v \rangle \langle v|M|v\rangle  \langle v|M^\dagger) =: \int_{\C^K} \varphi_M(|v \rangle \langle v|,|v \rangle \langle v|) dv
 \end{align*}
 Where the mapping $\varphi_M$ is the bi-linear functional defined by $\varphi_M(A,B):= \Tr(AMBM^\dagger)$. Using the universal property of the tensor product, there exists exactly one linear mapping $\psi_M: \End(\C^K) \otimes \End(\C^K) \rightarrow \C$, so that
 $\varphi_M(A,B) = \psi_M(A \otimes B)$ for all $A, B \in \End(\C^K)$.
 
-Now, with respect to the diagonal operation of the unitary group $\U_K(\C)$ on the tensor product $\End(\C^K) \otimes \End(\C^K)$ we can proceed as in lemma \ref{expvalproj} and rewrite the integral as follows:
+Now, with respect to the diagonal operation of the unitary group $\U_K(\C)$ on the tensor product $\End(\C^K) \otimes \End(\C^K)$ we can proceed as in Lemma \ref{expvalproj} and rewrite the integral as follows:
 \begin{align*}
   \psi_M(\int_{\C^K}|v \rangle \langle v| \otimes |v \rangle \langle v|) dvv = \psi_M( \int_{\U_K(\C)} U^\dagger |v_0 \rangle \langle v_0| U \otimes U^\dagger |v_0 \rangle \langle v_0| U) dU \\ = \psi_M( \int_{\U_K(\C)} ((\pi \otimes \pi)(U))( |v_0 \rangle \langle v_0|  \otimes |v_0 \rangle \langle v_0|)) dU
 \end{align*}
-Where $|v_0 \rangle \in \C^K$ is some (fixed) unit vector ($\langle v_0 | v_0 \rangle = 1$), and $\pi$ is the same representation as in lemma \ref{expvalproj}. With the same reasoning, it means that the image of this orthogonal projection has to be in the subspace fixed by the diagonal action of $\U_K(\C)$. Let $|v_1 \rangle, \ldots, |v_K \rangle$ be an orthonormal basis of $\C^K$. It is straightforward to see that the subspace spanned by $\sum_{i,j=1}^K (|v_i \rangle \langle v_i |) \otimes (|v_j \rangle \langle v_j |)  $, $\sum_{i,j=1}^K (|v_i \rangle \langle v_j |) \otimes (|v_j \rangle \langle v_i |)$ is independent of the basis, and is in fact, the spaced fixed by the diagonal action of $\U_K(\C)$. Similarly to the proof of lemma \ref{expvalproj} we retrieve the exact projection again through the scalar product, though we have to make the basis an orthonormal-one (Gram-Schmidt), which yields
+Where $|v_0 \rangle \in \C^K$ is some (fixed) unit vector ($\langle v_0 | v_0 \rangle = 1$), and $\pi$ is the same representation as in Lemma \ref{expvalproj}. With the same reasoning, it means that the image of this orthogonal projection has to be in the subspace fixed by the diagonal action of $\U_K(\C)$. Let $|v_1 \rangle, \ldots, |v_K \rangle$ be an orthonormal basis of $\C^K$. It is straightforward to see that the subspace spanned by $\sum_{i,j=1}^K (|v_i \rangle \langle v_i |) \otimes (|v_j \rangle \langle v_j |)  $, $\sum_{i,j=1}^K (|v_i \rangle \langle v_j |) \otimes (|v_j \rangle \langle v_i |)$ is independent of the basis, and is in fact, the spaced fixed by the diagonal action of $\U_K(\C)$. Similarly to the proof of Lemma \ref{expvalproj} we retrieve the exact projection again through the scalar product, though we have to make the basis an orthonormal-one (Gram-Schmidt), which yields
 \begin{align*}
 \psi_M( \int_{\U_K(\C)} ((\pi \otimes \pi)(U))( |v_0 \rangle \langle v_0|  \otimes |v_0 \rangle \langle v_0|)) dU \\
  = \psi_M(  \frac{1}{K(K+1)} \sum_{i,j=1}^K (|v_i \rangle \langle v_i |) \otimes (|v_j \rangle \langle v_j |) + (|v_i \rangle \langle v_j |) \otimes (|v_j \rangle \langle v_i |)) \\
@@ -758,46 +879,48 @@ Where $|v_0 \rangle \in \C^K$ is some (fixed) unit vector ($\langle v_0 | v_0 \r
 =  \frac{1}{K(K+1)} \sum_{i,j=1}^K \Tr(|v_i \rangle \langle v_i | M |v_j \rangle \langle v_j | M^\dagger) + \Tr(|v_i \rangle \langle v_j | M |v_j \rangle \langle v_i | M^\dagger) \\ 
 =  \frac{1}{K(K+1)} (\Tr(P M P M^\dagger) + |\Tr(P M)|^2)
 \end{align*}
+\end{proof}
 \end{lem}
 
 
 \begin{theorem}\label{distancenums}
-For both, the Rains and Shor-Laflamme enumerators $A'_i, B'_i, A_i, B_i$ of a quantum Code $C$ of dimension $K$ it holds that $B'_i \geq A'_i \geq 0$, where equality $B'_i = A'_i$  holds for $i \in \underline{d}$ if and only if $C$ has minimal distance $d$. The same is true for $A_i, B_i$.
+Let $A'_i, B'_i, A_i, B_i$ be the Rains and Shor-Laflamme enumerators of a quantum Code $C$ of dimension $K$ respectively. Then it holds that $B'_i \geq A'_i \geq 0 \fa i \in \n$, where equality $B'_i = A'_i$  holds for all $i \in \underline{d}$ if and only if $C$ has minimal distance $d$. 
+Similarily, for the Shor-Laflamme enumerators it holds that $B_i \geq A_i \geq 0 \fa i \in \n$, where equality $B_i = A_i$  holds for all $i \in \underline{d}$ if and only if $C$ has minimal distance $d$. In other words we can read the minimal distance $d$ from the enumerator: $d = \text{max}\{ j \in \n \mid B'_i = A'_i \fa i \leq j \} = \text{max}\{ j \in \n \mid B_i = A_i \fa i \leq j \}$.
 \begin{proof}
 First for the Shor-Laflamme enumerators $A_i, B_i$: Consider that by definition, for any hermitian operator $M$, it holds that $A_i(M,M) = A_i(M,M^\dagger) = \sum_{\substack{E \in \mathcal{E} \\ \wt(E) = i}} |\Tr(EM)|^2$. Since the orthogonal projection $P$ onto $C$ is hermitian,
 it follows immediately that $A_i \geq 0$. Now for the relationship between $A_i,B_i$ consider the hermitian operator $M_v$ for any normed $|v \rangle \in C$: $M_v:= |v\rangle \langle v| - \frac{1}{K}P$. Now let $v$ be a uniformly distributed, random unit vector from $C$.
-From our previous observation, and lemma \ref{expvalvec}, we get that
-\begin{equation} 0 \leq E[A_i(M_v,M_v)] \underbrace{=}_{\text{def.}} E[\frac{1}{K^2} \sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}} \Tr(\sigma M_v)^2] = \frac{1}{K^2}  \sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}} E[\Tr(\sigma |v\rangle \langle v| - \frac{1}{K} \sigma P)^2] \end{equation}
-\begin{equation} = \frac{1}{K^2(K+1)}(\frac{1}{K} \sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}}  \Tr(\sigma P \sigma^\dagger P) - \frac{1}{K^2}\sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}} |\Tr(\sigma P)|^2) = \frac{1}{K^2(K+1)} (B_i(P,P) - A_i(P,P)) \end{equation}
-Where in order to use lemma \ref{expvalvec} we examine, that the expressions under the modulus are real, since the operators are hermitian. Further we note that $A_i = B_i$ iff $E[\Tr (\langle v | \sigma |v \rangle) - \frac{1}{K} \Tr(\sigma P)] = 0$ for all $\sigma \in \E$ with $\wt(\sigma) = i$.
+From our previous observation, and Lemma \ref{expvalvec}, we get that
+\begin{align*} 0 \leq E[A_i(M_v,M_v)] \underbrace{=}_{\text{def.}} E[\frac{1}{K^2} \sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}} \Tr(\sigma M_v)^2] \\ = \frac{1}{K^2}  \sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}} E[\Tr(\sigma |v\rangle \langle v| - \frac{1}{K} \sigma P)^2] \\
+ = \frac{1}{K^2(K+1)}(\frac{1}{K} \sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}}  \Tr(\sigma P \sigma^\dagger P) - \frac{1}{K^2}\sum_{\substack{\sigma \in \mathcal{E} \\ \wt(\sigma) = i}} |\Tr(\sigma P)|^2) \\ = \frac{1}{K^2(K+1)} (B_i(P,P) - A_i(P,P)) \end{align*}
+Where in order to use Lemma \ref{expvalvec} we examine, that the expressions under the modulus are real, since the operators are hermitian. Further we note that $A_i = B_i$ iff $E[\Tr (\langle v | \sigma |v \rangle) - \frac{1}{K} \Tr(\sigma P)] = 0$ for all $\sigma \in \E$ with $\wt(\sigma) = i$.
 Since this condition is linear, it holds for the span of $\{ \sigma \in \E \mid \wt(\sigma) = i \}$ which includes all $i$-qubit errors, i.e. all unitary operators whose support is exactly $i$ qubits.
-The condition $E(\langle v | U_i | v \rangle - \frac{1}{K}\Tr(U_i P)) = 0$ for all $i$-qubit errors $U_i$ can be seen, using lemma \ref{expvalproj}, as the variance of the random variable $ \langle v | U_i | v \rangle  = \Tr(\langle v | U_i | v \rangle) = \Tr( U_i | v \rangle \langle v |)$.
+The condition $E(\langle v | U_i | v \rangle - \frac{1}{K}\Tr(U_i P)) = 0$ for all $i$-qubit errors $U_i$ can be seen, using Lemma \ref{expvalproj}, as the variance of the random variable given by $| v \rangle \mapsto  \langle v | U_i | v \rangle  = \Tr(\langle v | U_i | v \rangle) = \Tr( U_i | v \rangle \langle v |)$.
 Thus, this variance is zero if and only if the random variable is constant, which means that for all $ |v_0 \rangle, |v'_0 \rangle \in C$ with $\langle v_0 | v_0 \rangle = \langle v'_0 | v'_0 \rangle = 1$ it holds that $\langle v_0 | U_i | v_0 \rangle = \langle v'_0 | U_i | v'_0 \rangle$.
-But this is exactly definition \ref{distgeneral}. This proof transfers to the rains enumerators directly thanks to theorem \ref{expectedvalues}.
+But this is exactly Definition \ref{distgeneral}. This proof transfers to the rains enumerators directly thanks to Theorem \ref{expectedvalues}.
 
 \end{proof}
 
 \end{theorem}
 
-With this results we can see the usefulness of the weight enumerators. Since any quantum code must have a weight enumerator, an we have conditions it has to follow, we can get bounds on the minimal distance or on the dimension for a given number of qubits using these conditions.
+With this results we can see the usefulness of the Weight Enumerators. Since any quantum code must have a Weight Enumerator, and we have conditions it has to follow, we can get bounds on the minimal distance or on the dimension for a given number of qubits using these conditions.
 This proceeding is inspired by classical coding theory, which also gives a theorem for additive codes:
 
 \begin{defn}
-Let $n \in \N, j \in \n$. We define the Krawtchouk polynomials $P_j(x,n)$ as follows: 
+Let $n \in \N, j \in \n$. We define the Krawtchouk numbers $P_j(x,n)$ as follows: 
 \begin{equation}
 P_j(x,n) := \sum_{s=0}^j (-1)^s 3^{j-s} \binom{x}{s}\binom{n-x}{j-s}
 \end{equation}
 \end{defn}
 
 \begin{theorem}[LP bounds for additive codes]\label{lpadditive}
-Let $C$ be an additive $[[n,k,d]]$ code and $A_i, i = 0 \ldots n$ be the Shor-Laflamme weight enumerator of $C$. Further let the associated $\F_4$ code have no vectors of weight 1.
-Further let $P_j(x,n)$ denote the Krawtchouk polynomials.  Then, the coefficients of the weight enumerator have to satisfy the following
+Let $C$ be an additive $[[n,k,d]]$ code and $A_i, i = 0 \ldots n$ be the coefficients of the Shor-Laflamme Weight Enumerator of $C$. Further let the associated $\F_4$ code have no vectors of weight 1, 
+and let $P_j(x,n)$ denote the Krawtchouk number.  Then, the coefficients of the Weight Enumerator have to satisfy the following equations and inequalities
 \begin{align} 
 A_0 = 1, A_1 = 0, A_j \geq 0 \text{ for all } j \in \{ 2,3, \ldots, n \} \\
 A_0 + A_1 + \ldots + A_n = 2^{n-k} \\
 A'_j := \frac{1}{2^{n-k}} \sum_{r = 0}^n P_j(r,n) A_r  \text{ for all } j \in \{ 0,1, \ldots, n \} \\
 A_j := A'_j \text{ for all } j \in \{0, \ldots, d-1 \}, A_j \leq A'_j \fa j \in \{d, \ldots, n \} \\
-\sum_{j=0}^{\floor{\frac{n}{2}}} A_{2j} = 2^{n-k-1} \text{ or } 2^{n-k} \\
+\sum_{j=0}^{\lfloor{\frac{n}{2}}} A_{2j} = 2^{n-k-1} \text{ or } 2^{n-k} \\
 \frac{1}{2^{n-k-1}} \sum_{r=0}^n P_j(2r,n)A_{2r} \geq A'_j \fa j \in \n
 \end{align}
 
@@ -806,52 +929,56 @@ Note that the requirement of no vectors of weight 1 is not really much of a rest
 then also an $[[n-1,k,d]]$ code exists. In particular, for finding bounds we can safely make this assumption.
 \end{theorem}
 
-With this we can get bounds on the distance $d$ for a given pair $n,k$ (the maximal number for which the system of equations on theorem \ref{lpadditive} have a solution), or bounds on the number of encoded qubits $k$, 
-by maximizing $2^k = \sum_{i=0}^n A_i$ with the rest of the constraints given by theorem \ref{lpadditive} - a problem which falls under what is known as linear programming, and can also easily be solved.
+With this we can get bounds on the distance $d$ for a given pair $n,k$ (the maximal number for which the system of equations on Theorem \ref{lpadditive} have a solution), or bounds on the number of encoded qubits $k$, 
+by maximizing $2^k = \sum_{i=0}^n A_i$ with the rest of the constraints given by Theorem \ref{lpadditive} - a problem which falls under what is known as linear programming, and can also easily be solved.
 This bounds hold for additive codes, but they are not strict for general quantum error correcting codes. The following is an example of a non-additive code that is strictly better than any additive code.
 
-\begin{ex}
-According to theorem \ref{lpadditive} there is no additive $[[5,k,2]]$ code for $k > 2$, which means that 
+\begin{ex}\label{nonadditivecode}
+According to Theorem \ref{lpadditive} there is no additive $[[5,k,2]]$ code for $k > 2$, which means that 
 code space dimension for an additive code with $n=5$ qubits and minimal distance $d=2$ is bounded by $2^2 = 4$.
-There is, however, a $((5,6,2))$ code - which means there is strictly better than the $((5,4,2))$ bound for additive codes. 
+There is, however, a $((5,6,2))$ code (found in \cite{nonadditive}), which means there is strictly better than the $((5,4,2))$ bound for additive codes. 
 This code can be given explicitly, for example, by giving a projection operator onto it:
 \begin{align*}
-  P:= \frac{1}{16} [ 3 (I_2 \otimes I_2 \otimes I_2 \otimes I_2 \otimes I_2) + (I_2 \otimes Z \otimes Y \otimes Y \otimes Z)_\text{cyc} +  (I_2 \otimes X \otimes Z \otimes Z \otimes X)_\text{cyc} \\
--  (I_2 \otimes Y \otimes X \otimes X \otimes Y)_\text{cyc} + 2  (Z \otimes X \otimes Y \otimes Y \otimes X)_\text{cyc} - 2 (Z \otimes Z \otimes Z \otimes Z \otimes Z)_\text{cyc}]
+  P:= \frac{1}{16} [ 3 (I_2 \otimes I_2 \otimes I_2 \otimes I_2 \otimes I_2) + (I_2 \otimes Z \otimes Y \otimes Y \otimes Z)_\text{cyc} \\ 
++  (I_2 \otimes X \otimes Z \otimes Z \otimes X)_\text{cyc} -  (I_2 \otimes Y \otimes X \otimes X \otimes Y)_\text{cyc} \\
+ + 2  (Z \otimes X \otimes Y \otimes Y \otimes X)_\text{cyc} - 2 (Z \otimes Z \otimes Z \otimes Z \otimes Z)_\text{cyc}]
 \end{align*}
 
-Here, the subscript cyc denotes that it is the sum of all cyclic shifts of that element. A simple calculation lets us see that this is indeed a projection operator ($P^2 = P$) and since $\Tr(P) = 6$ it does project onto a $6$-dimensional subspace of $\C^{2^5}$.
-That it has minimal distance two can be seen from its weight enumerator, $A(x,y) =  x^5 + \frac{10}{6} xy^4 + \frac{8}{3} y^5$ using theorem \ref{distancenums}. For further properties of the code, see \cite{nonadditive}
+Here, the subscript cyc denotes that it is the sum of all cyclic shifts of that element. A simple calculation lets us see that this is indeed a projection operator ($P^2 = P$) and since $\Tr(P) = \frac{3 \cdot 2^5}{16} = 6$ it does project onto a $6$-dimensional subspace of $\C^{2^5}$.
+That it has minimal distance two can be seen from its Weight Enumerator, $A(x,y) =  x^5 + \frac{10}{6} xy^4 + \frac{8}{3} y^5$ using Theorem \ref{distancenums}.
 \end{ex}
 
-The main reason for introducing the Shor-Laflamme/Rains enumerators is generalizing the Hamming weight enumerator from additive codes to general quantum codes. In this way, we can get a result analogous to theorem \ref{lpadditive} which holds for any quantum code. 
+The main reason for introducing the Shor-Laflamme/Rains enumerators is generalizing the Hamming Weight Enumerator from additive codes to general quantum codes. In this way, we can get a result analogous to Theorem \ref{lpadditive} which holds for any quantum code. 
 
 \begin{theorem}[LP bound for general quantum codes]\label{lpgeneral}
-Let $C$ be a quantum $((n,K,d))$ code and let $\sum_{i=0}^n A_i x^{n-i} y^{i}$ be its (Shor-Laflamme) weight enumerator. Then the $A_i$ satisfy the following set of linear equations and inequalities:
-\begin{align}\label{lpgeneraleq1}
+Let $C$ be a quantum $((n,K,d))$ code and let $\sum_{i=0}^n A_i x^{n-i} y^{i}$ be its (Shor-Laflamme) Weight Enumerator. Then the $A_i$ satisfy the following set of linear equations and inequalities:
+\begin{align}
 A_0 = 1, A_i \geq 0 \fa i \in \n \label{positivity}\\
-B_i := \frac{1}{K 2^{n}} \sum_{r=0}^n P_i(r,n) A_r  \label{macwill}\\
+B_i := \frac{K}{2^{n}} \sum_{r=0}^n P_i(r,n) A_r  \label{macwill}\\
 A_i = B_i \fa i \in \{0, \ldots, d-1 \} \label{dist1}\\
-A_i \leq B_i \fa i \in \{d, \ldots, n \} \label{dist2} \label{lpgeneraleq2}
+A_i \leq B_i \fa i \in \{d, \ldots, n \} \label{lpgeneraleq2}
 \end{align}
 \begin{proof}
-$A_0 = 1$ follows directly from the definition. Equations \ref{positivity}, \ref{dist1} and \ref{dist2} all follow from theorem \ref{distancenums}. 
-Equation \ref{macwill} is, of course, the MacWilliams transform (theorem \ref{theoremmacwilliams}). This can be seen immediately if we expand the terms on the MacWilliams transform:
+$A_0 = 1$ follows directly from the definition. Equations \ref{positivity}, \ref{dist1} and \ref{lpgeneraleq2} all follow from Theorem \ref{distancenums}. 
+Equation \ref{macwill} is, of course, the MacWilliams Transform (Theorem \ref{theoremmacwilliams}). This can be seen immediately if we expand the terms on the MacWilliams Transform:
 \begin{equation}
-A(x,y) = \dim (C) B(\frac{x+3y}{2},\frac{x-y}{2}) \Leftrightarrow B(x,y) = \frac{1}{K} A(\frac{x+3y}{2},\frac{x-y}{2}) 
+\dim (C) A(x,y) =  B(\frac{x+3y}{2},\frac{x-y}{2}) \Leftrightarrow B(x,y) = K A(\frac{x+3y}{2},\frac{x-y}{2}) 
 \end{equation}
 As can be seen with a simple variable substitution. Now, expanding the right hand side of the last equation yields:
 \begin{align}
- \frac{1}{K} A(\frac{x+3y}{2},\frac{x-y}{2}) = \frac{1}{K} \sum_{r=0}^n  (\frac{x+3y}{2})^{n-r} (\frac{x-y}{2})^r A_i  = \frac{1}{2^n K} \sum_{r=0}^n (x+3y)^{n-r}(x-y)^r A_r  \notag \\
- = \frac{1}{2^n K} \sum_{r=0}^n \sum_{j=0}^{n-r} \binom{n-r}{j}x^j(3y)^{n-r-j} \sum_{i=0}^r \binom{r}{i}(-1)^ix^iy^{r-i} A_r \notag \\
- = \frac{1}{2^n K} \sum_{r=0}^n \sum_{i=0}^r \sum_{j=0}^{n-r} \binom{r}{i} \binom{n-r}{j} (-1)^i 3^{n-r-j} x^{i+j} y^{n-(i+j)} A_r
+ K A(\frac{x+3y}{2},\frac{x-y}{2})  \notag \\
+ = K \sum_{r=0}^n  (\frac{x+3y}{2})^{n-r} (\frac{x-y}{2})^r A_i \notag \\  = 
+\frac{K}{2^n} \sum_{r=0}^n (x+3y)^{n-r}(x-y)^r A_r   \notag \\
+ = \frac{K}{2^n} \sum_{r=0}^n \sum_{j=0}^{n-r} \binom{n-r}{j}x^j(3y)^{n-r-j} \sum_{i=0}^r \binom{r}{i}(-1)^ix^iy^{r-i} A_r \notag \\
+ = \frac{K}{2^n} \sum_{r=0}^n \sum_{i=0}^r \sum_{j=0}^{n-r} \binom{r}{i} \binom{n-r}{j} (-1)^i 3^{n-r-j} x^{i+j} y^{n-(i+j)} A_r
 \end{align}
 
-From hits we can read $B_d$ as the coefficient of $x^{n-d}y^d$ to be the Krawtchouk polynomial.
+From this we can read $B_d$ as the coefficient of $x^{n-d}y^d$ to be the Krawtchouk number.
+\end{proof}
 \end{theorem}
 
 \begin{ex}\label{exbounds1}
-We get bounds on the minimal distance/code space dimension for example, for $n = 3,5,7$ by searching for a solution of \ref{lpgeneraleq1}-\ref{lpgeneraleq2} for each $d$ in $1, \ldots, n$ and each $K$ in $1,\ldots,2^n \leq 128$. This yields the following table
+We get bounds on the minimal distance/code space dimension for example, for $n = 1, \ldots ,7$ by searching for a solution of \ref{positivity}-\ref{lpgeneraleq2} for each $d$ in $1, \ldots, n$ and each $K$ in $1,\ldots,2^n \leq 128$. This yields Table \ref{tablebounds1}.
 
 \begin{table}[h]\label{tablebounds1}
 \centering
@@ -859,50 +986,71 @@ We get bounds on the minimal distance/code space dimension for example, for $n =
 \hline
 
 n & d=1 & d=2 & d=3 & d=4 & d=5 & d=6 & d=7\\ \hline
-3 & & & & - & - & - & - \\ \hline
-5 & & & & & & - & -  \\ \hline
-7 & & & & & & &  \\ \hline 
+1 & $2^*$ & - & - & - & - & - & - \\ \hline
+2 & $4^*$ & $1^*$ & - & - & - & - & - \\ \hline
+3 & $8^*$ & 2 & 1 & - & - & - & - \\ \hline
+4 & $16^*$ & $4^*$ & 1 & 1 & - & - & - \\ \hline
+5 & $32^*$ & 8 & $2^*$ & 1 & 1 & - & -  \\ \hline
+6 & $64^*$ & $16^*$ & $2^*$ & $1^*$ & 1 &1 & - \\ \hline
+7 & $128^*$ & 32  & 4 & 1 & 1 & 1& 1 \\ \hline 
 \end{tabular}
-\caption{Bounds on the code space dimension for all possible minimal distances of $n = 3,5,7$}
+\caption{Bounds on the code space dimension for all possible minimal distances of $n = 1,\ldots, 7$. An asterisk denotes a bound that is known to be sharp, i.e. for which a code is known to exist }
 \end{table}
 \end{ex}
 
-\subsection{Shadow enumerators}
+Table \ref{tablebounds1} was calculated using \cite{maple} on an amd64 GNU/Linux PC. %via the C/C++ API and compiled with GCC (Debian 4.7.2-2) 4.7.2. 
+The bounds that are known to be sharp were all obtained from \cite{codetables}.
+
+
+\begin{ex}\label{uniqueenum}
+When the solution is unique, we actually get a candidate for the weight enumerator. For example, the coefficients for a $((5,8,2))$ code are unique, this means, that if a $((5,8,2))$ code exists, it has to have the following enumerator:
+\begin{equation}
+A(x,y) = x^5 + 3 y^5
+\end{equation}
+We will see later (Table \ref{tablebounds2}), that this is in fact not the case, there is no such code.
+\end{ex}
+%% \begin{rem}
+%%   The codes of dimension $K =1$ are uninteresting for coding, since they cannot code any quantum information, as they only have a single possible state. For this reason they will be left out of further discussions.
+%% \end{rem}
+
+\subsection{Shadow Enumerators}
 
 Theorem \ref{lpgeneral} gives us a good start on finding bounds on the minimal distance or code space dimension for general quantum error correcting codes.
-The motivation for this theorem came from the hamming weight enumerators of classical coding theory. There is another enumerator on binary codes which has not been discussed, that (as we will see) can also be generalized for quantum error correcting codes and gives even tighter bounds, namely, the shadow enumerator.
+The motivation for this theorem came from the hamming Weight Enumerators of classical coding theory. There is another enumerator on binary codes which has not been discussed, that (as we will see) can also be generalized for quantum error correcting codes and gives even tighter bounds, namely, the Shadow Enumerator.
+This was originally done by Eric Rains on \cite{shadow}.
 
 \begin{defn}
 Let $C$ be an additive quantum code on $n$ qubits, and $S$ be the associated stabilizer group. We define the shadow of $C$ to be the set $S(C)$ of all $\sigma \in \E$ with $\langle \sigma, \sigma' \rangle \equiv wt(\sigma') (\text{mod }2) \fa \sigma' \in S$, where $\langle \cdot , \cdot \rangle$ denotes the trace inner product.
-The (hamming) weight enumerator of $S(C)$ we call the shadow enumerator of $C$, and denote it by $S(x,y)$.
+The (hamming) Weight Enumerator of $S(C)$ we call the Shadow Enumerator of $C$, and denote it by $S(x,y)$.
 \end{defn}
 
-Just as for the enumerator of the dual code, there is a simple relationship relating the weight enumerator to the shadow enumerator, as the MacWilliams identity. For additive codes this is also very simple:
+Just as for the enumerator of the dual code, there is a simple relationship relating the Weight Enumerator to the Shadow Enumerator, as the MacWilliams Identity. For additive codes this is also very simple:
 
 \begin{prop}\label{macwillshadowstab}
-Let $C$ be an additive quantum code with associated stabilizer group $G$, then the (Shor-Laflamme) weight enumerator is related to the shadow enumerator in the following way:
+Let $C$ be an [[n,k]] additive quantum code with associated stabilizer group $G$, then the (Shor-Laflamme) Weight Enumerator is related to the Shadow Enumerator in the following way:
 \begin{equation}
-S(x,y) = A(\frac{x+3y}{2},\frac{y-x}{2})
+S(x,y) = 2^k A(\frac{x+3y}{2},\frac{y-x}{2})
 \end{equation}
 \begin{proof}
-If $S$ has no elements of odd weight, then the assertion follows from the fact that $S(C) = G^\perp$ in this case, as can be seen from the definition of both. Since for a code with only even-weighted elements, the weight enumerator
-fulfills $A(x,y) = A(x,-y)$ we get the required identity from the MacWilliams transform. Hence, we assume $G$ has elements of odd weight.
+If $S$ has no elements of odd weight, then the assertion follows from the fact that $S(C) = G^\perp$ in this case, as can be seen from the definition of both. Since for a code with only even-weighted elements, the Weight Enumerator
+fulfills $A(x,y) = A(x,-y)$ we get the required identity from the MacWilliams Transform. Hence, we assume $G$ has elements of odd weight.
 
 Define $G_0 \subset G$ as the subset of all elements of even weight. We know that $G$ is self-orthogonal with respect to the symplectic form given by the commutator. Applying this we get the following inclusions:
 \begin{equation}
 G_0 \subset G \subset G^\perp \subset G_0^\perp
 \end{equation}
-From the self-orthogonality we also get that $G_0$ is in fact subspace of $G$. Let $A^{(0)}, B^{(0)}$ be the (Shor-Laflamme) weight enumerators of $G_0$. 
+From the self-orthogonality we also get that $G_0$ is in fact subspace of $G$. Let $A^{(0)}, B^{(0)}$ be the (Shor-Laflamme) Weight Enumerators of $G_0$. 
 Now, consider $S(C) = \{ \sigma \in \E \mid \langle \sigma, \sigma' \rangle \equiv wt(\sigma') (\text{mod }2) \fa \sigma' \in G \} \subseteq G_0^\perp$.
 In fact, since for any $\sigma \in S(C), \sigma' \in G$ it has to hold that $\langle \sigma, \sigma' \rangle = 0$ if and only if $\sigma' \in G_0$, it turns out that
-$S(C)$ is exactly $G_0^\perp \backslash G^\perp$. Using the combinatorial interpretation of the weight enumerators (as hamming weight enumerators), we can thus express the shadow enumerator:
+$S(C)$ is exactly $G_0^\perp \backslash G^\perp$. Using the combinatorial interpretation of the Weight Enumerators (as hamming Weight Enumerators), we can thus express the Shadow Enumerator:
 \begin{equation}
-S(x,y) = B^{(0)}(x,y) - B(x,y) = A^{(0)}(\frac{x+3y}{2},\frac{x-y}{2}) - A(\frac{x+3y}{2},\frac{x-y}{2})
+S(x,y) = B^{(0)}(x,y) - B(x,y) = 2^k(A^{(0)}(\frac{x+3y}{2},\frac{x-y}{2}) - A(\frac{x+3y}{2},\frac{x-y}{2}))
 \end{equation}
 On the other hand we see that $A(x,y) + A(x,-y) = 2A^{(0)}(x,y)$, as exactly the elements of even weight cancel out like this. This yields the required identity.
+\end{proof}
 \end{prop}
 
-As already mentioned, shadow enumerators can be generalized for any quantum code, just as the hamming weight enumerators were. The original article in which these were introduced, \cite{shadow}, includes a detailed discussion 
+As already mentioned, Shadow Enumerators can be generalized for any quantum code, just as the hamming Weight Enumerators were. The original article in which these were introduced, \cite{shadow}, includes a detailed discussion 
 of the steps taken to do this generalization, and the rationale behind it. Here, we will just present the finished generalization along with the important accompanying results. 
 
 \begin{defn}
@@ -912,40 +1060,41 @@ We define
 \end{defn}
 
 \begin{defn}
-Let $C$ be a quantum code on $n$ qubits and $P$ be the orthogonal projection operator onto $C$. We define the shadow enumerator coefficients 
+Let $C$ be a quantum code on $n$ qubits and $P$ be the orthogonal projection operator onto $C$. We define the Shadow Enumerator coefficients 
 \begin{equation} S_d:= B_d(P,P^{(-)}) \end{equation}
- and similarly the shadow enumerator polynomial as 
+ and similarly the Shadow Enumerator polynomial as 
 \begin{equation} S(x,y):= \sum_{d=0}^n S_d x^{n-d} y^d \end{equation}
-Note that for any hermitian operator $M$, $M^{(-)}$ is also hermitian, and thus, the shadow enumerator is well defined.
+Note that for any hermitian operator $M$, $M^{(-)}$ is also hermitian, and thus, the Shadow Enumerator is well defined.
 \end{defn}
 
-We also get a theorem analogous to prop. \ref{macwillshadowstab}. 
+We also get a theorem analogous to Prop. \ref{macwillshadowstab}. 
 
 \begin{theorem}\label{macwillshadow}
-Let $C$ be a $K$-dimensional quantum code on $n$ qubits, $P$ be the orthogonal projection operator onto $C$, and $A(x,y), S(x,y)$ be the (Shor-Laflamme) weight enumerator and shadow enumerator respectively. Then they are related by the following MacWilliams transform:
+Let $C$ be a $K$-dimensional quantum code on $n$ qubits, $P$ be the orthogonal projection operator onto $C$, and $A(x,y), S(x,y)$ be the (Shor-Laflamme) Weight Enumerator and Shadow Enumerator respectively. Then they are related by the following MacWilliams Transform:
 \begin{equation}
-K S(x,y) = A(\frac{x+3y}{2},\frac{y-x}{2})
+S(x,y) = K A(\frac{x+3y}{2},\frac{y-x}{2})
 \end{equation}
 \begin{proof}
-Consider the polynomial $W(x,y):= \sum_{d=0}^n A_d(P,P^{(-)})$. Note that though the MacWilliams transform, theorem \ref{theoremmacwilliams}, was stated explicitly for
+Consider the polynomial $W(x,y):= \sum_{d=0}^n A_d(P,P^{(-)})$. Note that though the MacWilliams Transform, Theorem \ref{theoremmacwilliams}, was stated explicitly for
 the projection operator onto a quantum code, the proof does holds the same for the enumerator coefficients with respect to any two hermitian operators.
- Thus, by the MacWilliams transform we get that $KS(x,y) = W(\frac{x+3y}{2},\frac{x-y}{2})$. It is therefore sufficient to prove that $W(x,y) = A(x,-y)$. 
+ Thus, by the MacWilliams Transform we get that $S(x,y) = K W(\frac{x+3y}{2},\frac{x-y}{2})$. It is therefore sufficient to prove that $W(x,y) = A(x,-y)$. 
 Writing the coefficients explicitly we get the desired result:
 \begin{align*}
  A_d(P,P^{(-)}) = \frac{1}{\Tr(P) \Tr(P^{(-)})} \sum_{\substack{\sigma \in \E \\ \wt(\sigma) = d}} \Tr(P \sigma) \Tr(P^{(-)} \sigma) \\
 = \frac{1}{\Tr(P) \Tr(P^{(-)})} \sum_{\substack{\sigma \in \E \\ \wt(\sigma) = d}} (-1)^d \Tr(P \sigma) \Tr(P \sigma) = (-1)^d A_d(P,P)
 \end{align*}
+\end{proof}
 \end{theorem}
 
-In the case of stabilizer codes we defined the shadow enumerators via a combinatorial identity, which also restricted many of their properties.
-Now we have properly generalized shadow codes and identified the relationship to the (Shor-Laflamme) weight enumerators via a MacWilliams transform. We still have, however, no new information from these in the general case. 
+In the case of stabilizer codes we defined the Shadow Enumerators via a combinatorial identity, which also restricted many of their properties.
+Now we have properly generalized shadow codes and identified the relationship to the (Shor-Laflamme) Weight Enumerators via a MacWilliams transform. We still have, however, no new information from these in the general case. 
 While these do not have to be integers in the general case, we can prove that they have to be non-negative, which adds indeed new restrictions to the set of equations and inequalities. This is proven in the following theorem:
 
 \begin{theorem}\label{shadowgeq0}
-Let $C$ be a quantum code on $n$ qubits, and let $S(x,y)= \sum_{d=0}^n S_d x^{n-d} y^d $ be its shadow enumerator polynomial. Then \begin{equation} S_d \geq 0 \fa d \in \{0, \ldots, \n \} \end{equation}
+Let $C$ be a quantum code on $n$ qubits, and let $S(x,y)= \sum_{d=0}^n S_d x^{n-d} y^d $ be its Shadow Enumerator polynomial. Then \begin{equation} S_d \geq 0 \fa d \in \{0, \ldots, \n \} \end{equation}
 \begin{proof}
 It suffices to show that for the orthogonal projection operator $P$ onto $C$, $P^{(-)}$ is positive semi-definite. Indeed, for two hermitian, positive semi-definite operators $M,N$ with $\Tr(MN) \neq 0$ we always have that
-\begin{equation} B_d(M,N) = \frac{1}{\Tr(M N)} \sum_{\substack{E \in \mathcal{E} \\ \wt(E) = d}} \underbrace{(\Tr(M E N E^{-1}))}_{\geq 0} \end{equation}
+\begin{equation} B_d(M,N) = \frac{1}{\Tr(M N)} \sum_{\substack{E \in \mathcal{E} \\ \wt(E) = d}} \underbrace{(\Tr(M E N E^{-1}))}_{\geq 0}  \geq 0 \end{equation}
 Now, to show that $P^{(-)}$ is positive definite, we can use the fact that for any hermitian operator $M$,  $M^{(-)} = Y^{\otimes n} \bar M Y^{\otimes n}$, where $\bar \cdot$ denotes the complex conjugate.
 Since $M$ is hermitian as are all $E \in \E$, the coefficients $c_E$ of the basis decomposition $M = \sum_{E \in \E} c_E E$ are all real, and thus it suffices to show this holds for $M \in \E$.
 For $M \in \E$, we have $ M^{(-)} = (-1)^{\wt M} M$. Since the products of elements in $\E$ can be computed 'qubit-wise', i.e. diagonally on the tensor product components, we can see what happens for each of $I_2, X, Y, Z$:
@@ -955,57 +1104,181 @@ On the other hand, $X = \bar X$ and $Z = \bar Z$, but $Y = - \bar Y$, so that th
 \end{theorem}
 
 
-With this result we can now refine theorem \ref{lpgeneral} to include the new inequalities, giving tighter bounds.
+With this result we can now refine Theorem \ref{lpgeneral} to include the new inequalities, giving tighter bounds.
 
 \begin{theorem}[tighter LP bound for general quantum codes]\label{lpshadow}
-Let $C$ be a quantum $((n,K,d))$ code and let $\sum_{i=0}^n A_i x^{n-i} y^{i}$ be its (Shor-Laflamme) weight enumerator. Then the $A_i$ satisfy the following set of linear equations and inequalities:
+Let $C$ be a quantum $((n,K,d))$ code and let $\sum_{i=0}^n A_i x^{n-i} y^{i}$ be its (Shor-Laflamme) Weight Enumerator. Then the $A_i$ satisfy the following set of linear equations and inequalities:
 \begin{align}
 A_0 = 1, A_i \geq 0 \fa i \in \n \\
-B_i := \frac{1}{K 2^{n}} \sum_{r=0}^n P_i(r,n) A_r \\
+B_i := \frac{K}{2^{n}} \sum_{r=0}^n P_i(r,n) A_r \\
 A_i = B_i \fa i \in \{0, \ldots, d-1 \} \\
 A_i \leq B_i \fa i \in \{d, \ldots, n \} \\
-S_i := \frac{1}{K 2^{n}} \sum_{r=0}^n (-1)^r P_i(r,n) A_r \\
+S_i := \frac{K}{2^{n}} \sum_{r=0}^n (-1)^r P_i(r,n) A_r \\
 S_i \geq 0 \fa i \in \{0, \ldots, n \}
 \end{align}
 \begin{proof}
-This is just theorem \ref{lpgeneral} enhanced by theorems \ref{macwillshadow} and \ref{shadowgeq0}.
+This is just Theorem \ref{lpgeneral} enhanced by Theorems \ref{macwillshadow} and \ref{shadowgeq0}.
 \end{proof}
 \end{theorem}
 
 \begin{ex}
-We can now refine the bounds gotten in example \ref{exbounds1}, using theorem \ref{lpshadow}. This yields the following table
+We can now refine the bounds gotten in Example \ref{exbounds1}, using Theorem \ref{lpshadow}. This yields the Table \ref{tablebounds2}
 
-\begin{table}[h]\label{tablebounds1}
+\begin{table}[h]\label{tablebounds2}
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
 
 n & d=1 & d=2 & d=3 & d=4 & d=5 & d=6 & d=7\\ \hline
-3 & & & & - & - & - & - \\ \hline
-5 & & & & & & - & -  \\ \hline
-7 & & & & & & &  \\ \hline 
+1 & $2^*$ & - & - & - & - & - & - \\ \hline
+2 & $4^*$ & $1^*$ & - & - & - & - & - \\ \hline
+3 & $8^*$ & $\textbf{1}^*$ & 1 & - & - & - & - \\ \hline
+4 & $16^*$ & $4^*$ & 1 & 1 & - & - & - \\ \hline
+5 & $32^*$& $\textbf{6}^*$ & $2^*$ & 1& 1& - & -  \\ \hline
+6 &64 &16  & 2 &1  &1  &1 & - \\ \hline
+7 & 128 & \textbf{26} & \textbf{3}& 1& 1& 1& 1 \\ \hline 
 \end{tabular}
-\caption{Refined Bounds for $n=3,5,7$ using Shadow Enumerators}
+\caption{Refined Bounds for $n=1, \ldots, 7$ using Shadow Enumerators, values that differ from Table \ref{tablebounds2} (without the Shadow Enumerator) are marked in boldface, values known to be sharp are marked with an asterisk}
 \end{table}
 \end{ex}
+Table \ref{tablebounds2} was calculated using \cite{maple} on an amd64 GNU/Linux PC. The bounds that are known to be sharp were all obtained from \cite{codetables} and Example \ref{nonadditivecode}.
+A comparison for these few numbers already shows the usefulness of Shadow Enumerators.
 
-%% FIXME: This is not supposed to be part of the thesis (yet)
-%% \subsection{Automorphisms of codes}
+\begin{ex}
+As we can see from Table \ref{tablebounds2}, the tentative $((5,8,2))$ code in Example \ref{uniqueenum} cannot exist. We can see this explicitly from its Shadow Enumerator:
+\begin{align}
+S(x,y) = 8 A(\frac{x+3y}{2},\frac{y-x}{2}) \notag \\
+= -\frac{1}{2} x^5+ \frac{15}{2}x^4y + 15 x^3 y^2 + 75 x^2 y^3 + \frac{195}{2} x y^4 +\frac{123}{2} y^5
+\end{align}
 
-%% \begin{def}
-%% Let $C \leq V:= \C^{2^n}$ be a quantum code. An automorphism of $C$ is an Element $\sigma \in \text{GL}(V)$ that satisfies:
-%% $\sigma C \subseteq C$, i.e., the code (as a set) is invariant under $\sigma$. The set of all automorphisms of set is called the automorphism group $\text{Aut}(C)$, and is a subgroup of GL($V$).
-%% \end{def}
+The coefficient for $x^5$ is negative, which is in contradiction with Theorem \ref{shadowgeq0}: this means that there is no $((5,8,2))$ code.
+\end{ex}
 
-%% \begin{def}
-%% Let $G$ be a finite abelian group and $n = |G|$, and let $C$ be a quantum code on $n$ qubits. We will index the qubits with the elements of $G$: \[ |v \rangle = \bigotimes_{g \in G} |v_g \rangle \in \C^{2^n} =: V \]
-%% Then we get an action of $G$ on $V$ via $h \cdot \bigotimes_{g \in G} |v_g \rangle := \bigotimes_{g \in G} |v_{g h^{-1}} \rangle$.
-%% We call the tuple $(G,C)$ with respect to this action a geometric quantum code on the lattice $G$. If the image of $G$ under the homomorphism defined by the action is part of the automorphism group, i.e. when $C$ is invariant under the action of $G$, then we call $C$ a translation invariant code.
-%% \end{def}
+\subsection{Automorphisms of Codes}
 
-%% \begin{ex}
-%% Let $(G,C)$ be an additive code on the lattice $G$. Then $G$ acts on the associated code $\tilde C$ over $\F_4$ as well, the same way as it did on $C$ if we identify with symplectic notation: If we define 
-%% \end{ex}
+Sometimes there are some codes, or families of codes, for which we know something about their automorphism groups (that is, the groups of bijective linear mappings that send the code to itself). 
+This information can be used to further refine the equations we have from Theorem \ref{lpshadow}. In this section we will limit ourselves to a particular class of codes with nice automorphism groups, which are inspired
+from physical considerations. The principles we will use, however, can of course be used similarly for other classes with similar characteristics on their automorphism groups.
+
+\begin{defn}
+Let $C \leq V$ be a linear code over a finite field or a quantum code. An automorphism of $C$ is an Element $\sigma \in \text{GL}(V)$ that satisfies:
+$\sigma C \subseteq C$, i.e., the code (as a set) is invariant under $\sigma$. The set of all automorphisms of set is called the automorphism group $\text{Aut}(C)$, and is a subgroup of GL($V$).
+\end{defn}
+
+\begin{defn}\label{geometriccodes}
+Let $G$ be a finite abelian group and $n = |G|$, and let $C$ be an additive quantum code on $n$ qubits and $S$ its stabilizer group. We will index the qubits on $S$ with the elements of $G$: \[ \sigma  = \bigotimes_{i = 1}^n \sigma_{g_i} \in \E_n \text{ for } G = \{ g_1, \ldots, g_n \} \]
+Then we get an action of $G$ on $S$ via $g_j \cdot \bigotimes_{i= 1}^n \sigma_{g_i} := \bigotimes_{i = 1}^n |v_{g_j g_i}$.
+We call the tuple $(G,C)$ with respect to this action a geometric quantum code on the lattice $G$. If the image of $G$ under the homomorphism defined by the action is part of the automorphism group of the associated $\F_4$ code, i.e. when $S$ is invariant under the action of $G$, then we call $C$ a translation-invariant additive quantum code.
+
+\end{defn}
+
+Geometric quantum codes on a lattice are a very important model from the physical standpoint, as in a realization, the qubits will have to be ordered in some way to another. Translation-invariance is also a very plausible physical assumption.
+
+\begin{defn}
+Let $G$ be a finite abelian group, $n = |G|$ and $s_1, \ldots, s_k \in \E_n$ be Pauli Operators. Further let $G$ act on $\E_n$ as described in Definition \ref{geometriccodes}. If the group $S$ generated by the orbits of $s_1, \ldots, s_k$, $S:= \langle Gs_1, \ldots, Gs_k \rangle$ is an abelian group, 
+then we call the corresponding translation-invariant additive code on the lattice $G$ the translation-invariant additive code generated by $s_1, \ldots, s_k$.
+\end{defn}
+
+
+\begin{rem}\label{orbitdivides}
+Let $(G,C)$ be a translation-invariant additive code on the lattice $G$ generated by $s_1, \ldots, s_k$.
+The action of $G$ on $S$ respects the weight, as it only permutes the support of the elements of $\E_n$. 
+For the (Shor-Laflamme) Weight Enumerators $A_i$ this means that each coefficient has to be larger than the union of all orbits of elements of their order: \[ A_i \geq | \bigcup_{ \wt(s_j) =i} Gs_j| \fa i \in \n \]
+\end{rem}
+
+\begin{theorem}[bound for translation-invariant additive codes]\label{lptranslationinv}
+Let $(C,G)$ be a translation-invariant  $[[n,k,d]]$ code generated by $s_1, \ldots, s_l$ and let \\ $\sum_{i=0}^n A_i x^{n-i} y^{i}$ be its (Shor-Laflamme) Weight Enumerator. Then the $A_i$ satisfy the following set of equations and inequalities:
+\begin{align}
+A_0 = 1, A_i \geq 0 \fa i \in \n \\
+B_i := \frac{K}{2^{n}} \sum_{r=0}^n P_i(r,n) A_r \\
+A_i = B_i \fa i \in \{0, \ldots, d-1 \} \\
+A_i \leq B_i \fa i \in \{d, \ldots, n \} \\
+S_i := \frac{K}{2^{n}} \sum_{r=0}^n (-1)^r P_i(r,n) A_r \\
+S_i \geq 0 \fa i \in \{0, \ldots, n \} \\
+ A_i \geq | \bigcup_{ \wt(s_j) =i} Gs_j| \fa i \in \n 
+\end{align}
+\begin{proof}
+This is just Theorem \ref{lpshadow} enhanced by Remark \ref{orbitdivides}. 
+\end{proof}
+\end{theorem}
+
+
+\begin{ex}
+Let $G = \Z/3\Z \times \Z/2\Z$ and $C$ be the translation-invariant code on $G$ generated by $\sigma:= X_{(0,0)} \otimes \Id_{(0,1)} \otimes X_{(1,0)} \otimes X_{(1,1)} \otimes \Id_{(2,0)} \otimes X_{(2,1)} \in \E_6$. This generates a stabilizer group $S$ of $\F_2$-Dimension $4$,
+ which can be calculated easily. We will use Theorem \ref{lptranslationinv} to try and find out the code distance of this code:
+Recall that this means that the associated additive quantum code has $\C$ dimension $K=2^{6-4} = 4$ (See Theroem \ref{dimensioncode}).Since we already know from Table \ref{tablebounds2} that an $((6,2,d))$ code can have minimal distance of at most $d=3$, we only need to look up to there.
+From an examination of the generator $\sigma$  it is obvious that the acion of $G$ on the orbit of $\sigma$ is faithful, which means that $|G \sigma| = 6$, so
+that for the (Shor-Laflamme) enumerator $A$ of $C$ it has to be that $A_4 \geq 6$ and $6 \mid A_4$, since $\sigma$ has weight $4$. Adding this constraints to the get the form of the problem in Theorem \ref{lptranslationinv}
+rules out many solutions, but there is still too many to decide anything about the code. So, we can take another (redundant) generator of the code of different weight:
+\[ \sigma':= ((1,1)\sigma )(\sigma) =  X_{(0,0)} \otimes X_{(0,1)} \otimes \Id_{(1,0)} \otimes \Id_{(1,1)} \otimes \Id_{(2,0)} \otimes \Id_{(2,1)}. \]
+Here it is again obvious that the orbit has full length $6 = |G\sigma'|$. Adding the constraints from $\sigma'$: $A_2 \geq 6$ and $6 \mid A_2$,
+we still have many different solutions to the problem from Theorem \ref{lptranslationinv}, however, all of them are of minimial distance $1$ - we have found the minimal distance, even though we did not get the weight enumerator. 
+A little more thought lets us find three more elements of $S$ of weight $4$, but with this, in fact, we already have calculated the whole weight enumerator, and don't need LP anymore. It is
+\begin{equation}
+A(x,y) = x^6 + 6 x^2y^4 + 9 x^4y^2 
+\end{equation}
+Note that the minimal weight of the $\F_4$ code is $2$, but the minimal distance of the associated quantum code $C$ is $1$, so they do not have to coincide.
+This example was calculated using \cite{lp_solve} on an amd64 GNU/Linux PC via the C/C++ API and compiled with GCC (Debian 4.7.2-2) 4.7.2. 
+\end{ex}
+
+While in the last example it seemed we had to almost find out the weight of the complete code to get the minimal distance, these kind of process can scale very good: If the lattice becomes much bigger, 
+but the generators are still supported only on a few qubits, we can do pretty much the same, and the constraints we gain scale with the lattice while our effort to get them does not. 
+
+\clearpage \newpage
+\begin{thebibliography}{9}
+\bibitem{rains} Eric M. Rains, \emph{ Quantum Weight Enumerators}, arXiv:quant-ph/9612015
+\bibitem{shor-Laflamme} Peter Shor, Raymond Laflamme, \emph{Quantum MacWilliams Identities}, arXiv:quant-ph/9610040
+\bibitem{shadow} Eric M. Rains, \emph{ Quantum Shadow Enumerators}, arXiv:quant-ph/9611001
+\bibitem{nonadditive} E. Rains, R. Hardin, P. Shor, N. Sloane \emph{A Nonadditive Quantum Code}, arXiv:quant-ph/9703002
+\bibitem{halmos} Paul R. Halmos, \emph{Measure Theory}, 1968, Van Nostrand, Princeton, N. J.
+\bibitem{foerster} Otto Forster, \emph{Analysis 3 },(6. Edition), 2011, Vieweg+Teubner Verlag, Germany
+\bibitem{leemhuis} Bernhard Leemhuis, \emph{Geometrical Quantum Codes}(Master thesis), University of Amsterdam, 2010, available at \url{ http://www.science.uva.nl/onderwijs/thesis/centraal/files/f2140130669.pdf }
+\bibitem{NC}  Michael Nielsen, Isaac Chuang, \emph{ Quantum Computation and Quantum Information}, $10^\text{th}$ Annniversary Edition (2010), Cambridge University Press
+%\bibitem{haah} Jeongwan Haah, \emph{ Local stabilizer codes in three dimensions without string logical operators}, arXiv:1101.1962v2 [quant-ph], 2011
+\bibitem{nebe} Gabriele Nebe, Eric M. Rains, Neil J. A. Sloane, \emph{Self-dual codes and invariant theory}, Springer, 2006
+\bibitem{gf4} A. R. Calderbank, E. M. Rains, P. W. Shor, N. J. A. Sloane, \emph{Quantum Error Correction Via Codes Over GF(4)}, arXiv:quant-ph/9608006v5, 1997
+%\bibitem{lang} Serge Lang, \emph{Algebra}, Revised Third Edition, Springer, 2005
+\bibitem{classicalcodes} Wolfgang Ebeling, \emph{ Lattices and Codes}, Vieweg Wiesbaden Braunschweig, 2002
+\bibitem{harmana} Gerald B. Folland, \emph{ A Course in Abstract Harmonic Analysis}, CRC Press, 2000
+\bibitem{lp_solve} Lpsolve Development Team, \emph{lpsolve-5.5 (Software)}, \url{http://sourceforge.net/projects/lpsolve/}
+\bibitem{maple} Waterloo Maple Inc., \emph{Maple 13.0 (Software)}
+%% \bibitem{singular}
+%% Decker, W.; Greuel, G.-M.; Pfister, G.; Sch{\"o}nemann, H.: 
+%% \newblock {\sc Singular} {3-1-5} --- {A} computer algebra system for polynomial computations.
+%% \newblock {http://www.singular.uni-kl.de} (2012).
+\bibitem{codetables}  Grassl, Markus, \emph{Bounds on the minimum distance of linear codes and quantum codes}, Online available at \url{http://www.codetables.de}. Accessed on 2012-09-27.
+%% \bibitem{yoshida} Beni Yoshida, \emph{Feasibility of self-correcting quantum memory and thermal stability of toplogical order}, 	arXiv:1103.1885v3 [quant-ph], 2011
+%% \bibitem{groebnerbases} William W. Adams, Philippe Loustaunau, \emph{ An Introduction to Gr\"{o}bner Bases}, AMS, 1996 (reprint)
+%% \bibitem{terhal} S. Bravyi, D. Poulin, B. Terhal, \emph{Tradeoffs for reliable quantum information storage in 2d systems}, arXiv:0909.5200v1 [quant-ph], 2009
+%% \bibitem{nocomplexity} Mohamed Saeed Taha, \emph{ The Computational Complexity of Groebner Bases}, Univ. of Stellenbosch, 2006, available at \url{ http://resources.aims.ac.za/archive/2005/saeed.ps }
+%% \bibitem{burnside} Marshall Hall, \emph{ The Theory of Groups}, AMS Chealsea Publishing, 1999
+\end{thebibliography}
+
+\clearpage \newpage
+
+\section*{Notational conventions}
+
+This emphasis of this section is to summarize notational conventions used throughout the thesis, and has therefore not the aim to be complete, but rather fast to read. For this, see Section \ref{firstnotations} or the part of the text where the particular notation was introduced.
+\begin{itemize}
+\item $\mathcal{H}$ a complex Hilbert space
+\item $A^\dagger$ the hermitian conjugate of the complex matrix $A$.
+\item $\Tr$ The trace of an endomorphism (or square matrix)
+\item $V \otimes W$ the tensor-product of $V$ and $W$. This will be treated as the Kronecker-Product on all finite dimensional vector spaces.
+\item $X, Y, Z$ Pauli matrices (see Def. \ref{paulimat})
+\item $\mathcal{E}_n:= \{ \sigma_1 \otimes \ldots \otimes \sigma_n \text{, where }\sigma_i \in \{ I,X,Y,Z \} \fa i \in \n \}$.
+\item $D_n = \langle a, b \mid a^2 b^n (ab)^2 \rangle$ the dihedral group on a regular polygon with n sides.
+\item $V^*$: the dual space to $V$.
+
+\item $\Hom_{G}(A,B)$ the set of G-Homomorphisms from A to B (i.e., G-equivariant homomorphisms)
+\item $ G \wr H$ the wreath product of G and H
+\item $ \omega \in \F_4$ a root of $x^2 + x + 1 \in \F_2[x]$
+\item Im the image a mapping, Ker the kernel of a homomorphisms
+\item $\sigma_{\big| S}$ denotes $\sigma_{s_1} \otimes \ldots \otimes \sigma_{s_k}$, where $S = \{ s_1, \ldots, s_k \} \subseteq \n$ .
+\item $[[n,k,d]]$ code is a quantum code encoding $k$ qubits on $n$ qubits, and with minimal distance $d$.
+\item $((n,K,d))$ code is a quantum code on $n$ qubits which has dimension $K$ and minimal distance $d$.
+\end{itemize}
+
+
 \end{document}
 
 % LocalWords:  endomorphism dihedral
